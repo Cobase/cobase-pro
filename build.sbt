@@ -2,7 +2,7 @@ import play.PlayScala
 
 import scalariform.formatter.preferences._
 
-name := "cobase-scala"
+name := "cobase-pro"
 
 version := "2.0-RC1"
 

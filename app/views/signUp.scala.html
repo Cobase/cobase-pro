@@ -1,29 +1,35 @@
+
 @(signInForm: Form[forms.SignUpForm.Data])(implicit request: RequestHeader)
 
 @import views.html.bootstrap._
 
-@main("Silhouette - Sign Up") {
-    @request.flash.get("error").map { msg =>
-        <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-            <strong>Error!</strong> @msg
-        </div>
-    }
-    <fieldset class="col-md-6 col-md-offset-3">
-        <legend>Sign up for a new account</legend>
-        @helper.form(action = routes.SignUpController.signUp()) {
-            @text(signInForm("firstName"), "First name", icon = "person")
-            @text(signInForm("lastName"), "Last name", icon = "person")
-            @text(signInForm("email"), "Email", icon = "at")
-            @password(signInForm("password"), "Password", icon = "key")
-            <div class="form-group">
-                <div>
-                    <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
-                </div>
-            </div>
-            <div class="sign-in-now">
-                <p>Already a member? <a href="@routes.ApplicationController.signIn">Sign in now</a></p>
-            </div>
+@blank("Cobase - Sign Up") {
+<div class="register-box">
+    <div class="register-logo">
+        <a href="../../index2.html"><b>Cobase</b>PRO</a>
+    </div><!-- /.register-logo -->
+
+    <div class="register-box-body">
+        <p class="register-box-msg">Sign up</p>
+
+        @request.flash.get("error").map { msg =>
+        <p class="register-box-msg"><strong>Error:</strong> @msg</p>
         }
-    </fieldset>
+
+        @helper.form(action = routes.SignUpController.signUp()) {
+        @text(signInForm("firstName"), "First name", icon = "person")
+        @text(signInForm("lastName"), "Last name", icon = "person")
+        @text(signInForm("email"), "Email", icon = "at")
+        @password(signInForm("password"), "Password", icon = "key")
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            </div><!-- /.col -->
+        </div>
+        }
+
+        <p>Already a member? <a href="@routes.ApplicationController.signIn">Sign in now</a></p>
+
+    </div><!-- /.login-box-body -->
+</div><!-- /.login-box -->
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Cobase PRO | Dashboard</title>
+    <title>@title</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -42,7 +42,7 @@
 
 <header class="main-header">
 <!-- Logo -->
-<a href="index2.html" class="logo"><b>Cobase</b>PRO</a>
+<a href="@routes.ApplicationController.index" class="logo"><b>Cobase</b>PRO</a>
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
 <!-- Sidebar toggle button-->
@@ -313,7 +313,7 @@
             <li class="header">MAIN NAVIGATION</li>
 
             <li>
-                <a href="pages/widgets.html">
+                <a href="@routes.ApplicationController.index">
                     <i class="fa fa-files-o"></i> <span>Scala and Akka</span>
                     <span class="label label-primary pull-right">4</span>
                 </a>
@@ -336,7 +336,7 @@
             Dashboard
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
+            <li><a href="@routes.ApplicationController.index">Home</a></li>
             <li class="active">Dashboard</li>
         </ol>
     </section>

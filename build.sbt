@@ -2,9 +2,9 @@ import play.PlayScala
 
 scalaVersion := "2.11.4"
 
-name := "play-silhouette-seed"
+name := "cobase-pro"
 
-version := "2.0-SNAPSHOT"
+version := "0.1"
 
 resolvers := ("Atlassian Releases" at "https://maven.atlassian.com/public/") +: resolvers.value
 

@@ -48,5 +48,3 @@ object OAuth1InfoDAO {
    */
   var data: mutable.HashMap[LoginInfo, OAuth1Info] = mutable.HashMap()
 }
-
-

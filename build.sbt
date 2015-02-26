@@ -19,7 +19,9 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
   "com.mohiva" %% "play-silhouette-testkit" % "2.0-SNAPSHOT" % "test",
-  cache
+  cache,
+  jdbc,
+  anorm
 )
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)

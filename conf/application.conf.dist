@@ -38,10 +38,15 @@ db.default.url="jdbc:postgresql://localhost/cobase_pro"
 db.default.user=""
 db.default.pass=""
 
+# play-slick configuration
+# ~~~~~
+slick.default="models.*"
+silhouette.seed.db.useSlick=true
+
 # Evolutions
 # ~~~~~
 # You can disable evolutions if needed
-evolutionplugin=enabled
+# evolutionplugin=disabled
 
 # Logger
 # ~~~~~

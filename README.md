@@ -36,10 +36,10 @@ Run tests by entering:
 
 ## Components used
 
-UI: [AdminLTE 2.0.0 bootstrap theme](http://almsaeedstudio.com)
-Auth: [Silhouette](https://github.com/mohiva/play-silhouette)
-Database abstraction: [Slick](http://slick.typesafe.com)
-Framework: [Play for Scala](https://www.playframework.com)
+- UI: [AdminLTE 2.0.0 bootstrap theme](http://almsaeedstudio.com)
+- Auth: [Silhouette](https://github.com/mohiva/play-silhouette)
+- Database abstraction: [Slick](http://slick.typesafe.com)
+- Framework: [Play for Scala](https://www.playframework.com)
 
 
 ## Screenshots

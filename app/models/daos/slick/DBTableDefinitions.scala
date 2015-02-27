@@ -120,6 +120,19 @@ object DBTableDefinitions {
     def * = (id, key, value) <> (DBOpenIDAttribute.tupled, DBOpenIDAttribute.unapply)
   }
 
+  case class DBGroup (
+    id: Option[Long],
+    title: String,
+    description: Option[String]
+  )
+
+  class Groups(tag: Tag) extends Table[DBGroup](tag, "group") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    def title = column[String]("title")
+    def description = column[Option[String]]("description")
+    def * = (id.?, title, description) <> (DBGroup.tupled, DBGroup.unapply)
+  }
+
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
   val slickUserLoginInfos = TableQuery[UserLoginInfos]
@@ -128,4 +141,5 @@ object DBTableDefinitions {
   val slickOAuth2Infos = TableQuery[OAuth2Infos]
   val slickOpenIDInfos = TableQuery[OpenIDInfos]
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
+  val slickGroups = TableQuery[Groups]
 }

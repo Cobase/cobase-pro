@@ -6,6 +6,7 @@ import com.mohiva.play.silhouette.api.{Environment, LogoutEvent, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import forms._
 import models.User
+import models.services.GroupService
 
 import scala.concurrent.Future
 
@@ -14,7 +15,7 @@ import scala.concurrent.Future
  *
  * @param env The Silhouette environment.
  */
-class ApplicationController @Inject() (implicit val env: Environment[User, SessionAuthenticator])
+class ApplicationController @Inject() (implicit val env: Environment[User, SessionAuthenticator], groupService: GroupService)
   extends Silhouette[User, SessionAuthenticator] {
 
   /**
@@ -23,7 +24,9 @@ class ApplicationController @Inject() (implicit val env: Environment[User, Sessi
    * @return The result to display.
    */
   def index = SecuredAction.async { implicit request =>
-    Future.successful(Ok(views.html.home(request.identity)))
+    val groups = groupService.findAll
+
+    Future.successful(Ok(views.html.home(request.identity, groups)))
   }
 
   /**

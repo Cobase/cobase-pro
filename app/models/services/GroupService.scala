@@ -15,11 +15,18 @@ import scala.concurrent.Future
 class GroupService @Inject() (groupDAO: GroupDAOSlick) {
 
   /**
+   * Retrieves all groups.
+   *
+   * @return The retrieved list of groups.
+   */
+  def findAll(): List[Group] = groupDAO.findAll()
+  
+  /**
    * Retrieves a group that matches the specified id.
    *
    * @param groupId The id to retrieve a group.
    * @return The retrieved group or None if no group could be retrieved for the given id.
    */
-  def find(groupId: Long): Future[Option[Group]] = groupDAO.find(groupId)
+  def findById(groupId: Long): Future[Option[Group]] = groupDAO.findById(groupId)
 
 }

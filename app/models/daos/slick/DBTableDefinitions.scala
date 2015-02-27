@@ -122,13 +122,13 @@ object DBTableDefinitions {
 
   case class DBGroup (
     id: Option[Long],
-    title: String,
+    title: Option[String],
     description: Option[String]
   )
 
   class Groups(tag: Tag) extends Table[DBGroup](tag, "group") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def title = column[String]("title")
+    def title = column[Option[String]]("title")
     def description = column[Option[String]]("description")
     def * = (id.?, title, description) <> (DBGroup.tupled, DBGroup.unapply)
   }

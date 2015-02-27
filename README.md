@@ -34,9 +34,9 @@ Run tests by entering:
     $ activator test
 
 
-# Screenshots
+## Screenshots
 
-The code is licensed under [MIT License](http://opensource.org/licenses/MIT).
+Screenshots below are from the current state of the application and may contain dummy data and static content simulating real-world case scenario.
 
 Login screen
 ![Sign in screen](public/samples/login.png "Sign in screen")
@@ -48,6 +48,6 @@ Main page
 ![Main page](public/samples/main.png "Main page")
 
 
-# License
+## License
 
 The code is licensed under [MIT License](http://opensource.org/licenses/MIT).

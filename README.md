@@ -34,6 +34,14 @@ Run tests by entering:
     $ activator test
 
 
+## Components used
+
+UI: [AdminLTE 2.0.0 bootstrap theme](http://almsaeedstudio.com)
+Auth: [Silhouette](https://github.com/mohiva/play-silhouette)
+Database abstraction: [Slick](http://slick.typesafe.com)
+Framework: [Play for Scala](https://www.playframework.com)
+
+
 ## Screenshots
 
 Screenshots below are from the current state of the application and may contain dummy data and static content simulating real-world case scenario.

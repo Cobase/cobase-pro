@@ -1,9 +1,11 @@
-@(user: models.User)
+@import scala.concurrent.Future
 
-@main("CobasePRO - Dashboard", Some(user)) {
+@(user: models.User, groups: List[Group])
+        
+@main("CobasePRO - Dashboard", Some(user), groups) {
     <div class="user col-md-12">
         <div class="row">
-            <h4 class="col-md-12">No posts found!</h4>
+            <h4 class="col-md-12">No posts found.</h4>
         </div>
     </div>
 }

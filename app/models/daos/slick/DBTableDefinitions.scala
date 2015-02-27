@@ -1,6 +1,7 @@
 package models.daos.slick
 
 import play.api.db.slick.Config.driver.simple._
+import models.Group
 
 object DBTableDefinitions {
 
@@ -120,6 +121,13 @@ object DBTableDefinitions {
     def * = (id, key, value) <> (DBOpenIDAttribute.tupled, DBOpenIDAttribute.unapply)
   }
 
+  class Groups(tag: Tag) extends Table[Group](tag, "group") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    def title = column[Option[String]]("title")
+    def description = column[Option[String]]("description")
+    def * = (id.?, title, description) <> (Group.tupled, Group.unapply)
+  }
+
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
   val slickUserLoginInfos = TableQuery[UserLoginInfos]
@@ -128,4 +136,5 @@ object DBTableDefinitions {
   val slickOAuth2Infos = TableQuery[OAuth2Infos]
   val slickOpenIDInfos = TableQuery[OpenIDInfos]
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
+  val slickGroups = TableQuery[Groups]
 }

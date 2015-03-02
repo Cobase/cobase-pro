@@ -1,11 +1,19 @@
 @import scala.concurrent.Future
 
-@(user: models.User, groups: List[Group])
+@(user: models.User, groups: List[Group])(implicit request: RequestHeader)
         
 @main("CobasePRO - Dashboard", Some(user), groups) {
     <div class="user col-md-12">
+
+        @request.flash.get("info").map { msg =>
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> @msg</h4>
+            </div>
+        }
+        
         <div class="row">
-            <h4 class="col-md-12">No posts found.</h4>
+            <h4 class="col-md-12">No posts found from any of the groups you have been subscribed to.</h4>
         </div>
     </div>
 }

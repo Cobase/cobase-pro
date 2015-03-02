@@ -29,4 +29,14 @@ class GroupService @Inject() (groupDAO: GroupDAOSlick) {
    */
   def findById(groupId: Long): Future[Option[Group]] = groupDAO.findById(groupId)
 
+  /**
+   * Saves a group with given data.
+   * *
+   * @param group
+   * @return Group
+   */
+  def save(group: Group) = {
+    groupDAO.save(group)
+  }
+
 }

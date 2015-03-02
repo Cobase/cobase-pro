@@ -123,9 +123,9 @@ object DBTableDefinitions {
 
   class Groups(tag: Tag) extends Table[Group](tag, "group") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def title = column[Option[String]]("title")
-    def description = column[Option[String]]("description")
-    def * = (id.?, title, description) <> (Group.tupled, Group.unapply)
+    def title = column[String]("title")
+    def description = column[String]("description")
+    def * = (id, title, description) <> (Group.tupled, Group.unapply)
   }
 
   val slickUsers = TableQuery[Users]

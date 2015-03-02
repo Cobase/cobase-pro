@@ -55,6 +55,9 @@ Registration screen
 Main page
 ![Main page](public/samples/main.png "Main page")
 
+New group
+![New group page](public/samples/new-group.png "New group page")
+
 
 ## License
 

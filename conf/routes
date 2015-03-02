@@ -11,6 +11,9 @@ GET         /authenticate/:provider          @controllers.SocialAuthController.a
 POST        /authenticate/credentials        @controllers.CredentialsAuthController.authenticate
 POST        /signUp                          @controllers.SignUpController.signUp
 
+GET         /newGroup                        @controllers.GroupController.index
+POST        /newGroup                        @controllers.GroupController.create
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)
 GET         /webjars/*file                   controllers.WebJarAssets.at(file)

@@ -3,3 +3,7 @@ error.required = This field is required
 invalid.credentials = Invalid credentials!
 access.denied = Access denied!
 user.exists = User already exists with this email!
+
+form.validation.error = Please check the input fields!
+
+group.created = New group created successfully!

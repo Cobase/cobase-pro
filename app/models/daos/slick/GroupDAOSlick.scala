@@ -45,4 +45,19 @@ class GroupDAOSlick {
       }
     }
   }
+
+  /**
+   * Saves a group with the group data.
+   *
+   * @param group
+   * @return Group
+   */
+  def save(group: Group) = {
+    DB withSession { implicit session =>
+      Future.successful {
+        slickGroups.insert(group)
+        group
+      }
+    }
+  }
 }

@@ -3,7 +3,7 @@ package models.services
 import javax.inject.Inject
 
 import models.Group
-import models.daos.slick.GroupDAOSlick
+import models.daos.GroupDAO
 import play.api.libs.concurrent.Execution.Implicits._
 import scala.concurrent.Future
 
@@ -12,7 +12,7 @@ import scala.concurrent.Future
  *
  * @param groupDAO The group DAO implementation.
  */
-class GroupService @Inject() (groupDAO: GroupDAOSlick) {
+class GroupService @Inject() (groupDAO: GroupDAO) {
 
   /**
    * Retrieves all groups.

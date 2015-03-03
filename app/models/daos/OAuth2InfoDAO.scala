@@ -1,19 +1,20 @@
 package models.daos
 
 import com.mohiva.play.silhouette.api.LoginInfo
-import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
 import com.mohiva.play.silhouette.impl.providers.OAuth2Info
-import models.daos.OAuth2InfoDAO._
-
-import scala.collection.mutable
+import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
+import play.api.db.slick._
 import scala.concurrent.Future
+import models.daos.DBTableDefinitions._
+import play.api.db.slick.Config.driver.simple._
+
 
 /**
  * The DAO to store the OAuth2 information.
- *
- * Note: Not thread safe, demo only.
  */
 class OAuth2InfoDAO extends DelegableAuthInfoDAO[OAuth2Info] {
+
+  import play.api.Play.current
 
   /**
    * Saves the OAuth2 info.
@@ -23,8 +24,19 @@ class OAuth2InfoDAO extends DelegableAuthInfoDAO[OAuth2Info] {
    * @return The saved OAuth2 info or None if the OAuth2 info couldn't be saved.
    */
   def save(loginInfo: LoginInfo, authInfo: OAuth2Info): Future[OAuth2Info] = {
-    data += (loginInfo -> authInfo)
-    Future.successful(authInfo)
+    Future.successful(
+      DB withSession { implicit session =>
+        val infoId = slickLoginInfos.filter(
+          x => x.providerID === loginInfo.providerID && x.providerKey === loginInfo.providerKey
+        ).first.id.get
+        slickOAuth2Infos.filter(_.loginInfoId === infoId).firstOption match {
+          case Some(info) =>
+            slickOAuth2Infos update DBOAuth2Info(info.id, authInfo.accessToken, authInfo.tokenType, authInfo.expiresIn, authInfo.refreshToken, infoId)
+          case None => slickOAuth2Infos insert DBOAuth2Info(None, authInfo.accessToken, authInfo.tokenType, authInfo.expiresIn, authInfo.refreshToken, infoId) 
+        }
+        authInfo
+      }
+    )
   }
 
   /**
@@ -34,17 +46,15 @@ class OAuth2InfoDAO extends DelegableAuthInfoDAO[OAuth2Info] {
    * @return The retrieved OAuth2 info or None if no OAuth2 info could be retrieved for the given login info.
    */
   def find(loginInfo: LoginInfo): Future[Option[OAuth2Info]] = {
-    Future.successful(data.get(loginInfo))
+    Future.successful(
+      DB withSession { implicit session =>
+        slickLoginInfos.filter(info => info.providerID === loginInfo.providerID && info.providerKey === loginInfo.providerKey).firstOption match {
+          case Some(info) =>
+            val oAuth2Info = slickOAuth2Infos.filter(_.loginInfoId === info.id).first
+            Some(OAuth2Info(oAuth2Info.accessToken, oAuth2Info.tokenType, oAuth2Info.expiresIn, oAuth2Info.refreshToken))
+          case None => None
+        }
+      }
+    )
   }
-}
-
-/**
- * The companion object.
- */
-object OAuth2InfoDAO {
-
-  /**
-   * The data store for the OAuth2 info.
-   */
-  var data: mutable.HashMap[LoginInfo, OAuth2Info] = mutable.HashMap()
 }

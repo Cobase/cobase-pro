@@ -3,6 +3,10 @@ Cobase
 
 This repository deals with the Scala version of Cobase, open source social media portal for corporations and small companies. Cobase is open source alternative to Yammer.
 
+## Issues and Wiki
+
+- [Issues](https://github.com/Cobase/cobase-pro/issues) (un-assigned are free to work on)
+- [Wiki](https://github.com/Cobase/cobase-pro/wiki)
 
 ## Requirements
 

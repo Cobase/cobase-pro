@@ -15,10 +15,9 @@
 }
 
 @main("CobasePRO - " + group.get.title, Some(user), groups, pageTitle, breadCrumbTitle) {
-<div class="user col-md-12">
-    @posts.map { post =>
-        <h4>@post.title</h4>
-        <h5>@post.content</h5>
-    }
-</div>
+    <div class="user col-md-12">
+
+        <h4>@posts.size post(s)</h4>
+
+    </div>
 }

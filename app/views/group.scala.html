@@ -1,0 +1,23 @@
+@import scala.concurrent.Future
+
+@import views.html.helpers._
+@import play.api.Play
+@import play.api.Play.current
+
+@(user: models.User, groups: List[Group], group: Option[Group], posts: List[Post])(implicit request: RequestHeader)
+
+@pageTitle = {
+    @group.get.title
+}
+
+@breadCrumbTitle = {
+    <li class="active">Group</li>
+}
+
+@main("CobasePRO - " + group.get.title, Some(user), groups, pageTitle, breadCrumbTitle) {
+    <div class="user col-md-12">
+
+        <h4>@posts.size post(s)</h4>
+
+    </div>
+}

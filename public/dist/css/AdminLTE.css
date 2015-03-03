@@ -304,7 +304,7 @@ a:focus {
 .content-header {
   position: relative;
   padding: 15px 15px 0 15px;
-  min-height: 60px;
+  min-height: 40px;
 }
 .content-header > h1 {
   margin: 0;

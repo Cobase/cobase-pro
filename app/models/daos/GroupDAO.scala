@@ -20,7 +20,7 @@ class GroupDAO {
    */
   def findAll() = {
     DB withSession { implicit session =>
-      slickGroups.list
+      slickGroups.sortBy(_.title.toLowerCase.asc).list
     }
   }
 
@@ -30,19 +30,25 @@ class GroupDAO {
    * @param groupId The id of the group to find.
    * @return The found group or None if no group for the given id could be found.
    */
-  def findById(groupId: Long) = {
+  def findById(groupId: Long): Option[Group] = {
     DB withSession { implicit session =>
-      Future.successful {
-        slickGroups.filter(
-          _.id === groupId
-        ).firstOption match {
-          case Some(group) =>
-            Some(
-              Group(group.id, group.title, group.description)
-            )
-          case None => None
-        }
-      }
+      slickGroups.filter(
+        _.id === groupId
+      ).firstOption
+    }
+  }
+
+  /**
+   * Finds all latest posts by group id.
+   *
+   * @param groupId The id of the group to find posts from.
+   * @return The list of found posts.
+   */
+  def findLatestPostsForGroup(groupId: Long) = {
+    DB withSession { implicit session =>
+      slickPosts.filter(
+        _.groupId === groupId
+      ).sortBy(_.id.desc).list
     }
   }
 
@@ -60,4 +66,5 @@ class GroupDAO {
       }
     }
   }
+
 }

@@ -1,16 +1,16 @@
 package controllers
 
 import javax.inject.Inject
-
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
+import play.api.i18n.Messages
+import scala.concurrent.Future
+
 import forms.GroupForm
 import models.User
 import models.Group
 import models.services.GroupService
-import play.api.i18n.Messages
-
-import scala.concurrent.Future
+import models.exceptions._
 
 /**
  * The group controller.
@@ -59,4 +59,21 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
       }
     )
   }
+
+  /**
+   * Get posts for a given group
+   * *
+   * @param groupId
+   * @return
+   */
+  def listPosts(groupId: Long) = SecuredAction.async { implicit request =>
+    val groups = groupService.findAll
+    val group = groupService.findById(groupId)
+    val posts = groupService.findLatestPostsForGroup(groupId)
+
+    if (group.isEmpty) throw new CobaseException("Group with id " + groupId + " not found")
+    
+    Future.successful(Ok(views.html.group(request.identity, groups, group, posts)))
+  }
+
 }

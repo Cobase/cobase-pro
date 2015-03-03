@@ -2,6 +2,7 @@ package models.daos
 
 import play.api.db.slick.Config.driver.simple._
 import models.Group
+import models.Post
 
 object DBTableDefinitions {
 
@@ -128,6 +129,14 @@ object DBTableDefinitions {
     def * = (id, title, description) <> (Group.tupled, Group.unapply)
   }
 
+  class Posts(tag: Tag) extends Table[Post](tag, "post") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    def title = column[String]("title")
+    def description = column[String]("description")
+    def groupId = column[Long]("groupId")
+    def * = (id, title, description, groupId) <> (Post.tupled, Post.unapply)
+  }
+
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
   val slickUserLoginInfos = TableQuery[UserLoginInfos]
@@ -137,4 +146,5 @@ object DBTableDefinitions {
   val slickOpenIDInfos = TableQuery[OpenIDInfos]
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
   val slickGroups = TableQuery[Groups]
+  val slickPosts = TableQuery[Posts]
 }

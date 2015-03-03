@@ -3,6 +3,7 @@ package models.services
 import javax.inject.Inject
 
 import models.Group
+import models.Post
 import models.daos.GroupDAO
 import play.api.libs.concurrent.Execution.Implicits._
 import scala.concurrent.Future
@@ -27,8 +28,16 @@ class GroupService @Inject() (groupDAO: GroupDAO) {
    * @param groupId The id to retrieve a group.
    * @return The retrieved group or None if no group could be retrieved for the given id.
    */
-  def findById(groupId: Long): Future[Option[Group]] = groupDAO.findById(groupId)
+  def findById(groupId: Long): Option[Group] = groupDAO.findById(groupId)
 
+  /**
+   * Retrieves all latest posts for a group
+   * *
+   * @param groupId Group id to retrieve posts from.
+   * @return List of group posts.
+   */
+  def findLatestPostsForGroup(groupId: Long): List[Post] = groupDAO.findLatestPostsForGroup(groupId)
+  
   /**
    * Saves a group with given data.
    * *

@@ -8,6 +8,10 @@ This repository deals with the Scala version of Cobase, open source social media
 - [Issues](https://github.com/Cobase/cobase-pro/issues) (un-assigned are free to work on)
 - [Wiki](https://github.com/Cobase/cobase-pro/wiki)
 
+## IRC
+
+Feel free to join the conversation on channel #cobase-pro @ freenode.net
+
 ## Requirements
 
 - JDK 6 or later

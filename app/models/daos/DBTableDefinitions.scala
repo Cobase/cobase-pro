@@ -1,4 +1,4 @@
-package models.daos.slick
+package models.daos
 
 import play.api.db.slick.Config.driver.simple._
 import models.Group

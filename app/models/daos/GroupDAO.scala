@@ -1,9 +1,9 @@
-package models.daos.slick
+package models.daos
 
 import models.Group
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
-import models.daos.slick.DBTableDefinitions._
+import models.daos.DBTableDefinitions._
 import scala.concurrent.Future
 import play.Logger
 import play.api.Play.current
@@ -11,7 +11,7 @@ import play.api.Play.current
 /**
  * Give access to the user object using Slick
  */
-class GroupDAOSlick {
+class GroupDAO {
 
   /**
    * Finds all groups.

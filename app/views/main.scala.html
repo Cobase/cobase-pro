@@ -1,7 +1,12 @@
 @import scala.concurrent.Future
 @import scala.concurrent.ExecutionContext.Implicits.global
 
-@(title: String, user: Option[models.User] = None, groups: List[Group])(content: Html)
+@(title: String, 
+  user: Option[models.User] = None, 
+  groups: List[Group], 
+  pageTitle: Html = Html(""),
+  breadCrumbTitle: Html = Html("")
+)(content: Html)
 
 <!DOCTYPE html>
 <html>
@@ -311,11 +316,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Dashboard
+            @pageTitle
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.ApplicationController.index">Home</a></li>
-            <li class="active">Dashboard</li>
+            @breadCrumbTitle
         </ol>
     </section>
 

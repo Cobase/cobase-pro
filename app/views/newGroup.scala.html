@@ -7,11 +7,19 @@
         
 @(user: models.User, groups: List[Group], groupForm: Form[forms.FormData])(implicit request: RequestHeader)
 
-@main("CobasePRO - New Group", Some(user), groups) {
+@pageTitle = {
+    New Group
+}
+
+@breadCrumbTitle = {
+    <li class="active">New Group</li>
+}
+        
+@main("CobasePRO - New Group", Some(user), groups, pageTitle, breadCrumbTitle) {
     <div class="user col-md-12">
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">New group</h3>
+                <h3 class="box-title">Enter required content for new group</h3>
             </div>
             <div class="box-body">
                 @request.flash.get("error").map { msg =>

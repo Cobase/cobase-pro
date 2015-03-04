@@ -133,7 +133,7 @@ object DBTableDefinitions {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def content = column[String]("content")
     def groupId = column[Long]("groupId")
-    def createdBy = column[String]("createdBy")
+    def createdBy = column[Option[String]]("createdBy")
     def createdTimestamp = column[Long]("createdTimestamp")
     def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
   }

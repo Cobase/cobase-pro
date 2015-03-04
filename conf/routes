@@ -12,8 +12,9 @@ POST        /authenticate/credentials        @controllers.CredentialsAuthControl
 POST        /signUp                          @controllers.SignUpController.signUp
 
 GET         /newGroup                        @controllers.GroupController.index
-POST        /newGroup                        @controllers.GroupController.create
-GET         /group/:groupId                  @controllers.GroupController.listPosts(groupId: Long)
+POST        /newGroup                        @controllers.GroupController.createGroup
+GET         /group/:groupId                  @controllers.GroupController.listGroupPosts(groupId: Long)
+POST        /group/:groupId                  @controllers.GroupController.createGroupPost(groupId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)

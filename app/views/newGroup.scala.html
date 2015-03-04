@@ -26,7 +26,7 @@
                     <p class="register-box-msg"><strong>Error:</strong> @msg</p>
                 }
 
-                @helper.form(action = routes.GroupController.create()) {
+                @helper.form(action = routes.GroupController.createGroup()) {
                     @text(groupForm("title"), "Title", icon = "")
                     @text(groupForm("description"), "Description", icon = "")
                     <div class="row">

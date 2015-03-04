@@ -29,8 +29,8 @@
                 <h3 class="box-title">What's on your mind?</h3>
             </div>
             <div class="box-body">
-                @helper.form(action = routes.GroupController.listPosts(group.get.id)) {
-                    @textarea(postForm(""), "Enter ...", icon = "")
+                @helper.form(action = routes.GroupController.createGroupPost(group.get.id)) {
+                    @textarea(postForm("content"), "Enter ...", icon = "")
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Create</button>
@@ -44,30 +44,22 @@
     <div class="row">
         <div class="col-md-12">
             <ul class="timeline">
-            <li>
-                <i class="fa fa-comments bg-yellow"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-                    <h3 class="timeline-header"><span class="label label-primary">Artur Gajewski</span></h3>
-                    <div class="timeline-body">
-                        Sit sed per mi libero suspendisse nulla, consectetuer libero elit volutpat, eget maecenas vestibulum a praesent, integer fusce elit elementum nostra ipsum, venenatis dictum ullamcorper sed nunc aptent. Aliquid nisl bibendum eget vitae, vestibulum sed vehicula libero amet adipiscing sapien, eget ligula conubia ornare. Odio ut, dolor in odio sit aliquet metus sit. Nostra pede justo tortor vitae proin vivamus. Maecenas elit id quisquam nec gravida id, nostra rhoncus integer. Vel mauris nonummy viverra adipiscing mi, dolor enim, lacinia sodales in sit diam urna. Arcu a pellentesque. In sed blandit, nisl non scelerisque augue quis.
+                @posts.map { post =>
+                <li>
+                    <i class="fa fa-comments bg-yellow"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                        <h3 class="timeline-header"><span class="label label-primary">@post.createdBy</span></h3>
+                        <div class="timeline-body">
+                            @post.content
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <i class="fa fa-comments bg-yellow"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-                    <h3 class="timeline-header"><span class="label label-primary">Artur Gajewski</span></h3>
-                    <div class="timeline-body">
-                        Sit sed per mi libero suspendisse nulla, consectetuer libero elit volutpat, eget maecenas vestibulum a praesent, integer fusce elit elementum nostra ipsum, venenatis dictum ullamcorper sed nunc aptent. Aliquid nisl bibendum eget vitae, vestibulum sed vehicula libero amet adipiscing sapien, eget ligula conubia ornare. Odio ut, dolor in odio sit aliquet metus sit. Nostra pede justo tortor vitae proin vivamus. Maecenas elit id quisquam nec gravida id, nostra rhoncus integer. Vel mauris nonummy viverra adipiscing mi, dolor enim, lacinia sodales in sit diam urna. Arcu a pellentesque. In sed blandit, nisl non scelerisque augue quis.
-                    </div>
-                </div>
-            </li>
-            <li>
-                <i class="fa fa-clock-o bg-gray"></i>
-            </li>
-        </ul>
+                </li>
+                }
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+            </ul>
         </div>
     </div>
 }

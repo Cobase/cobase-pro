@@ -12,6 +12,6 @@ case class Post (
   id: Long,
   content: String,
   groupId: Long,
-  createdBy: String,
+  createdBy: Option[String],
   createdTimestamp: Long
 )

@@ -131,10 +131,11 @@ object DBTableDefinitions {
 
   class Posts(tag: Tag) extends Table[Post](tag, "post") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def title = column[String]("title")
-    def description = column[String]("description")
+    def content = column[String]("content")
     def groupId = column[Long]("groupId")
-    def * = (id, title, description, groupId) <> (Post.tupled, Post.unapply)
+    def createdBy = column[String]("createdBy")
+    def createdTimestamp = column[Long]("createdTimestamp")
+    def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
   }
 
   val slickUsers = TableQuery[Users]

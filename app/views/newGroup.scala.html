@@ -5,7 +5,7 @@
 @import play.api.Play
 @import play.api.Play.current
         
-@(user: models.User, groups: List[Group], groupForm: Form[forms.FormData])(implicit request: RequestHeader)
+@(user: models.User, groups: List[Group], groupForm: Form[forms.GroupFormData])(implicit request: RequestHeader)
 
 @pageTitle = {
     New Group

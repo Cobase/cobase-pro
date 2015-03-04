@@ -4,7 +4,7 @@
 @import play.api.Play
 @import play.api.Play.current
 
-@(user: models.User, groups: List[Group], group: Option[Group], posts: List[Post])(implicit request: RequestHeader)
+@(user: models.User, groups: List[Group], group: Option[Group], posts: List[Post], postForm: Form[forms.PostFormData])(implicit request: RequestHeader)
 
 @pageTitle = {
     @group.get.title
@@ -29,12 +29,14 @@
                 <h3 class="box-title">What's on your mind?</h3>
             </div>
             <div class="box-body">
-                <form role="form">
-                    <div class="form-group">
-                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                @helper.form(action = routes.GroupController.listPosts(group.get.id)) {
+                    @textarea(postForm(""), "Enter ...", icon = "")
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Create</button>
+                        </div><!-- /.col -->
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                }
             </div>
         </div>
     </div>

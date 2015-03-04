@@ -1,6 +1,5 @@
 package forms
 
-import models.Group
 import play.api.data.Form
 import play.api.data.Forms._
 
@@ -16,8 +15,8 @@ object GroupForm {
     mapping(
       "title" -> nonEmptyText,
       "description" -> nonEmptyText
-    )(FormData.apply)(FormData.unapply)
+    )(GroupFormData.apply)(GroupFormData.unapply)
   )
 }
 
-case class FormData(title: String, description: String)
+case class GroupFormData(title: String, description: String)

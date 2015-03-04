@@ -6,7 +6,7 @@ import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 import scala.concurrent.Future
 
-import forms.GroupForm
+import forms.{GroupForm, PostForm}
 import models.User
 import models.Group
 import models.services.GroupService
@@ -71,9 +71,9 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     val group = groupService.findById(groupId)
     val posts = groupService.findLatestPostsForGroup(groupId)
 
-    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
-    
-    Future.successful(Ok(views.html.group(request.identity, groups, group, posts)))
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found") //TODO:
+
+    Future.successful(Ok(views.html.group(request.identity, groups, group, posts, PostForm.form)))
   }
 
 }

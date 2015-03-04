@@ -1,6 +1,6 @@
 @import scala.concurrent.Future
 
-@(user: models.User, groups: List[Group])(implicit request: RequestHeader)
+@(user: models.User, groupLinks: List[GroupLink])(implicit request: RequestHeader)
 
 @pageTitle = {
     Dashboard
@@ -10,7 +10,7 @@
     <li class="active">Dashboard</li>
 }
         
-@main("CobasePRO - Dashboard", Some(user), groups, pageTitle, breadCrumbTitle) {
+@main("CobasePRO - Dashboard", Some(user), groupLinks, pageTitle, breadCrumbTitle) {
     <div class="user col-md-12">
 
         @request.flash.get("info").map { msg =>

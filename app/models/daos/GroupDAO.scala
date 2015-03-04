@@ -1,6 +1,7 @@
 package models.daos
 
 import models.Group
+import models.GroupLink
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
 import models.daos.DBTableDefinitions._
@@ -14,13 +15,32 @@ import play.api.Play.current
 class GroupDAO {
 
   /**
-   * Finds all groups.
+   * Find all groups.
    *
-   * @return Seq[Group] List of all groups found.
+   * @return Seq[Group]
    */
   def findAll() = {
     DB withSession { implicit session =>
       slickGroups.sortBy(_.title.toLowerCase.asc).list
+    }
+  }
+
+  /**
+   * Find all groups with the count of their posts.
+   *
+   * @return List[GroupLink]
+   */
+  def findGroupLinks() = {
+    DB withSession { implicit session =>
+      val q = (for {
+        groups <- slickGroups
+        posts <- slickPosts if groups.id === posts.groupId
+      } yield (groups, posts)).groupBy(_._1.id)
+
+      q.map {
+        case (groupTitle, groupPosts) => 
+          GroupLink(0, groupTitle.asInstanceOf[String], groupPosts.length.asInstanceOf[Int])
+      }.list
     }
   }
 

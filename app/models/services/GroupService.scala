@@ -3,6 +3,7 @@ package models.services
 import javax.inject.Inject
 
 import models.Group
+import models.GroupLink
 import models.daos.GroupDAO
 
 /**
@@ -18,6 +19,8 @@ class GroupService @Inject() (groupDAO: GroupDAO) {
    * @return The retrieved list of groups.
    */
   def findAll(): List[Group] = groupDAO.findAll()
+
+  def findGroupLinks(): List[GroupLink] = groupDAO.findGroupLinks()
   
   /**
    * Retrieves a group that matches the specified id.

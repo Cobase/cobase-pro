@@ -71,7 +71,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     val group = groupService.findById(groupId)
     val posts = groupService.findLatestPostsForGroup(groupId)
 
-    if (group.isEmpty) throw new CobaseException("Group with id " + groupId + " not found")
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
     
     Future.successful(Ok(views.html.group(request.identity, groups, group, posts)))
   }

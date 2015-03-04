@@ -2,11 +2,8 @@ package models.services
 
 import javax.inject.Inject
 
-import models.Group
 import models.Post
 import models.daos._
-import play.api.libs.concurrent.Execution.Implicits._
-import scala.concurrent.Future
 
 /**
  * Handles actions to posts.

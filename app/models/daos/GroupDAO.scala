@@ -39,20 +39,6 @@ class GroupDAO {
   }
 
   /**
-   * Finds all latest posts by group id.
-   *
-   * @param groupId The id of the group to find posts from.
-   * @return The list of found posts.
-   */
-  def findLatestPostsForGroup(groupId: Long) = {
-    DB withSession { implicit session =>
-      slickPosts.filter(
-        _.groupId === groupId
-      ).sortBy(_.id.desc).list
-    }
-  }
-
-  /**
    * Saves a group with the group data.
    *
    * @param group

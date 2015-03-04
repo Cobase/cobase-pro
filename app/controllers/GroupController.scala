@@ -6,10 +6,11 @@ import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 import scala.concurrent.Future
 
-import forms.GroupForm
+import forms.{GroupForm, PostForm}
 import models.User
 import models.Group
-import models.services.GroupService
+import models.Post
+import models.services.{GroupService, PostService}
 import models.exceptions._
 
 /**
@@ -17,7 +18,7 @@ import models.exceptions._
  *
  * @param env The Silhouette environment.
  */
-class GroupController @Inject() (implicit val env: Environment[User, SessionAuthenticator], groupService: GroupService)
+class GroupController @Inject() (implicit val env: Environment[User, SessionAuthenticator], groupService: GroupService, postService: PostService)
   extends Silhouette[User, SessionAuthenticator] {
 
   /**
@@ -32,11 +33,11 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   }
 
   /**
-   * Handles the index action.
+   * Handles the creation of a group.
    *
    * @return The result to display.
    */
-  def create = SecuredAction.async { implicit request =>
+  def createGroup = SecuredAction.async { implicit request =>
     val groups = groupService.findAll
 
     GroupForm.form.bindFromRequest.fold(
@@ -66,14 +67,48 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
    * @param groupId
    * @return
    */
-  def listPosts(groupId: Long) = SecuredAction.async { implicit request =>
+  def listGroupPosts(groupId: Long) = SecuredAction.async { implicit request =>
     val groups = groupService.findAll
     val group = groupService.findById(groupId)
-    val posts = groupService.findLatestPostsForGroup(groupId)
+    val posts = postService.findLatestPostsForGroup(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    Future.successful(Ok(views.html.group(request.identity, groups, group, posts, PostForm.form)))
+  }
+
+  /**
+   * Handles the creation of a post into group.
+   *
+   * @return The result to display.
+   */
+  def createGroupPost(groupId: Long) = SecuredAction.async { implicit request =>
+    val groups = groupService.findAll
+    val group = groupService.findById(groupId)
+    val posts = postService.findLatestPostsForGroup(groupId)
 
     if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
     
-    Future.successful(Ok(views.html.group(request.identity, groups, group, posts)))
+    PostForm.form.bindFromRequest.fold(
+      formWithErrors => {
+        println("Failed!!!" + formWithErrors.errors.toString())
+        Future.successful(
+          Ok(
+            views.html.group(request.identity, groups, group, posts, formWithErrors)
+          )
+        )
+      },
+      data => {
+        postService.save(
+          Post(0, data.content, groupId, request.identity.fullName, 234234234) // TODO: fix the ugly hack with the ID
+        )
+        Future.successful(
+          Redirect(
+            routes.GroupController.listGroupPosts(groupId)
+          )
+        )
+      }
+    )
   }
-
+  
 }

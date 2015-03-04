@@ -5,7 +5,7 @@
 @import play.api.Play
 @import play.api.Play.current
         
-@(user: models.User, groups: List[Group], groupForm: Form[forms.FormData])(implicit request: RequestHeader)
+@(user: models.User, groups: List[Group], groupForm: Form[forms.GroupFormData])(implicit request: RequestHeader)
 
 @pageTitle = {
     New Group
@@ -26,12 +26,12 @@
                     <p class="register-box-msg"><strong>Error:</strong> @msg</p>
                 }
 
-                @helper.form(action = routes.GroupController.create()) {
+                @helper.form(action = routes.GroupController.createGroup()) {
                     @text(groupForm("title"), "Title", icon = "")
                     @text(groupForm("description"), "Description", icon = "")
                     <div class="row">
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Create</button>
+                            <button type="submit" class="btn btn-success btn-block btn-flat">Create</button>
                         </div><!-- /.col -->
                     </div>
                 }

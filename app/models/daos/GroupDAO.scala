@@ -25,22 +25,17 @@ class GroupDAO {
     }
   }
 
-  /**
-   * Find all groups with the count of their posts.
-   *
-   * @return List[GroupLink]
-   */
   def findGroupLinks() = {
     DB withSession { implicit session =>
-      val q = (for {
-        groups <- slickGroups
-        posts <- slickPosts if groups.id === posts.groupId
-      } yield (groups, posts)).groupBy(_._1.id)
-
-      q.map {
-        case (groupTitle, groupPosts) => 
-          GroupLink(0, groupTitle.asInstanceOf[String], groupPosts.length.asInstanceOf[Int])
-      }.list
+      val q = for {
+        group <- slickGroups
+      } yield
+        GroupLink(
+          group.id.asInstanceOf[Long],
+          group.title.asInstanceOf[String],
+          slickPosts.filter(group.id === _.groupId).length.asInstanceOf[Int]
+        )
+      q.list
     }
   }
 

@@ -4,7 +4,7 @@
 @import play.api.Play
 @import play.api.Play.current
 
-@(user: models.User, groups: List[Group], group: Option[Group], posts: List[Post], postForm: Form[forms.PostFormData])(implicit request: RequestHeader)
+@(user: models.User, groupLinks: List[GroupLink], group: Option[Group], posts: List[Post], postForm: Form[forms.PostFormData])(implicit request: RequestHeader)
 
 @pageTitle = {
     @group.get.title
@@ -14,7 +14,7 @@
     <li class="active">Group</li>
 }
 
-@main("CobasePRO - " + group.get.title, Some(user), groups, pageTitle, breadCrumbTitle) {
+@main("CobasePRO - " + group.get.title, Some(user), groupLinks, pageTitle, breadCrumbTitle) {
     <div class="row group-stats">
         <div class="col-md-12">
             <h4>@posts.size post(s)</h4>

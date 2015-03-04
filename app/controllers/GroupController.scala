@@ -99,14 +99,13 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         )
       },
       data => {
-
         postService.save(
           Post(0, data.content, groupId, request.identity.fullName, 234234234) // TODO: fix the ugly hack with the ID
         )
         Future.successful(
           Redirect(
-            routes.GroupController.listGroupPosts(groupId)).flashing("info" -> Messages("post.created")
-            )
+            routes.GroupController.listGroupPosts(groupId)
+          )
         )
       }
     )

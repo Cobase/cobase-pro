@@ -15,9 +15,57 @@
 }
 
 @main("CobasePRO - " + group.get.title, Some(user), groups, pageTitle, breadCrumbTitle) {
-    <div class="user col-md-12">
+    <div class="row group-stats">
+        <div class="col-md-12">
+            <h4>@posts.size post(s)</h4>
+        </div>
+    </div>
 
-        <h4>@posts.size post(s)</h4>
-
+    <div class="row">
+        <div class="col-md-12">
+        
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">What's on your mind?</h3>
+            </div>
+            <div class="box-body">
+                <form role="form">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="timeline">
+            <li>
+                <i class="fa fa-comments bg-yellow"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                    <h3 class="timeline-header"><span class="label label-primary">Artur Gajewski</span></h3>
+                    <div class="timeline-body">
+                        Sit sed per mi libero suspendisse nulla, consectetuer libero elit volutpat, eget maecenas vestibulum a praesent, integer fusce elit elementum nostra ipsum, venenatis dictum ullamcorper sed nunc aptent. Aliquid nisl bibendum eget vitae, vestibulum sed vehicula libero amet adipiscing sapien, eget ligula conubia ornare. Odio ut, dolor in odio sit aliquet metus sit. Nostra pede justo tortor vitae proin vivamus. Maecenas elit id quisquam nec gravida id, nostra rhoncus integer. Vel mauris nonummy viverra adipiscing mi, dolor enim, lacinia sodales in sit diam urna. Arcu a pellentesque. In sed blandit, nisl non scelerisque augue quis.
+                    </div>
+                </div>
+            </li>
+            <li>
+                <i class="fa fa-comments bg-yellow"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                    <h3 class="timeline-header"><span class="label label-primary">Artur Gajewski</span></h3>
+                    <div class="timeline-body">
+                        Sit sed per mi libero suspendisse nulla, consectetuer libero elit volutpat, eget maecenas vestibulum a praesent, integer fusce elit elementum nostra ipsum, venenatis dictum ullamcorper sed nunc aptent. Aliquid nisl bibendum eget vitae, vestibulum sed vehicula libero amet adipiscing sapien, eget ligula conubia ornare. Odio ut, dolor in odio sit aliquet metus sit. Nostra pede justo tortor vitae proin vivamus. Maecenas elit id quisquam nec gravida id, nostra rhoncus integer. Vel mauris nonummy viverra adipiscing mi, dolor enim, lacinia sodales in sit diam urna. Arcu a pellentesque. In sed blandit, nisl non scelerisque augue quis.
+                    </div>
+                </div>
+            </li>
+            <li>
+                <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+        </ul>
+        </div>
     </div>
 }

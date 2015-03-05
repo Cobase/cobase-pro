@@ -27,9 +27,9 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
    * @return The result to display.
    */
   def index = SecuredAction.async { implicit request =>
-    val groups = groupService.findAll
+    val groupLinks = groupService.findGroupLinks
     
-    Future.successful(Ok(views.html.newGroup(request.identity, groups, GroupForm.form)))
+    Future.successful(Ok(views.html.newGroup(request.identity, groupLinks, GroupForm.form)))
   }
 
   /**
@@ -38,13 +38,13 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
    * @return The result to display.
    */
   def createGroup = SecuredAction.async { implicit request =>
-    val groups = groupService.findAll
+    val groupLinks = groupService.findGroupLinks
 
     GroupForm.form.bindFromRequest.fold(
       formWithErrors => {
         Future.successful(
           Ok(
-            views.html.newGroup(request.identity, groups, formWithErrors)
+            views.html.newGroup(request.identity, groupLinks, formWithErrors)
           )
         )
       },
@@ -68,13 +68,13 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
    * @return
    */
   def listGroupPosts(groupId: Long) = SecuredAction.async { implicit request =>
-    val groups = groupService.findAll
+    val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
     val posts = postService.findLatestPostsForGroup(groupId)
 
     if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
 
-    Future.successful(Ok(views.html.group(request.identity, groups, group, posts, PostForm.form)))
+    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, PostForm.form)))
   }
 
   /**
@@ -83,7 +83,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
    * @return The result to display.
    */
   def createGroupPost(groupId: Long) = SecuredAction.async { implicit request =>
-    val groups = groupService.findAll
+    val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
     val posts = postService.findLatestPostsForGroup(groupId)
 
@@ -94,7 +94,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         println("Failed!!!" + formWithErrors.errors.toString())
         Future.successful(
           Ok(
-            views.html.group(request.identity, groups, group, posts, formWithErrors)
+            views.html.group(request.identity, groupLinks, group, posts, formWithErrors)
           )
         )
       },

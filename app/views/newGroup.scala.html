@@ -5,7 +5,7 @@
 @import play.api.Play
 @import play.api.Play.current
         
-@(user: models.User, groups: List[Group], groupForm: Form[forms.GroupFormData])(implicit request: RequestHeader)
+@(user: models.User, groupLinks: List[GroupLink], groupForm: Form[forms.GroupFormData])(implicit request: RequestHeader)
 
 @pageTitle = {
     New Group
@@ -15,7 +15,7 @@
     <li class="active">New Group</li>
 }
         
-@main("CobasePRO - New Group", Some(user), groups, pageTitle, breadCrumbTitle) {
+@main("CobasePRO - New Group", Some(user), groupLinks, pageTitle, breadCrumbTitle) {
     <div class="user col-md-12">
         <div class="box box-primary">
             <div class="box-header">

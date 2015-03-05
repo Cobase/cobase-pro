@@ -3,7 +3,7 @@
 
 @(title: String, 
   user: Option[models.User] = None, 
-  groups: List[Group], 
+  groupLinks: List[GroupLink],
   pageTitle: Html = Html(""),
   breadCrumbTitle: Html = Html("")
 )(content: Html)
@@ -294,11 +294,11 @@
                 </a>
             </li>
 
-            @groups.map { group =>
+            @groupLinks.map { groupLink =>
                 <li>
-                    <a href="@routes.GroupController.listGroupPosts(group.id)">
-                        <i class="fa fa-files-o"></i> <span>@group.title</span>
-                        <!--span class="label label-primary pull-right">group post count</span -->
+                    <a href="@routes.GroupController.listGroupPosts(groupLink.id)">
+                        <i class="fa fa-files-o"></i> <span>@groupLink.title</span>
+                        <span class="label label-primary pull-right">@groupLink.count</span>
                     </a>
                 </li>
             }

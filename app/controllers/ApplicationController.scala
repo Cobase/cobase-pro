@@ -24,9 +24,9 @@ class ApplicationController @Inject() (implicit val env: Environment[User, Sessi
    * @return The result to display.
    */
   def index = SecuredAction.async { implicit request =>
-    val groups = groupService.findAll
+    val groupLinks = groupService.findGroupLinks
 
-    Future.successful(Ok(views.html.home(request.identity, groups)))
+    Future.successful(Ok(views.html.home(request.identity, groupLinks)))
   }
 
   /**

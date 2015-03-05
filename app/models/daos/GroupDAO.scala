@@ -27,6 +27,17 @@ class GroupDAO {
 
   def findGroupLinks() = {
     DB withSession { implicit session =>
+
+      slickGroups.map({
+        group =>
+          GroupLink(
+            group.id.asInstanceOf[Long],
+            group.title.asInstanceOf[String],
+            slickPosts.filter(_.groupId === group.id).length.asInstanceOf[Int]
+          )
+      })
+      
+      /*
       val q = for {
         group <- slickGroups
       } yield
@@ -36,6 +47,7 @@ class GroupDAO {
           slickPosts.filter(group.id === _.groupId).length.asInstanceOf[Int]
         )
       q.list
+      */
     }
   }
 

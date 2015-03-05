@@ -3,6 +3,10 @@ body {
   background-color: #ecf0f5;
 }
 
+.login-logo, .register-logo {
+  margin-bottom: 0px;
+}
+
 .group-stats {
   margin-bottom: 30px;
 }

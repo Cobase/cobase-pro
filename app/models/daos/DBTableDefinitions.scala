@@ -17,11 +17,11 @@ object DBTableDefinitions {
 
   class Users(tag: Tag) extends Table[DBUser](tag, "user") {
     def id = column[String]("userID", O.PrimaryKey)
-    def firstName = column[Option[String]]("firstName")
-    def lastName = column[Option[String]]("lastName")
-    def fullName = column[Option[String]]("fullName")
+    def firstName = column[Option[String]]("first_name")
+    def lastName = column[Option[String]]("last_name")
+    def fullName = column[Option[String]]("full_name")
     def email = column[Option[String]]("email")
-    def avatarURL = column[Option[String]]("avatarURL")
+    def avatarURL = column[Option[String]]("avatar_url")
     def * = (id, firstName, lastName, fullName, email, avatarURL) <> (DBUser.tupled, DBUser.unapply)
   }
 
@@ -33,8 +33,8 @@ object DBTableDefinitions {
 
   class LoginInfos(tag: Tag) extends Table[DBLoginInfo](tag, "logininfo") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def providerID = column[String]("providerID")
-    def providerKey = column[String]("providerKey")
+    def providerID = column[String]("provider_id")
+    def providerKey = column[String]("provider_key")
     def * = (id.?, providerID, providerKey) <> (DBLoginInfo.tupled, DBLoginInfo.unapply)
   }
 
@@ -44,8 +44,8 @@ object DBTableDefinitions {
   )
 
   class UserLoginInfos(tag: Tag) extends Table[DBUserLoginInfo](tag, "userlogininfo") {
-    def userID = column[String]("userID", O.NotNull)
-    def loginInfoId = column[Long]("loginInfoId", O.NotNull)
+    def userID = column[String]("user_id", O.NotNull)
+    def loginInfoId = column[Long]("logininfo_id", O.NotNull)
     def * = (userID, loginInfoId) <> (DBUserLoginInfo.tupled, DBUserLoginInfo.unapply)
   }
 
@@ -60,7 +60,7 @@ object DBTableDefinitions {
     def hasher = column[String]("hasher")
     def password = column[String]("password")
     def salt = column[Option[String]]("salt")
-    def loginInfoId = column[Long]("loginInfoId")
+    def loginInfoId = column[Long]("logininfo_id")
     def * = (hasher, password, salt, loginInfoId) <> (DBPasswordInfo.tupled, DBPasswordInfo.unapply)
   }
 
@@ -75,7 +75,7 @@ object DBTableDefinitions {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def token = column[String]("token")
     def secret = column[String]("secret")
-    def loginInfoId = column[Long]("loginInfoId")
+    def loginInfoId = column[Long]("logininfo_id")
     def * = (id.?, token, secret, loginInfoId) <> (DBOAuth1Info.tupled, DBOAuth1Info.unapply)
   }
 
@@ -90,11 +90,11 @@ object DBTableDefinitions {
 
   class OAuth2Infos(tag: Tag) extends Table[DBOAuth2Info](tag, "oauth2info") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def accessToken = column[String]("accesstoken")
-    def tokenType = column[Option[String]]("tokentype")
-    def expiresIn = column[Option[Int]]("expiresin")
-    def refreshToken = column[Option[String]]("refreshtoken")
-    def loginInfoId = column[Long]("logininfoid")
+    def accessToken = column[String]("access_token")
+    def tokenType = column[Option[String]]("token_type")
+    def expiresIn = column[Option[Int]]("expires_in")
+    def refreshToken = column[Option[String]]("refresh_token")
+    def loginInfoId = column[Long]("logininfo_id")
     def * = (id.?, accessToken, tokenType, expiresIn, refreshToken, loginInfoId) <> (DBOAuth2Info.tupled, DBOAuth2Info.unapply)
   }
   
@@ -105,7 +105,7 @@ object DBTableDefinitions {
   
   class OpenIDInfos(tag: Tag) extends Table[DBOpenIDInfo](tag, "openidinfo") {
     def id = column[String]("id")
-    def loginInfoId = column[Long]("logininfoid")
+    def loginInfoId = column[Long]("logininfo_id")
     def * = (id, loginInfoId) <> (DBOpenIDInfo.tupled, DBOpenIDInfo.unapply)
   }
   
@@ -122,19 +122,19 @@ object DBTableDefinitions {
     def * = (id, key, value) <> (DBOpenIDAttribute.tupled, DBOpenIDAttribute.unapply)
   }
 
-  class Groups(tag: Tag) extends Table[Group](tag, "group") {
+  class Groups(tag: Tag) extends Table[Group](tag, "groups") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def title = column[String]("title")
     def description = column[String]("description")
     def * = (id, title, description) <> (Group.tupled, Group.unapply)
   }
 
-  class Posts(tag: Tag) extends Table[Post](tag, "post") {
+  class Posts(tag: Tag) extends Table[Post](tag, "posts") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def content = column[String]("content")
-    def groupId = column[Long]("groupId")
-    def createdBy = column[Option[String]]("createdBy")
-    def createdTimestamp = column[Long]("createdTimestamp")
+    def groupId = column[Long]("group_id")
+    def createdBy = column[Option[String]]("created_by")
+    def createdTimestamp = column[Long]("created_timestamp")
     def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
   }
 

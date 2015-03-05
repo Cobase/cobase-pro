@@ -43,11 +43,11 @@ class GroupDAO {
           SELECT 
             g.id, g.title, COUNT(p.*)
           FROM 
-            "group" g
+            groups g
           LEFT JOIN 
-            "post" p 
+            posts p
           ON 
-            p."groupId" = g.id
+            p.group_id = g.id
           GROUP BY 
             g.id, g.title
         """

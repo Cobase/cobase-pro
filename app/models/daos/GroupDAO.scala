@@ -9,6 +9,9 @@ import scala.concurrent.Future
 import play.Logger
 import play.api.Play.current
 
+import scala.slick.jdbc.StaticQuery.interpolation
+import scala.slick.jdbc.{GetResult, StaticQuery => Q}
+
 /**
  * Give access to the user object using Slick
  */
@@ -25,29 +28,34 @@ class GroupDAO {
     }
   }
 
+  /**
+   * Get list of groups and their post counts
+   *
+   * @return Seq[GroupLink]
+   */
   def findGroupLinks() = {
     DB withSession { implicit session =>
 
-      slickGroups.map({
-        group =>
-          GroupLink(
-            group.id.asInstanceOf[Long],
-            group.title.asInstanceOf[String],
-            slickPosts.filter(_.groupId === group.id).length.asInstanceOf[Int]
-          )
-      })
-      
-      /*
-      val q = for {
-        group <- slickGroups
-      } yield
-        GroupLink(
-          group.id.asInstanceOf[Long],
-          group.title.asInstanceOf[String],
-          slickPosts.filter(group.id === _.groupId).length.asInstanceOf[Int]
+      implicit val getGroupResult = 
+        GetResult(r => 
+          GroupLink(r.nextLong(), r.nextString().toString(), r.nextInt())
         )
-      q.list
-      */
+      
+      val groupLinks = Q[GroupLink] +
+        """
+          SELECT 
+            g.id, g.title, COUNT(p.*)
+          FROM 
+            "group" g
+          LEFT JOIN 
+            "post" p 
+          ON 
+            p."groupId" = g.id
+          GROUP BY 
+            g.id, g.title
+        """
+
+      groupLinks.list
     }
   }
 

@@ -58,4 +58,7 @@ logger.play=INFO
 logger.application=INFO
 #logger.com.mohiva=DEBUG
 
+# Cobase related configurations
+cobase.organizationName="Organization Name"
+
 include "silhouette.conf"

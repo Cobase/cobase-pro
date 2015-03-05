@@ -4,13 +4,10 @@ import models.Group
 import models.GroupLink
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
+import scala.slick.jdbc.{GetResult, StaticQuery => Q}
 import models.daos.DBTableDefinitions._
 import scala.concurrent.Future
-import play.Logger
 import play.api.Play.current
-
-import scala.slick.jdbc.StaticQuery.interpolation
-import scala.slick.jdbc.{GetResult, StaticQuery => Q}
 
 /**
  * Give access to the user object using Slick

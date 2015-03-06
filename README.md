@@ -1,7 +1,13 @@
-Cobase
-======
+CobasePRO
+=========
 
-This repository deals with the Scala version of Cobase, an open source social media portal for corporations and small companies and alternative to Yammer.
+This project is an open source social media portal for corporations and small companies and alternative to Yammer. 
+It's purpose is to enable people to share news and info about various topics in a non-intrusive way.  Logged in user 
+has a dashboard which contains posts from groups only he/she has been subscribed to. This way, user will only be informed 
+by the topics related to interest.
+
+Developers are very welcome to join the project, the more the merrier. If you see something that needs improvement or refactoring, please
+do not hesitate to make the code base better by sending us pull requests.
 
 ## Issues and Wiki
 

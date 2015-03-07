@@ -41,7 +41,7 @@ class GroupDAO {
       val groupLinks = Q[GroupLink] +
         """
           SELECT 
-            g.id, g.title, COUNT(p.*)
+            g.id, g.title, COUNT(p.id)
           FROM 
             groups g
           LEFT JOIN 

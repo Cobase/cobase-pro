@@ -42,6 +42,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
 
     GroupForm.form.bindFromRequest.fold(
       formWithErrors => {
+        println(formWithErrors.errors)
         Future.successful(
           Ok(
             views.html.newGroup(request.identity, groupLinks, formWithErrors)
@@ -50,7 +51,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
       },
       data => {
         groupService.save(
-          Group(0, data.title, data.description) // TODO: fix the ugly hack with the ID
+          Group(0, data.title, data.tags) // TODO: fix the ugly hack with the ID
         )
         Future.successful(
           Redirect(

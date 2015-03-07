@@ -14,9 +14,9 @@ object GroupForm {
   val form = Form(
     mapping(
       "title" -> nonEmptyText,
-      "description" -> nonEmptyText
+      "tags" -> nonEmptyText
     )(GroupFormData.apply)(GroupFormData.unapply)
   )
 }
 
-case class GroupFormData(title: String, description: String)
+case class GroupFormData(title: String, tags: String)

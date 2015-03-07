@@ -125,8 +125,8 @@ object DBTableDefinitions {
   class Groups(tag: Tag) extends Table[Group](tag, "groups") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def title = column[String]("title")
-    def description = column[String]("description")
-    def * = (id, title, description) <> (Group.tupled, Group.unapply)
+    def tags = column[String]("tags")
+    def * = (id, title, tags) <> (Group.tupled, Group.unapply)
   }
 
   class Posts(tag: Tag) extends Table[Post](tag, "posts") {

@@ -28,7 +28,7 @@
 
                 @helper.form(action = routes.GroupController.createGroup()) {
                     @text(groupForm("title"), "Title", icon = "")
-                    @tags(groupForm("description"), "Twitter hashtags")
+                    @tags(groupForm("tags"), "Twitter hashtags")
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-success btn-block btn-flat">Create</button>

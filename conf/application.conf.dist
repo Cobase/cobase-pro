@@ -32,18 +32,12 @@ application.global=app.Global
 # ~~~~~
 # You can declare as many datasources as you want.
 # By convention, the default datasource is named `default`
-
-# PostgreSQL database
+# ~~~~~
 # db.default.driver=org.postgresql.Driver
 # db.default.url="jdbc:postgresql://localhost/database_name"
 # db.default.user="database_username"
 # db.default.pass="database_user_password"
 
-# MySQL database
-# db.default.driver= com.mysql.jdbc.Driver
-# db.default.url="jdbc:mysql://localhost/database_name"
-# db.default.user="database_username"
-# db.default.pass="database_user_password"
 
 # play-slick configuration
 # ~~~~~

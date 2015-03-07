@@ -18,7 +18,6 @@ libraryDependencies ++= Seq(
   "net.codingwell" %% "scala-guice" % "4.0.0-beta4",
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
-  "mysql" % "mysql-connector-java" % "5.1.18",
   "com.mohiva" %% "play-silhouette-testkit" % "2.0-SNAPSHOT" % "test",
   "com.github.nscala-time" %% "nscala-time" % "1.4.0",
   cache,

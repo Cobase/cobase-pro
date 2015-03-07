@@ -5,7 +5,8 @@
 # ~~~~~
 # The secret key is used to secure cryptographics functions.
 # If you deploy your application to several instances be sure to use the same key!
-application.secret="changeme"
+# Make sure this string is at least 16 characters long.
+application.secret="changemechangemechangeme"
 
 # The application languages
 # ~~~~~

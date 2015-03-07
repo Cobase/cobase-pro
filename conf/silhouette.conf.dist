@@ -46,6 +46,7 @@ silhouette {
   vk.scope="email"
 
   # Clef provider
+  clef.authorizationURL="https://clef.io/api/v1/authorize"
   clef.accessTokenURL="https://clef.io/api/v1/authorize"
   clef.redirectURL="http://localhost:9000/authenticate/clef"
   clef.clientID=${?CLEF_CLIENT_ID}

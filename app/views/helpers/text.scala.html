@@ -1,13 +1,13 @@
 @(field: Field, label: String = "", help: String = "", icon: String = "")
 
 <div class="form-group has-feedback @if(field.hasErrors) {has-error}">
+    @label:
     <input type="text"
            class="form-control"
            id="@field.id"
            name="@field.name"
            value="@field.value.getOrElse("")"
-           placeholder="@label" />
-    <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+    />
 </div>
         
         

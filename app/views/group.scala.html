@@ -30,7 +30,7 @@
             </div>
             <div class="box-body">
                 @helper.form(action = routes.GroupController.createGroupPost(group.get.id)) {
-                    @textarea(postForm("content"), "Enter ...", icon = "")
+                    @textarea(postForm("content"), "Post content", icon = "")
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>

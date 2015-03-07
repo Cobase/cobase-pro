@@ -1,11 +1,13 @@
-@(field: Field, label: String = "", help: String = "", icon: String = "")
+@(field: Field, label: String = "", help: String = "", icon: String = "", id: String = "tags")
 
 <div class="form-group has-feedback @if(field.hasErrors) {has-error}">
     @label:
-    <input type="password"
+    <input type="text"
            class="form-control"
-           id="@field.id"
+           id="@id"
            name="@field.name"
            value="@field.value.getOrElse("")"
     />
 </div>
+        
+        

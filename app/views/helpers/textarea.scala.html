@@ -1,5 +1,6 @@
 @(field: Field, label: String = "", help: String = "", icon: String = "")
 
 <div class="form-group has-feedback @if(field.hasErrors) {has-error}">
-    <textarea class="form-control" rows="3" id="@field.id" name="@field.name" placeholder="@label">@field.value.getOrElse("")</textarea>
+    @label:
+    <textarea class="form-control" rows="3" id="@field.id" name="@field.name">@field.value.getOrElse("")</textarea>
 </div>

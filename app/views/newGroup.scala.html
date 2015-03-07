@@ -28,7 +28,7 @@
 
                 @helper.form(action = routes.GroupController.createGroup()) {
                     @text(groupForm("title"), "Title", icon = "")
-                    @text(groupForm("description"), "Description", icon = "")
+                    @tags(groupForm("description"), "Twitter hashtags")
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-success btn-block btn-flat">Create</button>
@@ -38,4 +38,10 @@
             </div><!-- /.box-body -->
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#tags").tagit();
+        });
+    </script>
 }

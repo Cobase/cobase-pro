@@ -18,6 +18,9 @@
     <div class="row group-stats">
         <div class="col-md-12">
             <h4>@posts.size post(s)</h4>
+            @if(group.get.tags != "" && !group.get.tags.isEmpty) {
+                <h5>Twitter: @group.get.tags.split(",").sortWith(_ < _).mkString(", ")</h5>
+            }
         </div>
     </div>
 

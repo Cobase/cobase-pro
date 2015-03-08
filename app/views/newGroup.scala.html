@@ -41,7 +41,12 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#tags").tagit();
+            $("#tags").tagit({
+                preprocessTag: function(tag) {
+                    if (!tag) { return ''; }
+                    return "#" + tag;
+                }
+            });
         });
     </script>
 }

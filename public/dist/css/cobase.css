@@ -51,3 +51,28 @@ body {
 .bottom20 { margin-bottom:20px; }
 .bottom25 { margin-bottom:25px; }
 .bottom30 { margin-top:30px; }
+
+/*
+ Main content transition removal
+ */
+.content-wrapper,
+.right-side,
+.main-footer {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+@media (max-width: 767px) {
+  .sidebar-open .content-wrapper,
+  .sidebar-open .right-side,
+  .sidebar-open .main-footer {
+    -webkit-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}

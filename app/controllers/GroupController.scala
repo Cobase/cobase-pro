@@ -92,7 +92,6 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     
     PostForm.form.bindFromRequest.fold(
       formWithErrors => {
-        println("Failed!!!" + formWithErrors.errors.toString())
         Future.successful(
           Ok(
             views.html.group(request.identity, groupLinks, group, posts, formWithErrors)

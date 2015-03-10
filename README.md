@@ -16,6 +16,10 @@ do not hesitate to make the code base better by sending us pull requests.
 - [Issues](https://github.com/Cobase/cobase-pro/issues) (un-assigned are free to work on)
 - [Wiki](https://github.com/Cobase/cobase-pro/wiki)
 
+## Working demo
+
+You are welcome to try out CobasePRO in action by going to [demo site](http://cobasepro.arturgajewski.com). You are required to register an account in order to log in, but you can enter some dummy email address. No verification emails will be sent of any kind.
+
 ## IRC
 
 Feel free to join the conversation on channel #cobase-pro @ freenode.net

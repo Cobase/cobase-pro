@@ -1,12 +1,12 @@
-logs
+/logs
 project/project
 project/target
 conf/application.conf
 conf/silhouette.conf
-target
-tmp
+/target
+/tmp
 .history
-dist
+/dist
 /.idea
 /*.iml
 /out

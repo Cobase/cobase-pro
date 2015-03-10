@@ -1,0 +1,8 @@
+@(time:java.util.Date)
+
+@import java.util.Locale;
+@import com.ocpsoft.pretty.time.PrettyTime;
+
+@{ val p = new PrettyTime(new Locale("DEFAULT"))
+    p.format(time)
+}

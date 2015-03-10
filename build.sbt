@@ -20,6 +20,7 @@ libraryDependencies ++= Seq(
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
   "com.mohiva" %% "play-silhouette-testkit" % "2.0-SNAPSHOT" % "test",
   "com.github.nscala-time" %% "nscala-time" % "1.4.0",
+  "com.ocpsoft" % "ocpsoft-pretty-time" % "1.0.7",
   cache,
   jdbc,
   anorm

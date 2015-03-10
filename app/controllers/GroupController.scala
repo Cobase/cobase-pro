@@ -99,8 +99,9 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         )
       },
       data => {
+        val timestamp: Long = System.currentTimeMillis / 1000
         postService.save(
-          Post(0, data.content, groupId, request.identity.fullName, 234234234) // TODO: fix the ugly hack with the ID
+          Post(0, data.content, groupId, request.identity.fullName, timestamp) // TODO: fix the ugly hack with the ID
         )
         Future.successful(
           Redirect(

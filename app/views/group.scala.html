@@ -3,6 +3,7 @@
 @import views.html.helpers._
 @import play.api.Play
 @import play.api.Play.current
+@import java.util.Date
 
 @(user: models.User, groupLinks: List[GroupLink], group: Option[Group], posts: List[Post], postForm: Form[forms.PostFormData])(implicit request: RequestHeader)
 
@@ -51,7 +52,7 @@
                 <li>
                     <i class="fa fa-comments bg-yellow"></i>
                     <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
                         <h3 class="timeline-header">@post.createdBy</h3>
                         <div class="timeline-body">
                             @post.content

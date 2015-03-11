@@ -55,7 +55,7 @@
                         <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
                         <h3 class="timeline-header">@post.createdBy</h3>
                         <div class="timeline-body">
-                            @post.content
+                            @linkify(post.content)
                         </div>
                     </div>
                 </li>

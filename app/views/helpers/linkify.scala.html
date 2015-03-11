@@ -1,0 +1,8 @@
+@(content:String)
+
+@import java.util.Locale;
+@import utils.helpers.Linkify;
+
+@{ val l = new Linkify()
+    Html(l.convert(content))
+}

@@ -78,8 +78,6 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     val posts = postService.findLatestPostsForGroup(groupId)
     val tweets = twitterService.getGroupTweets(group.get.tags)
 
-    println(tweets)
-    
     Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, PostForm.form)))
   }
 

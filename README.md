@@ -63,6 +63,7 @@ Run tests by entering:
 - Framework: [Play for Scala](https://www.playframework.com)
 - Twitter: [Twitter4J](http://www.twitter4j.org)
 
+
 ## Screenshots
 
 Screenshots below are from the current state of the application and may contain dummy data and static content simulating real-world case scenario.
@@ -73,11 +74,14 @@ Login screen
 Registration screen
 ![Sign up screen](public/samples/register.png "Sign up screen")
 
-Main page
-![Main page](public/samples/main.png "Main page")
-
 New group
-![New group page](public/samples/new-group.png "New group page")
+![New group page](public/samples/new_group.png "New group page")
+
+Group posts
+![Group post listing page](public/samples/group_posts.png "Group post listing page")
+
+Group's Twitter feed
+![Group's Twitter feed](public/samples/group_tweets.png "Group's Twitter feed")
 
 
 ## License

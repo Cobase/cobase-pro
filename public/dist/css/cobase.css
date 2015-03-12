@@ -52,6 +52,81 @@ body {
 .bottom25 { margin-bottom:25px; }
 .bottom30 { margin-top:30px; }
 
+div.mode-buttons {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+.mode-buttons ul {
+    display:table-row;
+}
+.mode-buttons ul li
+{
+    display: table-cell;
+    list-style-type: none;
+    padding-right: 5px !important;
+    vertical-align: middle;
+}
+.mode-buttons ul li a {
+    display:table-cell;
+    vertical-align: middle;
+}
+
+.timeline > li > .twitter-icon {
+  width: 50px;
+  height: 50px;
+  font-size: 15px;
+  line-height: 50px;
+  position: absolute;
+  color: #666;
+  background: #d2d6de;
+  border-radius: 25%;
+  text-align: center;
+  left: 7px;
+  top: 0;
+}
+
+.timeline > li > .twitter-item {
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  margin-top: 0px;
+  background: #fff;
+  color: #444;
+  margin-left: 70px;
+  margin-right: 15px;
+  padding: 0;
+  position: relative;
+}
+
+.timeline > li > .twitter-item > .time {
+  color: #999;
+  float: right;
+  padding: 10px;
+  font-size: 12px;
+}
+.timeline > li > .twitter-item > .timeline-header {
+  margin: 0;
+  color: #555;
+  border-bottom: 1px solid #f4f4f4;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.1;
+}
+.timeline > li > .twitter-item > .timeline-header > a {
+  font-weight: 600;
+}
+.timeline > li > .twitter-item > .timeline-body,
+.timeline > li > .twitter-item > .timeline-footer {
+  padding: 10px;
+}
+.timeline > li.time-label > span {
+  font-weight: 600;
+  padding: 5px;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
 /*
  Main content transition removal
  */

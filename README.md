@@ -36,10 +36,11 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 1. Clone the repository.
 2. Create database by running PostgreSQL CLI command `$ createdb [database_name]`
 3. In PostgreSQL console, create user and set privileges according to PostgreSQL documentation.
-4. Copy conf/application.conf.dist to conf/application.conf (configure!)
-5. Copy conf/silhouette.conf.dist to conf/silhouette.conf (configure!)
-6. Add database settings to conf/application.conf according to database created
-9. Start application with `activator "run 9001"`
+4. Copy conf/application.conf.dist to conf/application.conf (and configure!)
+5. Copy conf/silhouette.conf.dist to conf/silhouette.conf (and configure!)
+6. Copy conf/twitter.conf.dist to conf/twitter.conf (and configure!)
+7. Add database settings to conf/application.conf according to database created
+8. Start application with `activator "run 9001"`
 
 
 ## Database migrations
@@ -60,7 +61,7 @@ Run tests by entering:
 - Auth: [Silhouette](https://github.com/mohiva/play-silhouette)
 - Database abstraction: [Slick](http://slick.typesafe.com)
 - Framework: [Play for Scala](https://www.playframework.com)
-
+- Twitter: [Twitter4J](http://www.twitter4j.org)
 
 ## Screenshots
 

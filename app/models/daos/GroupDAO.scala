@@ -50,6 +50,7 @@ class GroupDAO {
             p.group_id = g.id
           GROUP BY 
             g.id, g.title
+          ORDER BY upper(g.title)
         """
 
       groupLinks.list

@@ -46,10 +46,13 @@
             $("#tags").tagit({
                 preprocessTag: function(tag) {
                     if (!tag) { return ''; }
-                    if (tag.substr(0, 1) !== "#") {
-                        return "#" + tag;
-                    } else {
+
+                    if (tag.substr(0, 1) == "#") {
                         return tag;
+                    } else if (tag.substr(0, 1) == "@@") {
+                        return tag;
+                    } else {
+                        return "#" + tag;
                     }
 
                 }

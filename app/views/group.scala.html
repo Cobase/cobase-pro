@@ -5,7 +5,13 @@
 @import play.api.Play.current
 @import java.util.Date
 
-@(user: models.User, groupLinks: List[GroupLink], group: Option[Group], posts: List[Post], postForm: Form[forms.PostFormData])(implicit request: RequestHeader)
+@(user: models.User, 
+  groupLinks: List[GroupLink], 
+  group: Option[Group], 
+  posts: List[Post], 
+  tweets: Option[List[twitter4j.Status]],
+  postForm: Form[forms.PostFormData]
+)(implicit request: RequestHeader)
 
 @pageTitle = {
     @group.get.title
@@ -18,52 +24,93 @@
 @main("CobasePRO - " + group.get.title, Some(user), groupLinks, pageTitle, breadCrumbTitle) {
     <div class="row group-stats">
         <div class="col-md-12">
-            <h4>@posts.size post(s)</h4>
-            @if(group.get.tags != "" && !group.get.tags.isEmpty) {
-                <h5>Twitter: @group.get.tags.split(",").sortWith(_ < _).mkString(", ")</h5>
+            @if(group.get.tags != "" && !group.get.tags.isEmpty && !tweets.isEmpty) {
+                <div class="mode-buttons">
+                    <ul class='tabs'>
+                        <li><a class="btn btn-primary" href='#tab-posts'>Posts (@posts.size)</a></li>
+                        <li><a class="btn btn-primary" href='#tab-tweets'>Tweets (@tweets.get.size)</a></li>
+                    </ul>
+                </div>
+            } else {
+                <h4>Posts: @posts.size</h4>
+            }
+            @if(!group.get.tags.isEmpty) {
+                <h4>Twitter: @group.get.tags.split(",").sortWith(_ < _).mkString(", ")</h4>
             }
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div id='tab-posts'>
+                <div class="row">
+                    <div class="col-md-12">
 
-    <div class="row">
-        <div class="col-md-12">
-        
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">What's on your mind?</h3>
-            </div>
-            <div class="box-body">
-                @helper.form(action = routes.GroupController.createGroupPost(group.get.id)) {
-                    @textarea(postForm("content"), "Post content", icon = "")
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>
-                        </div><!-- /.col -->
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-        
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="timeline">
-                @posts.map { post =>
-                <li>
-                    <i class="fa fa-comments bg-yellow"></i>
-                    <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
-                        <h3 class="timeline-header">@post.createdBy</h3>
-                        <div class="timeline-body">
-                            @linkify(post.content)
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">What's on your mind?</h3>
+                            </div>
+                            <div class="box-body">
+                                @helper.form(action = routes.GroupController.createGroupPost(group.get.id)) {
+                                @textarea(postForm("content"), "Post content", icon = "")
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>
+                                    </div><!-- /.col -->
+                                </div>
+                                }
+                            </div>
                         </div>
                     </div>
-                </li>
-                }
-                <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                </li>
-            </ul>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="timeline">
+                                @posts.map { post =>
+                                <li>
+                                    <i class="fa fa-comments bg-yellow"></i>
+                                    <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
+                                        <h3 class="timeline-header">@post.createdBy</h3>
+                                        <div class="timeline-body">
+                                            @linkify(post.content)
+                                        </div>
+                                    </div>
+                                </li>
+                                }
+                                <li>
+                                    <i class="fa fa-clock-o bg-gray"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if(group.get.tags != "" && !group.get.tags.isEmpty && !tweets.isEmpty) {
+                <div id='tab-tweets'>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="timeline">
+                                @tweets.get.map { tweet =>
+                                <li>
+                                    <img class="twitter-icon" src="@tweet.getUser.getProfileImageURL/">
+                                    <div class="twitter-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(tweet.getCreatedAt)</span>
+                                        <h3 class="timeline-header">@tweet.getUser.getName &raquo; &commat;@tweet.getUser.getScreenName</h3>
+                                        <div class="timeline-body">
+                                            @linkify(tweet.getText.toString)
+                                        </div>
+                                    </div>
+                                </li>
+                                }
+                                <li>
+                                    <i class="fa fa-clock-o bg-gray"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 }

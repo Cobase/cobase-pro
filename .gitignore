@@ -3,6 +3,7 @@ project/project
 project/target
 conf/application.conf
 conf/silhouette.conf
+conf/twitter.conf
 /target
 /tmp
 .history

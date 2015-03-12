@@ -5,12 +5,13 @@ import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 import scala.concurrent.Future
+import scala.collection.mutable.Buffer
 
 import forms.{GroupForm, PostForm}
 import models.User
 import models.Group
 import models.Post
-import models.services.{GroupService, PostService}
+import models.services.{GroupService, PostService, TwitterService}
 import models.exceptions._
 
 /**
@@ -18,17 +19,17 @@ import models.exceptions._
  *
  * @param env The Silhouette environment.
  */
-class GroupController @Inject() (implicit val env: Environment[User, SessionAuthenticator], groupService: GroupService, postService: PostService)
+class GroupController @Inject() (implicit val env: Environment[User, SessionAuthenticator], groupService: GroupService, postService: PostService, twitterService: TwitterService)
   extends Silhouette[User, SessionAuthenticator] {
 
   /**
-   * Handles the index action.
+   * Display new group form.
    *
    * @return The result to display.
    */
   def index = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
-    
+
     Future.successful(Ok(views.html.newGroup(request.identity, groupLinks, GroupForm.form)))
   }
 
@@ -71,11 +72,15 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   def listGroupPosts(groupId: Long) = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
-    val posts = postService.findLatestPostsForGroup(groupId)
-
+    
     if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
 
-    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, PostForm.form)))
+    val posts = postService.findLatestPostsForGroup(groupId)
+    val tweets = twitterService.getGroupTweets(group.get.tags)
+
+    println(tweets)
+    
+    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, PostForm.form)))
   }
 
   /**
@@ -86,15 +91,17 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   def createGroupPost(groupId: Long) = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
-    val posts = postService.findLatestPostsForGroup(groupId)
 
     if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
-    
+
+    val posts = postService.findLatestPostsForGroup(groupId)
+    val tweets = twitterService.getGroupTweets(group.get.tags)
+
     PostForm.form.bindFromRequest.fold(
       formWithErrors => {
         Future.successful(
           Ok(
-            views.html.group(request.identity, groupLinks, group, posts, formWithErrors)
+            views.html.group(request.identity, groupLinks, group, posts, tweets, formWithErrors)
           )
         )
       },

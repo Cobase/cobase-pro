@@ -22,6 +22,8 @@ libraryDependencies ++= Seq(
   "com.mohiva" %% "play-silhouette-testkit" % "2.0-SNAPSHOT" % "test",
   "com.github.nscala-time" %% "nscala-time" % "1.4.0",
   "com.ocpsoft" % "ocpsoft-pretty-time" % "1.0.7",
+  "org.twitter4j" % "twitter4j-core" % "3.0.5",
+  "org.twitter4j" % "twitter4j-stream" % "3.0.5",
   cache,
   jdbc,
   anorm

@@ -1,0 +1,9 @@
+twitter {
+
+  # Twitter API key and token values
+  consumerKey=""
+  consumerSecret=""
+  accessKey=""
+  accessToken=""
+
+}

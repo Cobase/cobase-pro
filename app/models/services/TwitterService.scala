@@ -1,14 +1,9 @@
 package models.services
 
-import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
-import twitter4j.ResponseList
-import twitter4j.QueryResult
 import twitter4j.Query
-import twitter4j.Paging
 import scala.collection.JavaConverters._
-import scala.collection.mutable.Buffer
 import play.api.Play.current
 
 class TwitterService {

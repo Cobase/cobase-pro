@@ -5,7 +5,6 @@ import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 import scala.concurrent.Future
-import scala.collection.mutable.Buffer
 
 import forms.{GroupForm, PostForm}
 import models.User

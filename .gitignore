@@ -18,3 +18,5 @@ conf/twitter.conf
 /.settings
 .DS_Store
 activator
+/deploy.sh
+/update.sh

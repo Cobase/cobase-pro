@@ -22,26 +22,12 @@
 }
 
 @main("CobasePRO - " + group.get.title, Some(user), groupLinks, pageTitle, breadCrumbTitle) {
-    <div class="row group-stats">
-        <div class="col-md-12">
-            @if(group.get.tags != "" && !group.get.tags.isEmpty && !tweets.isEmpty) {
-                <div class="mode-buttons">
-                    <ul class='tabs'>
-                        <li><a class="btn btn-primary" href='#tab-posts'>Posts (@posts.size)</a></li>
-                        <li><a class="btn btn-primary" href='#tab-tweets'>Tweets (@tweets.get.size)</a></li>
-                    </ul>
-                </div>
-            } else {
-                <h4>Posts: @posts.size</h4>
-            }
-            @if(!group.get.tags.isEmpty) {
-                <h4>Twitter: @group.get.tags.split(",").sortWith(_ < _).mkString(", ")</h4>
-            }
-        </div>
-    </div>
-    
     <div class="row">
-        <div class="col-md-12">
+        @if(!tweets) {
+            <div class="col-md-12">
+        } else {
+            <div class="col-md-8">
+        }
             <div id='tab-posts'>
                 <div class="row">
                     <div class="col-md-12">
@@ -71,7 +57,7 @@
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
                                         <h3 class="timeline-header">@post.createdBy</h3>
-                                        <div class="timeline-body">
+                                        <div class="timeline-body wordbreak">
                                             @linkify(post.content)
                                         </div>
                                     </div>
@@ -85,32 +71,45 @@
                     </div>
                 </div>
             </div>
-
-            @if(group.get.tags != "" && !group.get.tags.isEmpty && !tweets.isEmpty) {
-                <div id='tab-tweets'>
+        </div>
+        @if(!tweets.isEmpty) {
+            <div class="col-md-4">
+                <div id='twitter-feed'>
                     <div class="row">
                         <div class="col-md-12">
-                            <ul class="timeline">
+                            <h3>Twitter feed</h3>
+                            @if(!group.get.tags.isEmpty) {
+                                <h4>@group.get.tags.split(",").sortWith(_ < _).mkString(", ")</h4>
+                            }
+                            <ul class="timeline noline">
                                 @tweets.get.map { tweet =>
                                 <li>
-                                    <img class="twitter-icon" src="@tweet.getUser.getProfileImageURL/">
                                     <div class="twitter-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(tweet.getCreatedAt)</span>
-                                        <h3 class="timeline-header">@tweet.getUser.getName &raquo; &commat;@tweet.getUser.getScreenName</h3>
-                                        <div class="timeline-body">
+                                        <h3 class="timeline-header">
+                                            <div class="row">
+                                                <div class="tweet-info"">
+                                                    <img class="twitter-icon" src="@tweet.getUser.getProfileImageURL/">
+                                                </div>
+                                                <div class="tweet">
+                                                    <div>@tweet.getUser.getName</div>
+                                                    <div><a href="https://twitter.com/@tweet.getUser.getScreenName">@@@tweet.getUser.getScreenName</a></div>
+                                                </div>
+                                            </div>
+                                        </h3>
+                                        <div class="timeline-body wordbreak">
                                             @linkify(tweet.getText.toString)
+                                            <br/>
+                                            <span class="time ago"><i class="fa fa-clock-o"></i> @prettytime(tweet.getCreatedAt)</span>
                                         </div>
+                                        
                                     </div>
                                 </li>
                                 }
-                                <li>
-                                    <i class="fa fa-clock-o bg-gray"></i>
-                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
 }

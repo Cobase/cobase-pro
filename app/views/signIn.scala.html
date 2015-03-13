@@ -9,15 +9,12 @@
     <div class="login-box">
         <div class="login-logo">
             <a href="../../index2.html"><b>Cobase</b>PRO</a>
-        </div><!-- /.login-logo -->
-
+        </div>
         <div class="login-box-body">
             <p class="login-box-msg">Login into system</p>
-            
             @request.flash.get("error").map { msg =>
                 <p class="login-box-msg"><strong>Error:</strong> @msg</p>
             }
-            
             @helper.form(action = routes.CredentialsAuthController.authenticate()) {
                 @text(signInForm("identifier"), "Email", icon = "at")
                 @password(signInForm("password"), "Password", icon = "key")
@@ -33,11 +30,8 @@
                         <button type="submit" class="btn btn-success btn-block btn-flat">Sign In</button>
                     </div><!-- /.col -->
                 </div>
-                
             }
-
             <p class="not-a-member top20">Not a member? <a href="@routes.ApplicationController.signUp">Sign up now</a></p>
-            
-        </div><!-- /.login-box-body -->
-    </div><!-- /.login-box -->
+        </div>
+    </div>
 }

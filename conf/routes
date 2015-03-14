@@ -13,10 +13,12 @@ POST        /signUp                          @controllers.SignUpController.signU
 
 GET         /newGroup                        @controllers.GroupController.newGroupForm
 POST        /newGroup                        @controllers.GroupController.createGroup
-GET         /group/:groupId                  @controllers.GroupController.listGroupPosts(groupId: Long)
-POST        /group/:groupId                  @controllers.GroupController.createGroupPost(groupId: Long)
+GET         /group/:groupId                  @controllers.PostController.listGroupPosts(groupId: Long)
+POST        /group/:groupId                  @controllers.PostController.createGroupPost(groupId: Long)
 GET         /editGroup/:groupId              @controllers.GroupController.editGroupForm(groupId: Long)
 POST        /editGroup/:groupId              @controllers.GroupController.updateGroup(groupId: Long)
+GET         /editPost/:postId                @controllers.PostController.editPostForm(postId: Long)
+POST        /editPost/:postId                @controllers.PostController.updatePost(postId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)

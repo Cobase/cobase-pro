@@ -105,7 +105,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         Future.successful(
           Redirect(
             routes.ApplicationController.index()).flashing("info" -> Messages("group.updated")
-            )
+          )
         )
       }
     )

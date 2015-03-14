@@ -40,4 +40,8 @@ class GroupService @Inject() (groupDAO: GroupDAO) {
     groupDAO.save(group)
   }
 
+  def update(group: Group) = {
+    groupDAO.update(group)
+  }
+
 }

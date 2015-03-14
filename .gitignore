@@ -20,3 +20,4 @@ conf/twitter.conf
 activator
 /deploy.sh
 /update.sh
+/nohup.out

@@ -172,9 +172,17 @@ div.mode-buttons {
 .wordbreak {
   word-wrap: break-word;
 }
-/*
- Main content transition removal
- */
+.edit-group-link {
+  position: relative;
+  top: 5px;
+  right: 3px;
+}
+
+.blank-page, .login-box, .register-box {
+  width: 360px;
+  margin: 7% auto;
+}
+
 .content-wrapper,
 .right-side,
 .main-footer {
@@ -186,6 +194,7 @@ div.mode-buttons {
   -o-transition: none;
   transition: none;
 }
+
 @media (max-width: 991px) {
   #twitter-feed h3 {
     margin-top: 20px;

@@ -86,4 +86,19 @@ class GroupDAO {
     }
   }
 
+  /**
+   * Updates a group with the group data.
+   *
+   * @param group
+   * @return Group
+   */
+  def update(group: Group) = {
+    DB withSession { implicit session =>
+      Future.successful {
+        slickGroups.filter(_.id === group.id).update(group)
+        group
+      }
+    }
+  }
+
 }

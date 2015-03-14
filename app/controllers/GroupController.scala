@@ -63,7 +63,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   }
 
   /**
-   * Display new group form.
+   * Display edit group form.
    *
    * @return The result to display.
    */
@@ -79,7 +79,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   }
 
   /**
-   * Handles the creation of a group.
+   * Handles the update of a group.
    *
    * @return The result to display.
    */

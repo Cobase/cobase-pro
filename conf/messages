@@ -7,3 +7,4 @@ user.exists = User already exists with this email!
 form.validation.error = Please check the input fields!
 
 group.created = New group created successfully!
+group.updated = Group updated successfully!

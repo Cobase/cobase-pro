@@ -6,7 +6,7 @@ import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 import scala.concurrent.Future
 
-import forms.{GroupForm, PostForm}
+import forms.{GroupForm, GroupFormData, PostForm}
 import models.User
 import models.Group
 import models.Post
@@ -26,7 +26,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
    *
    * @return The result to display.
    */
-  def index = SecuredAction.async { implicit request =>
+  def newGroupForm = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
 
     Future.successful(Ok(views.html.newGroup(request.identity, groupLinks, GroupForm.form)))
@@ -56,6 +56,55 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         Future.successful(
           Redirect(
             routes.ApplicationController.index()).flashing("info" -> Messages("group.created")
+          )
+        )
+      }
+    )
+  }
+
+  /**
+   * Display edit group form.
+   *
+   * @return The result to display.
+   */
+  def editGroupForm(groupId: Long) = SecuredAction.async { implicit request =>
+    val groupLinks = groupService.findGroupLinks
+    val group = groupService.findById(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    val filledForm = GroupForm.form.fill(GroupFormData(group.get.title, group.get.tags))
+
+    Future.successful(Ok(views.html.editGroup(request.identity, groupLinks, filledForm, group.get)))
+  }
+
+  /**
+   * Handles the update of a group.
+   *
+   * @return The result to display.
+   */
+  def updateGroup(groupId: Long) = SecuredAction.async { implicit request =>
+    val groupLinks = groupService.findGroupLinks
+    val group = groupService.findById(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    GroupForm.form.bindFromRequest.fold(
+      formWithErrors => {
+        println(formWithErrors.errors)
+        Future.successful(
+          Ok(
+            views.html.editGroup(request.identity, groupLinks, formWithErrors, group.get)
+          )
+        )
+      },
+      data => {
+        groupService.update(
+          Group(group.get.id, data.title, data.tags)
+        )
+        Future.successful(
+          Redirect(
+            routes.ApplicationController.index()).flashing("info" -> Messages("group.updated")
           )
         )
       }

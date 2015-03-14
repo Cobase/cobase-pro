@@ -13,7 +13,7 @@ import models.services.{GroupService, PostService, TwitterService}
 import models.exceptions._
 
 /**
- * The group controller.
+ * The post controller.
  *
  * @param env The Silhouette environment.
  */
@@ -24,7 +24,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
   extends Silhouette[User, SessionAuthenticator] {
 
   /**
-   * Display edit group form.
+   * Display edit post form.
    *
    * @return The result to display.
    */
@@ -41,7 +41,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
   }
 
   /**
-   * Handles the update of a group.
+   * Handles the update of a post.
    *
    * @return The result to display.
    */

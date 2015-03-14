@@ -4,5 +4,5 @@
 @import utils.helpers.Linkify;
 
 @{ val l = new Linkify()
-    Html(l.convert(content))
+    Html(l.convert(content).replace("\n", "<br/>"))
 }

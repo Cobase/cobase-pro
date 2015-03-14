@@ -150,7 +150,7 @@
                     </li>
                     @groupLinks.map { groupLink =>
                         <li>
-                            <a href="@routes.GroupController.listGroupPosts(groupLink.id)">
+                            <a href="@routes.PostController.listGroupPosts(groupLink.id)">
                                 <i class="fa fa-files-o"></i> <span>@groupLink.title</span>
                                 <span class="label label-primary pull-right">@groupLink.count</span>
                             </a>

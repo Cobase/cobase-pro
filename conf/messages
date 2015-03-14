@@ -8,3 +8,5 @@ form.validation.error = Please check the input fields!
 
 group.created = New group created successfully!
 group.updated = Group updated successfully!
+
+post.updated = Post updated successfully!

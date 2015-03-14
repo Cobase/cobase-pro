@@ -2,7 +2,7 @@ package models.services
 
 import javax.inject.Inject
 
-import models.Post
+import models.{Group, Post}
 import models.daos._
 
 /**
@@ -43,6 +43,16 @@ class PostService @Inject() (postDAO: PostDAO) {
    */
   def save(post: Post) = {
     postDAO.save(post)
+  }
+
+  /**
+   * Updates a post with given data.
+   * *
+   * @param post
+   * @return Post
+   */
+  def update(post: Post) = {
+    postDAO.update(post)
   }
 
 }

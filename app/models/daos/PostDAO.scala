@@ -1,6 +1,6 @@
 package models.daos
 
-import models.Post
+import models.{Group, Post}
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
 import models.daos.DBTableDefinitions._
@@ -62,6 +62,21 @@ class PostDAO {
     DB withSession { implicit session =>
       Future.successful {
         slickPosts.insert(post)
+        post
+      }
+    }
+  }
+
+  /**
+   * Updates a post with the post data.
+   *
+   * @param post
+   * @return Post
+   */
+  def update(post: Post) = {
+    DB withSession { implicit session =>
+      Future.successful {
+        slickPosts.filter(_.id === post.id).update(post)
         post
       }
     }

@@ -32,12 +32,19 @@
                 <div class="row">
                     <div class="col-md-12">
 
+                        @request.flash.get("info").map { msg =>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <i class="icon fa fa-check"></i> @msg
+                        </div>
+                        }
+
                         <div class="box box-primary">
                             <div class="box-header">
                                 <h3 class="box-title">What's on your mind?</h3>
                             </div>
                             <div class="box-body">
-                                @helper.form(action = routes.GroupController.createGroupPost(group.get.id)) {
+                                @helper.form(action = routes.PostController.createGroupPost(group.get.id)) {
                                 @textarea(postForm("content"), "Post content", icon = "")
                                 <div class="row">
                                     <div class="col-xs-4">
@@ -62,6 +69,9 @@
                                         <h3 class="timeline-header">@post.createdBy</h3>
                                         <div class="timeline-body wordbreak">
                                             @linkify(post.content)
+                                        </div>
+                                        <div style="text-align: right; padding-right: 7px; padding-bottom: 2px;">
+                                            <a href="@routes.PostController.editPostForm(post.id)"><i class="fa fa-edit"></i></a>
                                         </div>
                                     </div>
                                 </li>

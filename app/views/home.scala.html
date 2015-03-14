@@ -1,9 +1,14 @@
 @import scala.concurrent.Future
+@import views.html.helpers._
+@import java.util.Date
 
-@(user: models.User, groupLinks: List[GroupLink])(implicit request: RequestHeader)
+@(user: models.User,
+  groupLinks: List[GroupLink],
+  dashboardPosts: List[DashboardPost]
+)(implicit request: RequestHeader)
 
 @pageTitle = {
-    Dashboard
+    Dashboard - Latest posts
 }
 
 @breadCrumbTitle = {
@@ -11,18 +16,35 @@
 }
         
 @main("CobasePRO - Dashboard", Some(user), groupLinks, pageTitle, breadCrumbTitle) {
-    <div class="user col-md-12">
 
-        @request.flash.get("info").map { msg =>
-            <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <i class="icon fa fa-check"></i> @msg
-            </div>
-        }
+    @request.flash.get("info").map { msg =>
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="icon fa fa-check"></i> @msg
+        </div>
+    }
 
-        <div class="row">
-            <h4 class="col-md-12">No posts found from any of the groups you have been subscribed to.</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="timeline">
+                @dashboardPosts.map { post =>
+                <li>
+                    <i class="fa fa-comments bg-yellow"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
+                        <h3 class="timeline-header">@post.createdBy &raquo; <a href="@routes.PostController.listGroupPosts(post.groupId)">@post.groupTitle</a></h3>
+                        <div class="timeline-body wordbreak">
+                            @linkify(post.content)
+                        </div>
+                    </div>
+                </li>
+                }
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+            </ul>
         </div>
     </div>
+
 }
         

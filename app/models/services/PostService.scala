@@ -3,6 +3,7 @@ package models.services
 import javax.inject.Inject
 
 import models.{Group, Post}
+import models.User
 import models.daos._
 
 /**
@@ -53,6 +54,10 @@ class PostService @Inject() (postDAO: PostDAO) {
    */
   def update(post: Post) = {
     postDAO.update(post)
+  }
+
+  def getDashboardPosts(user: User) = {
+    postDAO.getDashboardPosts(user)
   }
 
 }

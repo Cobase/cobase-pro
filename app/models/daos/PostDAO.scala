@@ -1,12 +1,16 @@
 package models.daos
 
-import models.{Group, Post}
+import models.{Post, DashboardPost}
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
+import scala.slick.jdbc.{GetResult, StaticQuery => Q}
 import models.daos.DBTableDefinitions._
 import scala.concurrent.Future
 import play.Logger
+import models.User
 import play.api.Play.current
+
+import scala.slick.jdbc.{StaticQuery, GetResult}
 
 /**
  * Give access to the user object using Slick
@@ -79,6 +83,37 @@ class PostDAO {
         slickPosts.filter(_.id === post.id).update(post)
         post
       }
+    }
+  }
+
+  /**
+   * Get posts related to user's subscriptions
+   *
+   * @return Seq[DashboardPosts]
+   */
+  def getDashboardPosts(user: User): List[DashboardPost] = {
+    DB withSession { implicit session =>
+
+      implicit val getPostResult =
+        GetResult(r =>
+          DashboardPost(r.nextString().toString(), r.nextString().toString(), r.nextLong(), r.nextString().toString(), r.nextLong())
+        )
+
+      val dashboardPosts = Q[DashboardPost] +
+        """
+            SELECT
+              p.content, p.created_by, p.created_timestamp, g.title, g.id
+            FROM
+              posts p
+            LEFT JOIN
+              groups g
+            ON
+              g.id = p.group_id
+            ORDER BY p.created_timestamp DESC
+            LIMIT 25
+        """
+
+      dashboardPosts.list
     }
   }
 

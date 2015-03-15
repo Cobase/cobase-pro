@@ -2,8 +2,7 @@ package models.services
 
 import javax.inject.Inject
 
-import models.Group
-import models.GroupLink
+import models.{Group, GroupLink}
 import models.daos.GroupDAO
 
 /**

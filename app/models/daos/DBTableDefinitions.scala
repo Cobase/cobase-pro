@@ -1,8 +1,8 @@
 package models.daos
 
 import play.api.db.slick.Config.driver.simple._
-import models.Group
-import models.Post
+import java.util.UUID
+import models.{Group, Post, Subscription}
 
 object DBTableDefinitions {
 
@@ -138,6 +138,13 @@ object DBTableDefinitions {
     def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
   }
 
+  class Subscriptions(tag: Tag) extends Table[Subscription](tag, "subscriptions") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    def userId = column[UUID]("user_id")
+    def groupId = column[Long]("group_id")
+    def * = (id, userId, groupId) <> (Subscription.tupled, Subscription.unapply)
+  }
+
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
   val slickUserLoginInfos = TableQuery[UserLoginInfos]
@@ -148,4 +155,5 @@ object DBTableDefinitions {
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
   val slickGroups = TableQuery[Groups]
   val slickPosts = TableQuery[Posts]
+  val slickSubscriptions = TableQuery[Subscriptions]
 }

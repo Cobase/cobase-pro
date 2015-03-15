@@ -19,6 +19,8 @@ GET         /editGroup/:groupId              @controllers.GroupController.editGr
 POST        /editGroup/:groupId              @controllers.GroupController.updateGroup(groupId: Long)
 GET         /editPost/:postId                @controllers.PostController.editPostForm(postId: Long)
 POST        /editPost/:postId                @controllers.PostController.updatePost(postId: Long)
+GET         /subscribe/:groupId              @controllers.GroupController.subscribe(groupId: Long)
+GET         /unsubscribe/:groupId            @controllers.GroupController.unsubscribe(groupId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)

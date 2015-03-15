@@ -4,6 +4,7 @@ import models.{Post, DashboardPost}
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
 import scala.slick.jdbc.{GetResult, StaticQuery => Q}
+import Q.interpolation
 import models.daos.DBTableDefinitions._
 import scala.concurrent.Future
 import play.Logger
@@ -93,24 +94,24 @@ class PostDAO {
    */
   def getDashboardPosts(user: User): List[DashboardPost] = {
     DB withSession { implicit session =>
-
       implicit val getPostResult =
         GetResult(r =>
           DashboardPost(r.nextString().toString(), r.nextString().toString(), r.nextLong(), r.nextString().toString(), r.nextLong())
         )
 
+      val userId = user.userID
+
       val dashboardPosts = Q[DashboardPost] +
-        """
+        s"""
             SELECT
               p.content, p.created_by, p.created_timestamp, g.title, g.id
             FROM
-              posts p
-            LEFT JOIN
-              groups g
-            ON
-              g.id = p.group_id
+              posts p, groups g, subscriptions s
+            WHERE
+              g.id = p.group_id AND
+              s.group_id = p.group_id AND
+              s.user_id = '$userId'
             ORDER BY p.created_timestamp DESC
-            LIMIT 25
         """
 
       dashboardPosts.list

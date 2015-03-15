@@ -1,7 +1,6 @@
 package models.daos
 
-import models.Group
-import models.GroupLink
+import models.{User, Group, GroupLink}
 import play.api.db.slick._
 import play.api.db.slick.Config.driver.simple._
 import scala.slick.jdbc.{GetResult, StaticQuery => Q}

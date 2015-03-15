@@ -8,5 +8,7 @@ form.validation.error = Please check the input fields!
 
 group.created = New group created successfully!
 group.updated = Group updated successfully!
-
 post.updated = Post updated successfully!
+
+group.subscribe = Subscription to group added successfully!
+group.unsubscribe = Subscription to group removed successfully!

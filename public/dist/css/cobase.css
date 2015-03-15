@@ -17,7 +17,7 @@ body {
   float: left;
   height: 50px;
   font-size: 20px;
-  line-height: 50px;
+  line-height: 43px;
   text-align: right;
   width: 230px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -205,9 +205,6 @@ div.mode-buttons {
   }
   .timeline > li > .twitter-item > .timeline-body, .timeline > li > .twitter-item > .timeline-footer {
     padding-top: 0px;
-  }
-  .timeline > li {
-    margin-bottom: 5px;
   }
 }
 

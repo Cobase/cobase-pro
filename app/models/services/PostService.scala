@@ -2,8 +2,7 @@ package models.services
 
 import javax.inject.Inject
 
-import models.{Group, Post}
-import models.User
+import models.{DashboardPost, Group, Post, User}
 import models.daos._
 
 /**
@@ -56,7 +55,13 @@ class PostService @Inject() (postDAO: PostDAO) {
     postDAO.update(post)
   }
 
-  def getDashboardPosts(user: User) = {
+  /**
+   * Get posts found based on user subscriptions
+   *
+   * @param user User
+   * @return
+   */
+  def getDashboardPosts(user: User): List[DashboardPost] = {
     postDAO.getDashboardPosts(user)
   }
 

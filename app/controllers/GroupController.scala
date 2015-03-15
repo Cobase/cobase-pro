@@ -7,10 +7,8 @@ import play.api.i18n.Messages
 import scala.concurrent.Future
 
 import forms.{GroupForm, GroupFormData, PostForm}
-import models.User
-import models.Group
-import models.Post
-import models.services.{GroupService, PostService, TwitterService}
+import models.{User, Group, Post}
+import models.services.{GroupService, PostService, SubscriptionService, TwitterService}
 import models.exceptions._
 
 /**
@@ -21,6 +19,7 @@ import models.exceptions._
 class GroupController @Inject() (implicit val env: Environment[User, SessionAuthenticator],
                                  groupService: GroupService,
                                  postService: PostService,
+                                 subscriptionService: SubscriptionService,
                                  twitterService: TwitterService)
   extends Silhouette[User, SessionAuthenticator] {
 
@@ -45,7 +44,6 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
 
     GroupForm.form.bindFromRequest.fold(
       formWithErrors => {
-        println(formWithErrors.errors)
         Future.successful(
           Ok(
             views.html.newGroup(request.identity, groupLinks, formWithErrors)
@@ -94,7 +92,6 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
 
     GroupForm.form.bindFromRequest.fold(
       formWithErrors => {
-        println(formWithErrors.errors)
         Future.successful(
           Ok(
             views.html.editGroup(request.identity, groupLinks, formWithErrors, group.get)
@@ -126,10 +123,51 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
 
     if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
 
+    val subscribed = subscriptionService.isUserSubscribedToGroup(request.identity, group.get)
     val posts = postService.findLatestPostsForGroup(groupId)
     val tweets = twitterService.getGroupTweets(group.get.tags)
 
-    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, PostForm.form)))
+    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, subscribed, PostForm.form)))
+  }
+
+  /**
+   * Subscribe user to a group
+   *
+   * @param groupId
+   * @return
+   */
+  def subscribe(groupId: Long) = SecuredAction.async { implicit request =>
+    val group = groupService.findById(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    subscriptionService.subscribeUserToGroup(request.identity, group.get)
+
+    Future.successful(
+      Redirect(
+        routes.ApplicationController.index()).flashing("info" -> Messages("group.subscribe")
+      )
+    )
+  }
+
+  /**
+   * Unsubscribe user from a group
+   *
+   * @param groupId
+   * @return
+   */
+  def unsubscribe(groupId: Long) = SecuredAction.async { implicit request =>
+    val group = groupService.findById(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    subscriptionService.unsubscribeUserFromGroup(request.identity, group.get)
+
+    Future.successful(
+      Redirect(
+        routes.ApplicationController.index()).flashing("info" -> Messages("group.unsubscribe")
+      )
+    )
   }
 
 }

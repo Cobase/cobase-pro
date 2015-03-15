@@ -28,7 +28,7 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 
 - JDK 6 or later
 - Activator (https://typesafe.com/activator)
-- PostgreSQL
+- PostgreSQL / MySQL
 
 
 ## Installation

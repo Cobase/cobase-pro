@@ -107,11 +107,29 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         )
         Future.successful(
           Redirect(
-            routes.PostController.listGroupPosts(group.get.id)).flashing("info" -> Messages("group.updated")
+            routes.GroupController.listGroupPosts(group.get.id)).flashing("info" -> Messages("group.updated")
           )
         )
       }
     )
+  }
+
+  /**
+   * Get posts for a given group
+   * *
+   * @param groupId
+   * @return
+   */
+  def listGroupPosts(groupId: Long) = SecuredAction.async { implicit request =>
+    val groupLinks = groupService.findGroupLinks
+    val group = groupService.findById(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    val posts = postService.findLatestPostsForGroup(groupId)
+    val tweets = twitterService.getGroupTweets(group.get.tags)
+
+    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, PostForm.form)))
   }
 
 }

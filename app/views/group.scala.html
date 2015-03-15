@@ -44,7 +44,7 @@
                                 <h3 class="box-title">What's on your mind?</h3>
                             </div>
                             <div class="box-body">
-                                @helper.form(action = routes.PostController.createGroupPost(group.get.id)) {
+                                @helper.form(action = routes.PostController.createPost(group.get.id)) {
                                 @textarea(postForm("content"), "Post content", icon = "")
                                 <div class="row">
                                     <div class="col-xs-4">

@@ -11,11 +11,7 @@
     Dashboard - Latest posts
 }
 
-@breadCrumbTitle = {
-    <li class="active">Dashboard</li>
-}
-        
-@main("CobasePRO - Dashboard", Some(user), groupLinks, pageTitle, breadCrumbTitle) {
+@main("CobasePRO - Dashboard", Some(user), groupLinks, pageTitle) {
 
     @request.flash.get("info").map { msg =>
         <div class="alert alert-success alert-dismissable">
@@ -26,23 +22,32 @@
 
     <div class="row">
         <div class="col-md-12">
-            <ul class="timeline">
-                @dashboardPosts.map { post =>
-                <li>
-                    <i class="fa fa-comments bg-yellow"></i>
-                    <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
-                        <h3 class="timeline-header">@post.createdBy &raquo; <a href="@routes.GroupController.listGroupPosts(post.groupId)">@post.groupTitle</a></h3>
-                        <div class="timeline-body wordbreak">
-                            @linkify(post.content)
-                        </div>
-                    </div>
-                </li>
+            @dashboardPosts.isEmpty match {
+                case true => {
+                    <h4>There are no posts to show</h4>
+                    <h5>On this page you will see latest posts from all the groups you have subscribed to. This way you will be informed of only those posts that relate to your interests.</h5>
+                    <h5>Based on the groups you have been subscribed to, there are no posts found. You can either wait for new posts or try to subscribe to more groups.</h5>
                 }
-                <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                </li>
-            </ul>
+                case _ => {
+                    @dashboardPosts.map { post =>
+                    <ul class="timeline">
+                        <li>
+                            <i class="fa fa-comments bg-yellow"></i>
+                            <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
+                                <h3 class="timeline-header">@post.createdBy &raquo; <a href="@routes.GroupController.listGroupPosts(post.groupId)">@post.groupTitle</a></h3>
+                                <div class="timeline-body wordbreak">
+                                    @linkify(post.content)
+                                </div>
+                            </div>
+                        </li>
+                        }
+                        <li>
+                            <i class="fa fa-clock-o bg-gray"></i>
+                        </li>
+                    </ul>
+                }
+            }
         </div>
     </div>
 

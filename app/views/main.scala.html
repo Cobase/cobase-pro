@@ -4,8 +4,7 @@
 @(title: String, 
   user: Option[models.User] = None, 
   groupLinks: List[GroupLink],
-  pageTitle: Html = Html(""),
-  breadCrumbTitle: Html = Html("")
+  pageTitle: Html = Html("")
 )(content: Html)
 
 <!DOCTYPE html>
@@ -144,7 +143,7 @@
                     </div>
                 </form>
                 <ul class="sidebar-menu">
-                    <li class="header">GROUPS</li>
+                    <li class="header">ALL GROUPS</li>
                     <li>
                         <a href="@routes.GroupController.newGroupForm">
                             <i class="fa fa-plus"></i> <span>Create new group</span>
@@ -172,10 +171,6 @@
                 <h1 style="margin-bottom: 20px">
                     @pageTitle
                 </h1>
-                <ol class="breadcrumb">
-                    <li><a href="@routes.ApplicationController.index">Home</a></li>
-                    @breadCrumbTitle
-                </ol>
             </section>
             <section class="content">
                 @content

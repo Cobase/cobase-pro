@@ -10,6 +10,7 @@
   group: Option[Group], 
   posts: List[Post], 
   tweets: Option[List[twitter4j.Status]],
+  subscribed: Boolean,
   postForm: Form[forms.PostFormData]
 )(implicit request: RequestHeader)
 
@@ -17,11 +18,7 @@
     @group.get.title
 }
 
-@breadCrumbTitle = {
-    <li class="active">Group</li>
-}
-
-@main("CobasePRO - " + group.get.title, Some(user), groupLinks, pageTitle, breadCrumbTitle) {
+@main("CobasePRO - " + group.get.title, Some(user), groupLinks, pageTitle) {
     <div class="row">
         @if(!tweets) {
             <div class="col-md-12">
@@ -50,8 +47,17 @@
                                     <div class="col-xs-4">
                                         <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>
                                     </div><!-- /.col -->
-                                    <div class="col-xs-8 text-right">
-                                        <a class="edit-group-link" href="@routes.GroupController.editGroupForm(group.get.id)">Edit group</a>
+                                    <div class="col-xs-8 text-right edit-group-link">
+                                        @subscribed match {
+                                            case true => {
+                                                <a href="@routes.GroupController.unsubscribe(group.get.id)">Unsubscribe</a>
+                                            }
+                                            case false => {
+                                                <a href="@routes.GroupController.subscribe(group.get.id)">Subscribe</a>
+                                            }
+                                        }
+                                        &nbsp;|&nbsp;
+                                        <a href="@routes.GroupController.editGroupForm(group.get.id)">Edit group</a>
                                     </div>
                                 </div>
                                 }

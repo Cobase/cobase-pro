@@ -9,7 +9,7 @@ import scala.concurrent.Future
 import forms.{PostFormData, PostForm}
 import models.User
 import models.Post
-import models.services.{GroupService, PostService, TwitterService}
+import models.services.{GroupService, PostService, TwitterService, SubscriptionService}
 import models.exceptions._
 
 /**
@@ -20,7 +20,8 @@ import models.exceptions._
 class PostController @Inject() (implicit val env: Environment[User, SessionAuthenticator],
                                 groupService: GroupService,
                                 postService: PostService,
-                                twitterService: TwitterService)
+                                twitterService: TwitterService,
+                                subscriptionService: SubscriptionService)
   extends Silhouette[User, SessionAuthenticator] {
 
   /**
@@ -55,7 +56,6 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
 
     PostForm.form.bindFromRequest.fold(
       formWithErrors => {
-        println(formWithErrors.errors)
         Future.successful(
           Ok(
             views.html.editPost(request.identity, groupLinks, formWithErrors, group.get, post.get)
@@ -86,6 +86,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
 
     if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
 
+    val subscribed = subscriptionService.isUserSubscribedToGroup(request.identity, group.get)
     val posts = postService.findLatestPostsForGroup(groupId)
     val tweets = twitterService.getGroupTweets(group.get.tags)
 
@@ -93,7 +94,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
       formWithErrors => {
         Future.successful(
           Ok(
-            views.html.group(request.identity, groupLinks, group, posts, tweets, formWithErrors)
+            views.html.group(request.identity, groupLinks, group, posts, tweets, subscribed, formWithErrors)
           )
         )
       },

@@ -32,7 +32,7 @@
                     <i class="fa fa-comments bg-yellow"></i>
                     <div class="timeline-item">
                         <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
-                        <h3 class="timeline-header">@post.createdBy &raquo; <a href="@routes.PostController.listGroupPosts(post.groupId)">@post.groupTitle</a></h3>
+                        <h3 class="timeline-header">@post.createdBy &raquo; <a href="@routes.GroupController.listGroupPosts(post.groupId)">@post.groupTitle</a></h3>
                         <div class="timeline-body wordbreak">
                             @linkify(post.content)
                         </div>

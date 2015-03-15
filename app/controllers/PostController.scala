@@ -68,7 +68,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
         )
         Future.successful(
           Redirect(
-            routes.PostController.listGroupPosts(group.get.id)).flashing("info" -> Messages("post.updated")
+            routes.GroupController.listGroupPosts(group.get.id)).flashing("info" -> Messages("post.updated")
           )
         )
       }
@@ -76,29 +76,11 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
   }
 
   /**
-   * Get posts for a given group
-   * *
-   * @param groupId
-   * @return
-   */
-  def listGroupPosts(groupId: Long) = SecuredAction.async { implicit request =>
-    val groupLinks = groupService.findGroupLinks
-    val group = groupService.findById(groupId)
-
-    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
-
-    val posts = postService.findLatestPostsForGroup(groupId)
-    val tweets = twitterService.getGroupTweets(group.get.tags)
-
-    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, PostForm.form)))
-  }
-
-  /**
    * Handles the creation of a post into group.
    *
    * @return The result to display.
    */
-  def createGroupPost(groupId: Long) = SecuredAction.async { implicit request =>
+  def createPost(groupId: Long) = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
 
@@ -122,7 +104,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
         )
         Future.successful(
           Redirect(
-            routes.PostController.listGroupPosts(groupId)
+            routes.GroupController.listGroupPosts(groupId)
           )
         )
       }

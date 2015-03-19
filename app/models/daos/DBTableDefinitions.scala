@@ -126,6 +126,7 @@ object DBTableDefinitions {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def title = column[String]("title")
     def tags = column[String]("tags")
+    def idx = index("idx_group_id", (id), unique = true)
     def * = (id, title, tags) <> (Group.tupled, Group.unapply)
   }
 
@@ -135,6 +136,7 @@ object DBTableDefinitions {
     def groupId = column[Long]("group_id")
     def createdBy = column[Option[String]]("created_by")
     def createdTimestamp = column[Long]("created_timestamp")
+    def idx = index("idx_post_group", (groupId), unique = false)
     def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
   }
 
@@ -142,6 +144,9 @@ object DBTableDefinitions {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def userId = column[UUID]("user_id")
     def groupId = column[Long]("group_id")
+    def idx1 = index("idx_subscr_group", (groupId), unique = false)
+    def idx2 = index("idx_subscr_user", (userId), unique = false)
+    def idx3 = index("idx_subscr_comb", (groupId, userId), unique = true)
     def * = (id, userId, groupId) <> (Subscription.tupled, Subscription.unapply)
   }
 

@@ -11,7 +11,8 @@ resolvers := ("Atlassian Releases" at "https://maven.atlassian.com/public/") +: 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= Seq(
-  "com.mohiva" %% "play-silhouette" % "2.0-SNAPSHOT",
+  "com.mohiva" %% "play-silhouette" % "2.0",
+  "com.mohiva" %% "play-silhouette-testkit" % "2.0" % "test",
   "org.webjars" %% "webjars-play" % "2.3.0",
   "org.webjars" % "bootstrap" % "3.1.1",
   "org.webjars" % "jquery" % "1.11.0",
@@ -19,7 +20,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
   "mysql" % "mysql-connector-java" % "5.1.21",
-  "com.mohiva" %% "play-silhouette-testkit" % "2.0-SNAPSHOT" % "test",
   "com.github.nscala-time" %% "nscala-time" % "1.4.0",
   "com.ocpsoft" % "ocpsoft-pretty-time" % "1.0.7",
   "org.twitter4j" % "twitter4j-core" % "3.0.5",

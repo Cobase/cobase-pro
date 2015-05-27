@@ -44,6 +44,20 @@ class PostDAO {
   }
 
   /**
+   * Finds a post by a search phrase.
+   *
+   * @param phrase The search phrase.
+   * @return List of found posts.
+   */
+  def findByPhrase(phrase: String): List[Post] = {
+    DB withSession { implicit session =>
+      slickPosts.filter(
+        _.content.toLowerCase.like("%" + phrase.toLowerCase + "%")
+      ).list
+    }
+  }
+
+  /**
    * Finds all latest posts by group id.
    *
    * @param groupId The id of the group to find posts from.

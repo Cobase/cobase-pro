@@ -1,0 +1,53 @@
+@import scala.concurrent.Future
+@import views.html.helpers._
+@import java.util.Date
+
+@(user: models.User,
+groupLinks: List[GroupLink],
+posts: List[Post]
+)(implicit request: RequestHeader)
+
+@pageTitle = {
+    Search Results
+}
+
+@main("CobasePRO - Search results", Some(user), groupLinks, pageTitle) {
+
+@request.flash.get("info").map { msg =>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <i class="icon fa fa-check"></i> @msg
+    </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            @posts.isEmpty match {
+                case true => {
+                <h4>Sorry, we couldn't find any posts for you!</h4>
+                <h5>Try again with different search keyword and see if that helps.</h5>
+            }
+            case _ => {
+                @posts.map { post =>
+                <ul class="timeline">
+                    <li>
+                        <i class="fa fa-comments bg-yellow"></i>
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
+                            <h3 class="timeline-header">@post.createdBy</h3>
+                            <div class="timeline-body wordbreak">
+                                @linkify(post.content)
+                            </div>
+                        </div>
+                    </li>
+                    }
+                    <li>
+                        <i class="fa fa-clock-o bg-gray"></i>
+                    </li>
+                </ul>
+                }
+            }
+        </div>
+    </div>
+}
+        

@@ -28,6 +28,14 @@ class PostService @Inject() (postDAO: PostDAO) {
   def findById(postId: Long): Option[Post] = postDAO.findById(postId)
 
   /**
+   * Retrieves a post that matches the specified search phrase.
+   *
+   * @param phrase The search phrase.
+   * @return The retrieved post or None if no post could be retrieved for the given phrase.
+   */
+  def findByPhrase(phrase: String): List[Post] = postDAO.findByPhrase(phrase)
+
+  /**
    * Retrieves all latest posts for a group
    * *
    * @param groupId Group id to retrieve posts from.

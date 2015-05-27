@@ -26,7 +26,6 @@ GET         /editPost/:postId                @controllers.PostController.editPos
 POST        /editPost/:postId                @controllers.PostController.updatePost(postId: Long)
 
 # Search
-GET         /search                          @controllers.ApplicationController.index
 POST        /search                          @controllers.SearchController.searchPosts
 
 # Map static resources from the /public folder to the /assets URL path

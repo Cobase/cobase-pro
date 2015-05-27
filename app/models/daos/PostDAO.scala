@@ -53,7 +53,7 @@ class PostDAO {
     DB withSession { implicit session =>
       slickPosts.filter(
         _.content.toLowerCase.like("%" + phrase.toLowerCase + "%")
-      ).list
+      ).sortBy(_.id.desc).list
     }
   }
 

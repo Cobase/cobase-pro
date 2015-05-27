@@ -11,7 +11,7 @@ posts: List[Post]
     Search Results
 }
 
-@main("CobasePRO - Search results", Some(user), groupLinks, pageTitle) {
+@main("CobasePRO - Search results", Option(user), groupLinks, pageTitle) {
 
 @request.flash.get("info").map { msg =>
     <div class="alert alert-success alert-dismissable">

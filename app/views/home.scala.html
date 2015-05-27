@@ -11,7 +11,7 @@
     Dashboard - Latest posts
 }
 
-@main("CobasePRO - Dashboard", Some(user), groupLinks, pageTitle) {
+@main("CobasePRO - Dashboard", Option(user), groupLinks, pageTitle) {
 
     @request.flash.get("info").map { msg =>
         <div class="alert alert-success alert-dismissable">

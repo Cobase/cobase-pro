@@ -18,7 +18,7 @@
     @group.get.title
 }
 
-@main("CobasePRO - " + group.get.title, Some(user), groupLinks, pageTitle) {
+@main("CobasePRO - " + group.get.title, Option(user), groupLinks, pageTitle) {
     <div class="row">
         @if(!tweets) {
             <div class="col-md-12">

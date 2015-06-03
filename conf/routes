@@ -26,7 +26,6 @@ GET         /editPost/:postId                @cobase.play.post.PostController.ed
 POST        /editPost/:postId                @cobase.play.post.PostController.updatePost(postId: Long)
 
 # Search
-POST        /posts/search                    @cobase.play.post.SearchController.searchPosts
 GET         /posts/search                    @cobase.play.post.SearchController.searchPosts
 
 # Map static resources from the /public folder to the /assets URL path

@@ -1,0 +1,33 @@
+package cobase.twitter
+
+import play.api.Play.current
+import twitter4j.{Query, TwitterFactory}
+import twitter4j.auth.AccessToken
+
+import scala.collection.JavaConverters._
+
+class TwitterService {
+  def getGroupTweets(hashtags: String): Option[List[twitter4j.Status]] = {
+    val consumerKey = current.configuration.getString("twitter.consumerKey").getOrElse("")
+    val consumerSecret = current.configuration.getString("twitter.consumerSecret").getOrElse("")
+    val accessKey = current.configuration.getString("twitter.accessKey").getOrElse("")
+    val accessToken = current.configuration.getString("twitter.accessToken").getOrElse("")
+    val queryMode = current.configuration.getString("twitter.queryMode").getOrElse("OR")
+    val twitterQuery = hashtags.replace(",", " " + queryMode + " ");
+
+    val twitter = new TwitterFactory().getInstance()
+    twitter.setOAuthConsumer(consumerKey, consumerSecret)
+    twitter.setOAuthAccessToken(
+      new AccessToken(accessKey, accessToken)
+    )
+
+    try {
+      val query = new Query(twitterQuery);
+      val result = twitter.search(query)
+      val tweets = result.getTweets().asScala.toList
+      if (tweets.size > 0) Some(tweets) else None
+    } catch {
+      case e:Exception => None
+    }
+  }
+}

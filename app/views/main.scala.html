@@ -1,8 +1,9 @@
-@import scala.concurrent.Future
-@import scala.concurrent.ExecutionContext.Implicits.global
+@import cobase.user.{User, GroupLink}
+@import cobase.play.user.routes.{GroupController => groupControllerRoutes, ApplicationController => applicationControllerRoutes}
+@import cobase.play.post.routes.{SearchController => searchControllerRoutes}
 
-@(title: String, 
-  user: Option[models.User] = None, 
+@(title: String,
+  user: Option[User] = None,
   groupLinks: List[GroupLink],
   pageTitle: Html = Html("")
 )(content: Html)
@@ -34,7 +35,7 @@
 <body class="skin-blue fixed">
     <div class="wrapper">
         <header class="main-header">
-            <a href="@routes.ApplicationController.index" class="logo"><b>Cobase</b>PRO</a>
+            <a href="@applicationControllerRoutes.index" class="logo"><b>Cobase</b>PRO</a>
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -121,20 +122,20 @@
                 <div class="user-panel">
                     <div class="pull-left image">
                         @user.map { u =>
-                            <img src="@u.avatarURL.getOrElse(routes.Assets.at("images/silhouette.png"))" class="img-circle" alt="User Image" />
+                            <img src="@u.avatarURL.getOrElse(controllers.routes.Assets.at("images/silhouette.png"))" class="img-circle" alt="User Image" />
                         }.getOrElse {}
                     </div>
                     <div class="pull-left info">
                         <p>
                             @user.map { u =>
-                                <a href="@routes.ApplicationController.index">@u.fullName</a>
+                                <a href="@applicationControllerRoutes.index">@u.fullName</a>
                             }.getOrElse {}
                         </p>
 
-                        <a href="@routes.ApplicationController.index"><i class="fa fa-circle text-success"></i> Online</a>
+                        <a href="@applicationControllerRoutes.index"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
-                <form action="@routes.SearchController.searchPosts" method="post" class="sidebar-form">
+                <form action="@searchControllerRoutes.searchPosts" method="post" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="phrase" class="form-control" placeholder="Search..." required/>
                       <span class="input-group-btn">
@@ -145,20 +146,20 @@
                 <ul class="sidebar-menu">
                     <li class="header">ALL GROUPS</li>
                     <li>
-                        <a href="@routes.GroupController.newGroupForm">
+                        <a href="@groupControllerRoutes.newGroupForm">
                             <i class="fa fa-plus"></i> <span>Create new group</span>
                         </a>
                     </li>
                     @groupLinks.map { groupLink =>
                         <li>
-                            <a href="@routes.GroupController.listGroupPosts(groupLink.id)">
+                            <a href="@groupControllerRoutes.listGroupPosts(groupLink.id)">
                                 <i class="fa fa-files-o"></i> <span>@groupLink.title</span>
                                 <span class="label label-primary pull-right">@groupLink.count</span>
                             </a>
                         </li>
                     }
                     <li class="header">USER CONTROL</li>
-                    <li><a href="@routes.ApplicationController.signOut"><i class="fa fa-circle-o text-danger"></i> Logout</a></li>
+                    <li><a href="@applicationControllerRoutes.signOut"><i class="fa fa-circle-o text-danger"></i> Logout</a></li>
                     <!--
                     <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Profile</a></li>
                     <li><a href="#"><i class="fa fa-circle-o text-info"></i> Information</a></li>

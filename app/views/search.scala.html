@@ -1,11 +1,10 @@
-@import scala.concurrent.Future
 @import views.html.helpers._
 @import java.util.Date
 
-@(user: models.User,
-groupLinks: List[GroupLink],
-posts: List[Post]
-)(implicit request: RequestHeader)
+@import cobase.user.{User, GroupLink}
+@import cobase.post.Post
+
+@(user: User, groupLinks: List[GroupLink], posts: List[Post])(implicit request: RequestHeader)
 
 @pageTitle = {
     Search Results
@@ -50,4 +49,4 @@ posts: List[Post]
         </div>
     </div>
 }
-        
+

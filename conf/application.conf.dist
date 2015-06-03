@@ -16,7 +16,7 @@ application.langs="en"
 # ~~~~~
 # Define the Global object class for this application.
 # Default to Global in the root package.
-application.global=app.Global
+application.global=cobase.play.Global
 
 # Router
 # ~~~~~
@@ -42,7 +42,7 @@ db.default.pass="database_user_password"
 
 # play-slick configuration
 # ~~~~~
-slick.default="models.*"
+slick.default="cobase.*"
 silhouette.seed.db.useSlick=true
 
 # Evolutions

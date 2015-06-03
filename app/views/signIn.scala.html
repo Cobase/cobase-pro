@@ -1,9 +1,12 @@
-@(signInForm: Form[com.mohiva.play.silhouette.api.util.Credentials])(implicit env: com.mohiva.play.silhouette.api.Environment[User, _], request: RequestHeader)
-
+@import com.mohiva.play.silhouette.api.util.Credentials
+@import com.mohiva.play.silhouette.api.Environment
 @import com.mohiva.play.silhouette.impl.providers._
 @import views.html.helpers._
-@import play.api.Play
-@import play.api.Play.current
+
+@import cobase.user.User
+@import cobase.play.user.routes.{CredentialsAuthController => credentialsAuthControllerRoutes, ApplicationController => applicationControllerRoutes}
+
+@(signInForm: Form[Credentials])(implicit env: Environment[User, _], request: RequestHeader)
 
 @blank("CobasePRO - Sign In") {
     <div class="login-box">
@@ -15,7 +18,7 @@
             @request.flash.get("error").map { msg =>
                 <p class="login-box-msg"><strong>Error:</strong> @msg</p>
             }
-            @helper.form(action = routes.CredentialsAuthController.authenticate()) {
+            @helper.form(action = credentialsAuthControllerRoutes.authenticate()) {
                 @text(signInForm("identifier"), "Email", icon = "at")
                 @password(signInForm("password"), "Password", icon = "key")
                 <div class="row top20 bottom10">
@@ -31,7 +34,7 @@
                     </div><!-- /.col -->
                 </div>
             }
-            <p class="not-a-member top20">Not a member? <a href="@routes.ApplicationController.signUp">Sign up now</a></p>
+            <p class="not-a-member top20">Not a member? <a href="@applicationControllerRoutes.signUp">Sign up now</a></p>
         </div>
     </div>
 }

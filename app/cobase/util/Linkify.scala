@@ -1,26 +1,28 @@
 package cobase.util
 
+import xml.Utility.escape
+import java.net.URLEncoder
+
 class Linkify {
 
   /**
-   * Convert all URLs found in a string into A links.
+   * Convert all URLs into links and all hashtags into search url.
    * @param s
    * @return String
    */
   def convert(s: String): String = {
-    val escaped = xml.Utility.escape(s)
-    val urlRegex = """(href=")?([-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/?[-\p{L}0-9@:%_\+.~#?&\/\/=\(\)]*)?)""".r
-    urlRegex replaceAllIn (escaped, m => """<a href="%s">%s</a>""" format (m.matched, m.matched))
-  }
+    val urlRegex = """(?i)\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]""".r
+    val hashtagRegex = """#(\w*[a-zA-Z_0-9]+\w*)""".r
 
-  /**
-   * Escape string to HTML entities
-   *
-   * @param s
-   * @return String
-   */
-  def escape(s: String): String = {
-    xml.Utility.escape(s)
+    val urlConverted = urlRegex replaceAllIn
+      (escape(s), m => """<a href="%s">%s</a>"""
+        format (m.matched, m.matched))
+
+    val hashtagAndUrlConverted = hashtagRegex replaceAllIn
+      (urlConverted, m => """<a href="/posts/search?phrase=%s">%s</a>"""
+        format (URLEncoder.encode(m.matched, "UTF-8"), m.matched))
+
+    hashtagAndUrlConverted
   }
 
 }

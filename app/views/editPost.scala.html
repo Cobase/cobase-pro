@@ -1,15 +1,13 @@
-@import scala.concurrent.Future
-@import forms.PostForm
-@import models.Post
-@import models.Group
-
 @import views.html.helpers._
-@import play.api.Play
-@import play.api.Play.current
 
-@(user: models.User,
+@import cobase.user.{User, Group, GroupLink}
+@import cobase.post.Post
+@import cobase.play.post.PostFormData
+@import cobase.play.post.routes.{PostController => postControllerRoutes}
+
+@(user: User,
   groupLinks: List[GroupLink],
-  postForm: Form[forms.PostFormData],
+  postForm: Form[PostFormData],
   group: Group,
   post: Post
 )(implicit request: RequestHeader)
@@ -29,7 +27,7 @@
                 @request.flash.get("error").map { msg =>
                 <p class="register-box-msg"><strong>Error:</strong> @msg</p>
                 }
-                @helper.form(action = routes.PostController.updatePost(post.id)) {
+                @helper.form(action = postControllerRoutes.updatePost(post.id)) {
                 @textarea(postForm("content"), "Post content", icon = "")
                 <div class="row">
                     <div class="col-xs-4">

@@ -3,30 +3,30 @@
 # ~~~~
 
 # User Control
-GET         /                                @controllers.ApplicationController.index
-GET         /signIn                          @controllers.ApplicationController.signIn
-GET         /signUp                          @controllers.ApplicationController.signUp
-GET         /signOut                         @controllers.ApplicationController.signOut
-GET         /authenticate/:provider          @controllers.SocialAuthController.authenticate(provider)
-POST        /authenticate/credentials        @controllers.CredentialsAuthController.authenticate
-POST        /signUp                          @controllers.SignUpController.signUp
+GET         /                                @cobase.play.user.ApplicationController.index
+GET         /signIn                          @cobase.play.user.ApplicationController.signIn
+GET         /signUp                          @cobase.play.user.ApplicationController.signUp
+GET         /signOut                         @cobase.play.user.ApplicationController.signOut
+GET         /authenticate/:provider          @cobase.play.user.SocialAuthController.authenticate(provider)
+POST        /authenticate/credentials        @cobase.play.user.CredentialsAuthController.authenticate
+POST        /signUp                          @cobase.play.user.SignUpController.signUp
 
 # Group related
-GET         /newGroup                        @controllers.GroupController.newGroupForm
-POST        /newGroup                        @controllers.GroupController.createGroup
-GET         /group/:groupId                  @controllers.GroupController.listGroupPosts(groupId: Long)
-POST        /group/:groupId                  @controllers.PostController.createPost(groupId: Long)
-GET         /editGroup/:groupId              @controllers.GroupController.editGroupForm(groupId: Long)
-POST        /editGroup/:groupId              @controllers.GroupController.updateGroup(groupId: Long)
-GET         /subscribe/:groupId              @controllers.GroupController.subscribe(groupId: Long)
-GET         /unsubscribe/:groupId            @controllers.GroupController.unsubscribe(groupId: Long)
+GET         /newGroup                        @cobase.play.user.GroupController.newGroupForm
+POST        /newGroup                        @cobase.play.user.GroupController.createGroup
+GET         /group/:groupId                  @cobase.play.user.GroupController.listGroupPosts(groupId: Long)
+POST        /group/:groupId                  @cobase.play.post.PostController.createPost(groupId: Long)
+GET         /editGroup/:groupId              @cobase.play.user.GroupController.editGroupForm(groupId: Long)
+POST        /editGroup/:groupId              @cobase.play.user.GroupController.updateGroup(groupId: Long)
+GET         /subscribe/:groupId              @cobase.play.user.GroupController.subscribe(groupId: Long)
+GET         /unsubscribe/:groupId            @cobase.play.user.GroupController.unsubscribe(groupId: Long)
 
 # Post related
-GET         /editPost/:postId                @controllers.PostController.editPostForm(postId: Long)
-POST        /editPost/:postId                @controllers.PostController.updatePost(postId: Long)
+GET         /editPost/:postId                @cobase.play.post.PostController.editPostForm(postId: Long)
+POST        /editPost/:postId                @cobase.play.post.PostController.updatePost(postId: Long)
 
 # Search
-POST        /posts/search                    @controllers.SearchController.searchPosts
+POST        /posts/search                    @cobase.play.post.SearchController.searchPosts
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)

@@ -1,14 +1,12 @@
-@import scala.concurrent.Future
-@import forms.GroupForm
-@import models.Group
-
 @import views.html.helpers._
-@import play.api.Play
-@import play.api.Play.current
 
-@(user: models.User,
+@import cobase.user.{User, Group, GroupLink}
+@import cobase.play.user.GroupFormData
+@import cobase.play.user.routes.{GroupController => groupControllerRoutes}
+
+@(user: User,
   groupLinks: List[GroupLink],
-  groupForm: Form[forms.GroupFormData],
+  groupForm: Form[GroupFormData],
   group: Group
 )(implicit request: RequestHeader)
 
@@ -27,7 +25,7 @@
                 @request.flash.get("error").map { msg =>
                 <p class="register-box-msg"><strong>Error:</strong> @msg</p>
                 }
-                @helper.form(action = routes.GroupController.updateGroup(group.id)) {
+                @helper.form(action = groupControllerRoutes.updateGroup(group.id)) {
                 @text(groupForm("title"), "Title", icon = "")
                 @tags(groupForm("tags"), "Twitter hashtags")
                 <div class="row">

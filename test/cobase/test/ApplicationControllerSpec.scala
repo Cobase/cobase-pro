@@ -29,7 +29,7 @@ class ApplicationControllerSpec extends PlaySpecification with Mockito {
       status(redirectResult) must be equalTo SEE_OTHER
 
       val redirectURL = redirectLocation(redirectResult).getOrElse("")
-      redirectURL must contain(cobase.play.user.routes.ApplicationController.signIn().toString())
+      redirectURL must contain(cobase.play.user.routes.AuthenticationController.signIn.toString())
 
       val Some(unauthorizedResult) = route(FakeRequest(GET, redirectURL))
 

@@ -2,7 +2,7 @@
 @import java.util.Date
 
 @import cobase.user.{User, GroupLink}
-@import cobase.play.user.routes.{GroupController => groupControllerRoutes}
+@import cobase.play.post.routes.{PostController => postControllerRoutes}
 @import cobase.post.DashboardPost
 
 @(user: User,
@@ -38,7 +38,7 @@
                             <i class="fa fa-comments bg-yellow"></i>
                             <div class="timeline-item">
                                 <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
-                                <h3 class="timeline-header">@post.createdBy &raquo; <a href="@groupControllerRoutes.listGroupPosts(post.groupId)">@post.groupTitle</a></h3>
+                                <h3 class="timeline-header">@post.createdBy &raquo; <a href="@postControllerRoutes.viewPosts(post.groupId)">@post.groupTitle</a></h3>
                                 <div class="timeline-body wordbreak">
                                     @linkify(post.content)
                                 </div>

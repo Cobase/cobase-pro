@@ -25,23 +25,13 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
                                  twitterService: TwitterService)
   extends Silhouette[User, SessionAuthenticator] {
 
-  /**
-   * Display new group form.
-   *
-   * @return The result to display.
-   */
-  def newGroupForm = SecuredAction.async { implicit request =>
+  def addGroupForm() = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
 
     Future.successful(Ok(views.html.newGroup(request.identity, groupLinks, GroupForm.form)))
   }
 
-  /**
-   * Handles the creation of a group.
-   *
-   * @return The result to display.
-   */
-  def createGroup = SecuredAction.async { implicit request =>
+  def addGroup() = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
 
     GroupForm.form.bindFromRequest.fold(
@@ -81,12 +71,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     Future.successful(Ok(views.html.editGroup(request.identity, groupLinks, filledForm, group.get)))
   }
 
-  /**
-   * Handles the update of a group.
-   *
-   * @return The result to display.
-   */
-  def updateGroup(groupId: Long) = SecuredAction.async { implicit request =>
+  def editGroup(groupId: Long) = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
 
@@ -106,30 +91,11 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         )
         Future.successful(
           Redirect(
-            routes.GroupController.listGroupPosts(group.get.id)).flashing("info" -> Messages("group.updated")
+            cobase.play.post.routes.PostController.viewPosts(group.get.id)).flashing("info" -> Messages("group.updated")
           )
         )
       }
     )
-  }
-
-  /**
-   * Get posts for a given group
-   * *
-   * @param groupId
-   * @return
-   */
-  def listGroupPosts(groupId: Long) = SecuredAction.async { implicit request =>
-    val groupLinks = groupService.findGroupLinks
-    val group = groupService.findById(groupId)
-
-    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
-
-    val subscribed = subscriptionService.isUserSubscribedToGroup(request.identity, group.get)
-    val posts = postService.findLatestPostsForGroup(groupId)
-    val tweets = twitterService.getGroupTweets(group.get.tags)
-
-    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, subscribed, PostForm.form)))
   }
 
   /**

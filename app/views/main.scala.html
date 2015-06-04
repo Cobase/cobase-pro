@@ -1,6 +1,6 @@
 @import cobase.user.{User, GroupLink}
-@import cobase.play.user.routes.{GroupController => groupControllerRoutes, ApplicationController => applicationControllerRoutes}
-@import cobase.play.post.routes.{SearchController => searchControllerRoutes}
+@import cobase.play.user.routes.{GroupController => groupControllerRoutes, ApplicationController => applicationControllerRoutes, AuthenticationController => authenticationControllerRoutes}
+@import cobase.play.post.routes.{SearchController => searchControllerRoutes, PostController => postControllerRoutes}
 
 @(title: String,
   user: Option[User] = None,
@@ -146,20 +146,20 @@
                 <ul class="sidebar-menu">
                     <li class="header">ALL GROUPS</li>
                     <li>
-                        <a href="@groupControllerRoutes.newGroupForm">
+                        <a href="@groupControllerRoutes.addGroupForm">
                             <i class="fa fa-plus"></i> <span>Create new group</span>
                         </a>
                     </li>
                     @groupLinks.map { groupLink =>
                         <li>
-                            <a href="@groupControllerRoutes.listGroupPosts(groupLink.id)">
+                            <a href="@postControllerRoutes.viewPosts(groupLink.id)">
                                 <i class="fa fa-files-o"></i> <span>@groupLink.title</span>
                                 <span class="label label-primary pull-right">@groupLink.count</span>
                             </a>
                         </li>
                     }
                     <li class="header">USER CONTROL</li>
-                    <li><a href="@applicationControllerRoutes.signOut"><i class="fa fa-circle-o text-danger"></i> Logout</a></li>
+                    <li><a href="@authenticationControllerRoutes.signOut"><i class="fa fa-circle-o text-danger"></i> Logout</a></li>
                     <!--
                     <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Profile</a></li>
                     <li><a href="#"><i class="fa fa-circle-o text-info"></i> Information</a></li>

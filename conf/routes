@@ -4,26 +4,26 @@
 
 # User Control
 GET         /                                @cobase.play.user.ApplicationController.index
-GET         /signIn                          @cobase.play.user.ApplicationController.signIn
-GET         /signUp                          @cobase.play.user.ApplicationController.signUp
-GET         /signOut                         @cobase.play.user.ApplicationController.signOut
+GET         /sign-in                         @cobase.play.user.AuthenticationController.signIn
+GET         /sign-out                        @cobase.play.user.AuthenticationController.signOut
+GET         /sign-up                         @cobase.play.user.SignUpController.signUpForm
+POST        /sign-up                         @cobase.play.user.SignUpController.signUp
 GET         /authenticate/:provider          @cobase.play.user.SocialAuthController.authenticate(provider)
 POST        /authenticate/credentials        @cobase.play.user.CredentialsAuthController.authenticate
-POST        /signUp                          @cobase.play.user.SignUpController.signUp
 
 # Group related
-GET         /newGroup                        @cobase.play.user.GroupController.newGroupForm
-POST        /newGroup                        @cobase.play.user.GroupController.createGroup
-GET         /group/:groupId                  @cobase.play.user.GroupController.listGroupPosts(groupId: Long)
-POST        /group/:groupId                  @cobase.play.post.PostController.createPost(groupId: Long)
-GET         /editGroup/:groupId              @cobase.play.user.GroupController.editGroupForm(groupId: Long)
-POST        /editGroup/:groupId              @cobase.play.user.GroupController.updateGroup(groupId: Long)
-GET         /subscribe/:groupId              @cobase.play.user.GroupController.subscribe(groupId: Long)
-GET         /unsubscribe/:groupId            @cobase.play.user.GroupController.unsubscribe(groupId: Long)
+GET         /groups/add                      @cobase.play.user.GroupController.addGroupForm
+POST        /groups                          @cobase.play.user.GroupController.addGroup
+GET         /group/:groupId/edit             @cobase.play.user.GroupController.editGroupForm(groupId: Long)
+POST        /group/:groupId                  @cobase.play.user.GroupController.editGroup(groupId: Long)
+GET         /group/:groupId/subscribe        @cobase.play.user.GroupController.subscribe(groupId: Long)
+GET         /group/:groupId/unsubscribe      @cobase.play.user.GroupController.unsubscribe(groupId: Long)
 
 # Post related
-GET         /editPost/:postId                @cobase.play.post.PostController.editPostForm(postId: Long)
-POST        /editPost/:postId                @cobase.play.post.PostController.updatePost(postId: Long)
+GET         /post/:postId/edit               @cobase.play.post.PostController.editPostForm(postId: Long)
+POST        /post/:postId                    @cobase.play.post.PostController.editPost(postId: Long)
+GET         /group/:groupId/posts            @cobase.play.post.PostController.viewPosts(groupId: Long)
+POST        /group/:groupId/posts            @cobase.play.post.PostController.addPost(groupId: Long)
 
 # Search
 GET         /posts/search                    @cobase.play.post.SearchController.searchPosts

@@ -43,7 +43,7 @@ trait Global extends GlobalSettings with SecuredSettings with Logger {
    * @return The result to send to the client.
    */
   override def onNotAuthenticated(request: RequestHeader, lang: Lang): Option[Future[Result]] = {
-    Some(Future.successful(Redirect(cobase.play.user.routes.ApplicationController.signIn())))
+    Some(Future.successful(Redirect(cobase.play.user.routes.AuthenticationController.signIn)))
   }
 
   /**
@@ -56,6 +56,6 @@ trait Global extends GlobalSettings with SecuredSettings with Logger {
    * @return The result to send to the client.
    */
   override def onNotAuthorized(request: RequestHeader, lang: Lang): Option[Future[Result]] = {
-    Some(Future.successful(Redirect(cobase.play.user.routes.ApplicationController.signIn()).flashing("error" -> Messages("access.denied"))))
+    Some(Future.successful(Redirect(cobase.play.user.routes.AuthenticationController.signIn).flashing("error" -> Messages("access.denied"))))
   }
 }

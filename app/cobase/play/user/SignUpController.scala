@@ -31,6 +31,13 @@ class SignUpController @Inject() (
   val avatarService: AvatarService,
   val passwordHasher: PasswordHasher) extends Silhouette[User, SessionAuthenticator] {
 
+  def signUpForm = UserAwareAction.async { implicit request =>
+    request.identity match {
+      case Some(user) => Future.successful(Redirect(routes.ApplicationController.index))
+      case None => Future.successful(Ok(views.html.signUp(SignUpForm.form)))
+    }
+  }
+
   /**
    * Registers a new user.
    *
@@ -43,7 +50,7 @@ class SignUpController @Inject() (
         val loginInfo = LoginInfo(CredentialsProvider.ID, data.email)
         userService.retrieve(loginInfo).flatMap {
           case Some(user) =>
-            Future.successful(Redirect(routes.ApplicationController.signUp()).flashing("error" -> Messages("user.exists")))
+            Future.successful(Redirect(routes.SignUpController.signUp()).flashing("error" -> Messages("user.exists")))
           case None =>
             val authInfo = passwordHasher.hash(data.password)
             val user = User(

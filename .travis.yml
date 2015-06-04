@@ -6,4 +6,9 @@ scala:
 jdk:
   - oraclejdk8
 
+before_script:
+  - cp conf/application.conf.dist conf/application.conf
+  - cp conf/silhouette.conf.dist conf/silhouette.conf
+  - cp conf/twitter.conf.dist conf/twitter.conf
+
 script: sbt test

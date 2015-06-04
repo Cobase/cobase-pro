@@ -5,6 +5,8 @@ CobasePRO
 
 [![Join the chat at https://gitter.im/Cobase/cobase-pro](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Cobase/cobase-pro?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Code review by Codacy: https://www.codacy.com/app/cobase/cobase-pro/dashboard
+
 This project is an open source social media portal for corporations and small companies and alternative to Yammer. 
 It's purpose is to enable people to share news and info about various topics in a non-intrusive way.  Logged in user 
 has a dashboard which contains posts from groups only he/she has been subscribed to. This way, user will only be informed 

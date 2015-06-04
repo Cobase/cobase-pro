@@ -1,6 +1,8 @@
 CobasePRO
 =========
 
+[![Build Status](https://travis-ci.org/Cobase/cobase-pro.svg)](https://travis-ci.org/Cobase/cobase-pro)
+
 [![Join the chat at https://gitter.im/Cobase/cobase-pro](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Cobase/cobase-pro?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This project is an open source social media portal for corporations and small companies and alternative to Yammer. 

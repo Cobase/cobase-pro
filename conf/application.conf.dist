@@ -35,7 +35,7 @@ application.global=cobase.play.Global
 # By convention, the default datasource is named `default`
 # ~~~~~
 db.default.driver=org.postgresql.Driver
-db.default.url="jdbc:postgresql://localhost/cobase-pro"
+db.default.url="jdbc:postgresql://localhost/cobase_pro"
 db.default.user="postgres"
 db.default.pass=""
 

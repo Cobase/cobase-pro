@@ -7,7 +7,7 @@ jdk:
   - oraclejdk8
 
 before_script:
-  - psql -c 'create database cobase-pro;' -U postgres
+  - psql -c 'create database cobase_pro;' -U postgres
   - cp conf/application.conf.dist conf/application.conf
   - cp conf/silhouette.conf.dist conf/silhouette.conf
   - cp conf/twitter.conf.dist conf/twitter.conf

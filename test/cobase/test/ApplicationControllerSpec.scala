@@ -35,7 +35,8 @@ class ApplicationControllerSpec extends PlaySpecification with Mockito {
 
       status(unauthorizedResult) must be equalTo OK
       contentType(unauthorizedResult) must beSome("text/html")
-      contentAsString(unauthorizedResult) must contain("Silhouette - Sign In")
+      contentAsString(unauthorizedResult) must contain("CobasePRO")
+      contentAsString(unauthorizedResult) must contain("Login into system")
     }
 
     "return 200 if user is authorized" in new WithApplication(FakeApplication(withGlobal = Some(new FakeGlobal))) {

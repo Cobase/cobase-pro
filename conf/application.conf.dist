@@ -35,9 +35,9 @@ application.global=cobase.play.Global
 # By convention, the default datasource is named `default`
 # ~~~~~
 db.default.driver=org.postgresql.Driver
-db.default.url="jdbc:postgresql://localhost/database_name"
-db.default.user="database_username"
-db.default.pass="database_user_password"
+db.default.url="jdbc:postgresql://localhost/cobase_pro"
+db.default.user="postgres"
+db.default.pass=""
 
 
 # play-slick configuration

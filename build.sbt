@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   "com.ocpsoft" % "ocpsoft-pretty-time" % "1.0.7",
   "org.twitter4j" % "twitter4j-core" % "3.0.5",
   "org.twitter4j" % "twitter4j-stream" % "3.0.5",
+  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
   cache,
   jdbc,
   anorm

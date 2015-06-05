@@ -19,7 +19,7 @@ class GroupDAO {
    *
    * @return Seq[Group]
    */
-  def findAll() = {
+  def findAll = {
     DB withSession { implicit session =>
       slickGroups.sortBy(_.title.toLowerCase.asc).list
     }
@@ -30,7 +30,7 @@ class GroupDAO {
    *
    * @return Seq[GroupLink]
    */
-  def findGroupLinks() = {
+  def findGroupLinks = {
     DB withSession { implicit session =>
 
       implicit val getGroupResult =

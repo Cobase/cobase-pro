@@ -24,6 +24,19 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
                                 subscriptionService: SubscriptionService)
   extends Silhouette[User, SessionAuthenticator] {
 
+  def viewPosts(groupId: Long) = SecuredAction.async { implicit request =>
+    val groupLinks = groupService.findGroupLinks
+    val group = groupService.findById(groupId)
+
+    if (group.isEmpty) throw CobaseException("Group with id " + groupId + " not found")
+
+    val subscribed = subscriptionService.isUserSubscribedToGroup(request.identity, group.get)
+    val posts = postService.findLatestPostsForGroup(groupId)
+    val tweets = twitterService.getGroupTweets(group.get.tags)
+
+    Future.successful(Ok(views.html.group(request.identity, groupLinks, group, posts, tweets, subscribed, PostForm.form)))
+  }
+
   /**
    * Display edit post form.
    *
@@ -41,12 +54,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     Future.successful(Ok(views.html.editPost(request.identity, groupLinks, filledForm, group.get, post.get)))
   }
 
-  /**
-   * Handles the update of a post.
-   *
-   * @return The result to display.
-   */
-  def updatePost(postId: Long) = SecuredAction.async { implicit request =>
+  def editPost(postId: Long) = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
     val post = postService.findById(postId)
 
@@ -68,19 +76,14 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
         )
         Future.successful(
           Redirect(
-            cobase.play.user.routes.GroupController.listGroupPosts(group.get.id)).flashing("info" -> Messages("post.updated")
+            routes.PostController.viewPosts(group.get.id)).flashing("info" -> Messages("post.updated")
           )
         )
       }
     )
   }
 
-  /**
-   * Handles the creation of a post into group.
-   *
-   * @return The result to display.
-   */
-  def createPost(groupId: Long) = SecuredAction.async { implicit request =>
+  def addPost(groupId: Long) = SecuredAction.async { implicit request =>
     val groupLinks = groupService.findGroupLinks
     val group = groupService.findById(groupId)
 
@@ -105,7 +108,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
         )
         Future.successful(
           Redirect(
-            cobase.play.user.routes.GroupController.listGroupPosts(groupId)
+            routes.PostController.viewPosts(groupId)
           )
         )
       }

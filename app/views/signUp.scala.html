@@ -1,7 +1,7 @@
 @import views.html.helpers._
 
 @import cobase.play.user.SignUpForm
-@import cobase.play.user.routes.{SignUpController => signUpControllerRoutes, ApplicationController => applicationControllerRoutes}
+@import cobase.play.user.routes.{SignUpController => signUpControllerRoutes, AuthenticationController => authenticationControllerRoutes}
 
 @(signInForm: Form[SignUpForm.Data])(implicit request: RequestHeader)
 
@@ -26,7 +26,7 @@
             </div>
         </div>
         }
-        <p class="top20">Already a member? <a href="@applicationControllerRoutes.signIn">Sign in now</a></p>
+        <p class="top20">Already a member? <a href="@authenticationControllerRoutes.signIn">Sign in now</a></p>
     </div>
 </div>
 }

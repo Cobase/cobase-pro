@@ -9,14 +9,9 @@ import javax.inject.Inject
  */
 class GroupService @Inject() (groupDAO: GroupDAO) {
 
-  /**
-   * Retrieves all groups.
-   *
-   * @return The retrieved list of groups.
-   */
-  def findAll(): List[Group] = groupDAO.findAll()
+  def findAll: List[Group] = groupDAO.findAll
 
-  def findGroupLinks(): List[GroupLink] = groupDAO.findGroupLinks()
+  def findGroupLinks: List[GroupLink] = groupDAO.findGroupLinks
 
   /**
    * Retrieves a group that matches the specified id.

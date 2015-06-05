@@ -9,7 +9,7 @@
 
 @(user: User,
   groupLinks: List[GroupLink],
-  group: Option[Group],
+  group: Group,
   posts: List[Post],
   tweets: Option[List[twitter4j.Status]],
   subscribed: Boolean,
@@ -17,10 +17,10 @@
 )(implicit request: RequestHeader)
 
 @pageTitle = {
-    @group.get.title
+    @group.title
 }
 
-@main("CobasePRO - " + group.get.title, Option(user), groupLinks, pageTitle) {
+@main("CobasePRO - " + group.title, Option(user), groupLinks, pageTitle) {
     <div class="row">
         @if(!tweets) {
             <div class="col-md-12">
@@ -43,7 +43,7 @@
                                 <h3 class="box-title">What's on your mind?</h3>
                             </div>
                             <div class="box-body">
-                                @helper.form(action = postControllerRoutes.addPost(group.get.id)) {
+                                @helper.form(action = postControllerRoutes.addPost(group.id)) {
                                 @textarea(postForm("content"), "Post content", icon = "")
                                 <div class="row">
                                     <div class="col-xs-4">
@@ -52,14 +52,14 @@
                                     <div class="col-xs-8 text-right edit-group-link">
                                         @subscribed match {
                                             case true => {
-                                                <a href="@groupControllerRoutes.unsubscribe(group.get.id)">Unsubscribe</a>
+                                                <a href="@groupControllerRoutes.unsubscribe(group.id)">Unsubscribe</a>
                                             }
                                             case false => {
-                                                <a href="@groupControllerRoutes.subscribe(group.get.id)">Subscribe</a>
+                                                <a href="@groupControllerRoutes.subscribe(group.id)">Subscribe</a>
                                             }
                                         }
                                         &nbsp;|&nbsp;
-                                        <a href="@groupControllerRoutes.editGroupForm(group.get.id)">Edit group</a>
+                                        <a href="@groupControllerRoutes.editGroupForm(group.id)">Edit group</a>
                                     </div>
                                 </div>
                                 }
@@ -99,8 +99,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Twitter feed</h3>
-                            @if(!group.get.tags.isEmpty) {
-                                <h4>@group.get.tags.split(",").sortWith(_ < _).mkString(", ")</h4>
+                            @if(!group.tags.isEmpty) {
+                                <h4>@group.tags.split(",").sortWith(_ < _).mkString(", ")</h4>
                             }
                             <ul class="timeline noline">
                                 @tweets.get.map { tweet =>

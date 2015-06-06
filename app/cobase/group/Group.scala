@@ -1,4 +1,4 @@
-package cobase.user
+package cobase.group
 
 /**
  * The group object.

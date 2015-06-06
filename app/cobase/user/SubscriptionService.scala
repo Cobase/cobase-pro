@@ -2,6 +2,8 @@ package cobase.user
 
 import javax.inject.Inject
 
+import cobase.group.Group
+
 /**
  * Handles actions to subscriptions.
  *

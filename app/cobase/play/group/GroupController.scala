@@ -1,7 +1,8 @@
-package cobase.play.user
+package cobase.play.group
 
 import javax.inject.Inject
 
+import cobase.group.{GroupService, Group}
 import cobase.post.PostService
 import cobase.twitter.TwitterService
 import cobase.user._

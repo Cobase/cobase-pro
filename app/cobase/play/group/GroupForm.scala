@@ -1,4 +1,4 @@
-package cobase.play.user
+package cobase.play.group
 
 import play.api.data.Form
 import play.api.data.Forms._

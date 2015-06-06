@@ -1,7 +1,7 @@
-package cobase.user
+package cobase.group
 
 import cobase.DBTableDefinitions
-import DBTableDefinitions._
+import cobase.DBTableDefinitions._
 import play.api.Play.current
 import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick._

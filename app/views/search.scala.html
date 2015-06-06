@@ -1,7 +1,8 @@
 @import views.html.helpers._
 @import java.util.Date
 
-@import cobase.user.{User, GroupLink}
+@import cobase.group.GroupLink
+@import cobase.user.User
 @import cobase.post.Post
 
 @(user: User, groupLinks: List[GroupLink], posts: List[Post])(implicit request: RequestHeader)

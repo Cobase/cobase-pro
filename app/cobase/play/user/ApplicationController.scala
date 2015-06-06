@@ -2,8 +2,9 @@ package cobase.play.user
 
 import javax.inject.Inject
 
+import cobase.group.GroupService
 import cobase.post.PostService
-import cobase.user.{GroupService, User}
+import cobase.user.User
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 

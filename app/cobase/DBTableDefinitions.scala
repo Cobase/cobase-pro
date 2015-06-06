@@ -3,8 +3,9 @@ package cobase
 import _root_.play.api.db.slick.Config.driver.simple._
 import java.util.UUID
 
+import cobase.group.Group
 import cobase.post.Post
-import cobase.user.{Group, Subscription}
+import cobase.user.Subscription
 
 object DBTableDefinitions {
 

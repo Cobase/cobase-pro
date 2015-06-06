@@ -17,13 +17,6 @@
 
 @main("CobasePRO - Not Found", Option(user), groupLinks, pageTitle) {
 
-@request.flash.get("info").map { msg =>
-<div class="alert alert-success alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <i class="icon fa fa-check"></i> @msg
-</div>
-}
-
 <div class="row">
     <div class="col-md-12">
         <h4>@exceptionMessage</h4>

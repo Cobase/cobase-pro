@@ -37,7 +37,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
           PostForm.form
         ))
 
-        case None => Ok(views.html.notFound(
+        case None => NotFound(views.html.notFound(
           request.identity,
           groupService.findGroupLinks,
           "Group with id " + groupId + " not found"
@@ -59,7 +59,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
           Ok(views.html.editPost(request.identity, groupService.findGroupLinks, filledForm, group, post))
         }
 
-        case None => Ok(views.html.notFound(
+        case None => NotFound(views.html.notFound(
           request.identity,
           groupService.findGroupLinks,
           "Post with id " + postId + " not found"
@@ -88,7 +88,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
             }
           )
 
-        case None => Ok(views.html.notFound(
+        case None => NotFound(views.html.notFound(
           request.identity,
           groupService.findGroupLinks,
           "Post with id " + postId + " not found"
@@ -124,7 +124,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
             }
           )
 
-        case None => Ok(views.html.notFound(
+        case None => NotFound(views.html.notFound(
           request.identity,
           groupService.findGroupLinks,
           "Group with id " + groupId + " not found"

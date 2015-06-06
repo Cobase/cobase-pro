@@ -12,12 +12,12 @@ GET         /authenticate/:provider          @cobase.play.user.SocialAuthControl
 POST        /authenticate/credentials        @cobase.play.user.CredentialsAuthController.authenticate
 
 # Group related
-GET         /groups/add                      @cobase.play.user.GroupController.addGroupForm
-POST        /groups                          @cobase.play.user.GroupController.addGroup
-GET         /group/:groupId/edit             @cobase.play.user.GroupController.editGroupForm(groupId: Long)
-POST        /group/:groupId                  @cobase.play.user.GroupController.editGroup(groupId: Long)
-GET         /group/:groupId/subscribe        @cobase.play.user.GroupController.subscribe(groupId: Long)
-GET         /group/:groupId/unsubscribe      @cobase.play.user.GroupController.unsubscribe(groupId: Long)
+GET         /groups/add                      @cobase.play.group.GroupController.addGroupForm
+POST        /groups                          @cobase.play.group.GroupController.addGroup
+GET         /group/:groupId/edit             @cobase.play.group.GroupController.editGroupForm(groupId: Long)
+POST        /group/:groupId                  @cobase.play.group.GroupController.editGroup(groupId: Long)
+GET         /group/:groupId/subscribe        @cobase.play.group.GroupController.subscribe(groupId: Long)
+GET         /group/:groupId/unsubscribe      @cobase.play.group.GroupController.unsubscribe(groupId: Long)
 
 # Post related
 GET         /post/:postId/edit               @cobase.play.post.PostController.editPostForm(postId: Long)

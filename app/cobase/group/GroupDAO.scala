@@ -1,6 +1,5 @@
 package cobase.group
 
-import cobase.DBTableDefinitions
 import cobase.DBTableDefinitions._
 import play.api.Play.current
 import play.api.db.slick.Config.driver.simple._

@@ -59,7 +59,11 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
 
           Ok(views.html.editGroup(request.identity, groupService.findGroupLinks, filledForm, group))
 
-        case None => NotFound("Group with id " + groupId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Group with id " + groupId + " not found"
+        ))
       }
     )
   }
@@ -83,7 +87,11 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
             }
           )
 
-        case None => NotFound("Group with id " + groupId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Group with id " + groupId + " not found"
+        ))
       }
     )
   }
@@ -101,7 +109,11 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
             cobase.play.user.routes.ApplicationController.index()).flashing("info" -> Messages("group.subscribe")
           )
 
-        case None => NotFound("Group with id " + groupId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Group with id " + groupId + " not found"
+        ))
       }
     )
   }
@@ -119,7 +131,11 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
             cobase.play.user.routes.ApplicationController.index()).flashing("info" -> Messages("group.unsubscribe")
           )
 
-        case None => NotFound("Group with id " + groupId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Group with id " + groupId + " not found"
+        ))
       }
     )
   }

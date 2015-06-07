@@ -37,7 +37,11 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
           PostForm.form
         ))
 
-        case None => NotFound("Group with id " + groupId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Group with id " + groupId + " not found"
+        ))
       }
     )
   }
@@ -50,12 +54,16 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
       } yield (post, group)
 
       postAndGroup match {
-        case Some((post, group)) =>
+        case Some((post, group)) => {
           val filledForm = PostForm.form.fill(PostFormData(post.content))
-
           Ok(views.html.editPost(request.identity, groupService.findGroupLinks, filledForm, group, post))
+        }
 
-        case None => NotFound("Post with id " + postId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Post with id " + postId + " not found"
+        ))
       }
     }
   }
@@ -80,7 +88,11 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
             }
           )
 
-        case None => NotFound("Post with id " + postId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Post with id " + postId + " not found"
+        ))
       }
     }
   }
@@ -112,7 +124,11 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
             }
           )
 
-        case None => NotFound("Group with id " + groupId + " not found")
+        case None => NotFound(views.html.notFound(
+          request.identity,
+          groupService.findGroupLinks,
+          "Group with id " + groupId + " not found"
+        ))
       }
     )
   }

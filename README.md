@@ -36,8 +36,8 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 ## Installation
 
 1. Clone the repository.
-2. Create database by running PostgreSQL CLI command `$ createdb [database_name]`
-3. In PostgreSQL console, create user and set privileges according to PostgreSQL documentation.
+2. Open PostgreSQL console as postgres user: `psql -U postgres`
+3. In PostgreSQL console, create database: `create database cobase_pro`
 4. Copy conf/application.conf.dist to conf/application.conf (and configure!)
 5. Copy conf/silhouette.conf.dist to conf/silhouette.conf (and configure!)
 6. Copy conf/twitter.conf.dist to conf/twitter.conf (and configure!)

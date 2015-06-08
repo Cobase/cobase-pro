@@ -135,7 +135,8 @@ object DBTableDefinitions {
 
   class Posts(tag: Tag) extends Table[Post](tag, "posts") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def content = column[String]("content")
+    def content = column[String]("content", O.DBType("text"))
+
     def groupId = column[Long]("group_id")
     def createdBy = column[Option[String]]("created_by")
     def createdTimestamp = column[Long]("created_timestamp")

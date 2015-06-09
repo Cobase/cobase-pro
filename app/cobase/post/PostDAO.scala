@@ -32,7 +32,7 @@ class PostDAO {
    * @param postId The id of the post to find.
    * @return The found post or None if no post for the given id could be found.
    */
-  def findById(postId: Long): Option[Post] = {
+  def findById(postId: String): Option[Post] = {
     DB withSession { implicit session =>
       slickPosts.filter(
         _.id === postId
@@ -60,11 +60,11 @@ class PostDAO {
    * @param groupId The id of the group to find posts from.
    * @return The list of found posts.
    */
-  def findLatestPostsForGroup(groupId: Long) = {
+  def findLatestPostsForGroup(groupId: String) = {
     DB withSession { implicit session =>
       slickPosts.filter(
         _.groupId === groupId
-      ).sortBy(_.id.desc).list
+      ).sortBy(_.createdTimestamp.desc).list
     }
   }
 
@@ -107,7 +107,7 @@ class PostDAO {
     DB withSession { implicit session =>
       implicit val getPostResult =
         GetResult(r =>
-          DashboardPost(r.nextString().toString(), r.nextString().toString(), r.nextLong(), r.nextString().toString(), r.nextLong())
+          DashboardPost(r.nextString().toString(), r.nextString().toString(), r.nextLong(), r.nextString().toString(), r.nextString().toString())
         )
 
       val userId = user.userID

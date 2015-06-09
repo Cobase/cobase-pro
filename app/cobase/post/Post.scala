@@ -9,9 +9,9 @@ package cobase.post
  * @param createdTimestamp Timestamp of the creation.
  */
 case class Post (
-  id: Long,
+  id: String,
   content: String,
-  groupId: Long,
+  groupId: String,
   createdBy: Option[String],
   createdTimestamp: Long
 )

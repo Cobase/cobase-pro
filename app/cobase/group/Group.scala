@@ -8,7 +8,7 @@ package cobase.group
  * @param tags Comma seperated list of twitter hashtags.
  */
 case class Group (
-  id: Long,
+  id: String,
   title: String,
   tags: String
 )

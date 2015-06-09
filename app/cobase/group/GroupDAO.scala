@@ -34,7 +34,7 @@ class GroupDAO {
 
       implicit val getGroupResult =
         GetResult(r =>
-          GroupLink(r.nextLong(), r.nextString().toString(), r.nextInt())
+          GroupLink(r.nextString().toString(), r.nextString().toString(), r.nextInt())
         )
 
       val groupLinks = Q[GroupLink] +
@@ -62,7 +62,7 @@ class GroupDAO {
    * @param groupId The id of the group to find.
    * @return The found group or None if no group for the given id could be found.
    */
-  def findById(groupId: Long): Option[Group] = {
+  def findById(groupId: String): Option[Group] = {
     DB withSession { implicit session =>
       slickGroups.filter(
         _.id === groupId

@@ -13,5 +13,5 @@ case class DashboardPost(
   createdBy: String,
   createdTimestamp: Long,
   groupTitle: String,
-  groupId: Long
+  groupId: String
 )

@@ -6,8 +6,6 @@ import play.api.Play.current
 import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick._
 
-import scala.slick.jdbc.{StaticQuery => Q}
-
 /**
  * Give access to the subscription object using Slick
  */
@@ -23,7 +21,7 @@ class SubscriptionDAO {
   def isUserSubscribedToGroup(user: User, group: Group): Boolean = {
     DB withSession { implicit session =>
       val subscription = slickSubscriptions.filter(
-        _.userId === user.userID
+        _.userId === user.userID.toString()
       ).filter(
         _.groupId === group.id
       ).firstOption
@@ -41,7 +39,7 @@ class SubscriptionDAO {
   def subscribeUserToGroup(user: User, group: Group): Unit = {
     DB withSession { implicit session =>
       slickSubscriptions.insert(
-        Subscription(0, user.userID, group.id)
+        Subscription(0, user.userID.toString(), group.id)
       )
     }
   }
@@ -55,7 +53,7 @@ class SubscriptionDAO {
   def unsubscribeUserFromGroup(user: User, group: Group): Unit = {
     DB withSession { implicit session =>
       slickSubscriptions.filter(
-        _.userId === user.userID
+        _.userId === user.userID.toString()
       ).filter(
         _.groupId === group.id
       ).delete

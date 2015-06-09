@@ -8,7 +8,7 @@ package cobase.group
  * @param count Count of the posts in the group.
  */
 case class GroupLink (
-  id: Long,
+  id: String,
   title: String,
   count: Int
 )

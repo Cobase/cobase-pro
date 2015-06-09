@@ -11,6 +11,7 @@ import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 
 import scala.concurrent.Future
+import java.util.UUID
 
 /**
  * The group controller.
@@ -40,7 +41,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         },
         data => {
           groupService.save(
-            Group(0, data.title, data.tags) // TODO: fix the ugly hack with the ID
+            Group(UUID.randomUUID.toString, data.title, data.tags) // TODO: fix the ugly hack with the ID
           )
 
           Redirect(
@@ -51,7 +52,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     )
   }
 
-  def editGroupForm(groupId: Long) = SecuredAction.async { implicit request =>
+  def editGroupForm(groupId: String) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -68,7 +69,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     )
   }
 
-  def editGroup(groupId: Long) = SecuredAction.async { implicit request =>
+  def editGroup(groupId: String) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -99,7 +100,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   /**
    * Subscribe the current user to a group
    */
-  def subscribe(groupId: Long) = SecuredAction.async { implicit request =>
+  def subscribe(groupId: String) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -121,7 +122,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   /**
    * Unsubscribe the current user from a group
    */
-  def unsubscribe(groupId: Long) = SecuredAction.async { implicit request =>
+  def unsubscribe(groupId: String) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>

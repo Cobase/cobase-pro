@@ -11,6 +11,7 @@ import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
 import play.api.i18n.Messages
 
 import scala.concurrent.Future
+import java.util.UUID
 
 /**
  * The post controller.
@@ -24,7 +25,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
                                 subscriptionService: SubscriptionService)
   extends Silhouette[User, SessionAuthenticator] {
 
-  def viewPosts(groupId: Long) = SecuredAction.async { implicit request =>
+  def viewPosts(groupId: String) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) => Ok(views.html.group(
@@ -46,7 +47,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     )
   }
 
-  def editPostForm(postId: Long) = SecuredAction.async { implicit request =>
+  def editPostForm(postId: String) = SecuredAction.async { implicit request =>
     Future.successful {
       val postAndGroup = for {
         post <- postService.findById(postId)
@@ -68,7 +69,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     }
   }
 
-  def editPost(postId: Long) = SecuredAction.async { implicit request =>
+  def editPost(postId: String) = SecuredAction.async { implicit request =>
     Future.successful {
       val postAndGroup = for {
         post <- postService.findById(postId)
@@ -97,7 +98,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     }
   }
 
-  def addPost(groupId: Long) = SecuredAction.async { implicit request =>
+  def addPost(groupId: String) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -117,7 +118,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
               val timestamp: Long = System.currentTimeMillis / 1000
 
               postService.save(
-                Post(0, data.content, groupId, request.identity.fullName, timestamp) // TODO: fix the ugly hack with the ID
+                Post(UUID.randomUUID.toString, data.content, groupId, request.identity.fullName, timestamp) // TODO: fix the ugly hack with the ID
               )
 
               Redirect(routes.PostController.viewPosts(groupId))

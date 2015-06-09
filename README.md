@@ -20,7 +20,7 @@ do not hesitate to make the code base better by sending us pull requests.
 
 ## Working demo
 
-You are welcome to try out CobasePRO in action by going to [demo site](http://cobasepro.arturgajewski.com). You are required to register an account in order to log in, but you can enter some dummy email address. No verification emails will be sent of any kind.
+You are welcome to try out CobasePRO in action by going to [demo site](http://cobasepro.arturgajewski.com). You are required to register an account in order to log in, but you can enter some dummy email address. No verification emails will be sent of any kind. If you wish to find out more about this project, head to CobasePRO's [info site](http://cobasepro.com). 
 
 ## IRC
 

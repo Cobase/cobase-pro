@@ -11,6 +11,6 @@ import java.util.UUID
  */
 case class Subscription(
   id: Long,
-  userID: String,
+  userID: UUID,
   groupId: UUID
 )

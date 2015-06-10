@@ -145,7 +145,7 @@ object DBTableDefinitions {
 
   class Subscriptions(tag: Tag) extends Table[Subscription](tag, "subscriptions") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def userId = column[String]("user_id")
+    def userId = column[UUID]("user_id", O.DBType("UUID"))
     def groupId = column[UUID]("group_id", O.DBType("UUID"))
     def idx1 = index("idx_subscr_group", (groupId), unique = false)
     def idx2 = index("idx_subscr_user", (userId), unique = false)

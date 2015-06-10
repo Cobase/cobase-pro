@@ -6,8 +6,6 @@ import play.api.Play.current
 import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick._
 
-import scala.slick.jdbc.{StaticQuery => Q}
-
 /**
  * Give access to the subscription object using Slick
  */

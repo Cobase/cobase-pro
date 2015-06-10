@@ -10,6 +10,8 @@ import play.api.db.slick._
 import scala.concurrent.Future
 import scala.slick.jdbc.{GetResult, StaticQuery => Q}
 
+import java.util.UUID
+
 /**
  * Give access to the user object using Slick
  */
@@ -32,7 +34,7 @@ class PostDAO {
    * @param postId The id of the post to find.
    * @return The found post or None if no post for the given id could be found.
    */
-  def findById(postId: Long): Option[Post] = {
+  def findById(postId: UUID): Option[Post] = {
     DB withSession { implicit session =>
       slickPosts.filter(
         _.id === postId
@@ -60,11 +62,11 @@ class PostDAO {
    * @param groupId The id of the group to find posts from.
    * @return The list of found posts.
    */
-  def findLatestPostsForGroup(groupId: Long) = {
+  def findLatestPostsForGroup(groupId: UUID) = {
     DB withSession { implicit session =>
       slickPosts.filter(
         _.groupId === groupId
-      ).sortBy(_.id.desc).list
+      ).sortBy(_.createdTimestamp.desc).list
     }
   }
 
@@ -101,13 +103,13 @@ class PostDAO {
   /**
    * Get posts related to user's subscriptions
    *
-   * @return Seq[DashboardPosts]
+   * @return Seq[DashboardPosts
    */
   def getDashboardPosts(user: User): List[DashboardPost] = {
     DB withSession { implicit session =>
       implicit val getPostResult =
         GetResult(r =>
-          DashboardPost(r.nextString().toString(), r.nextString().toString(), r.nextLong(), r.nextString().toString(), r.nextLong())
+          DashboardPost(r.nextString(), r.nextString(), r.nextLong(), r.nextString(), UUID.fromString(r.nextString()))
         )
 
       val userId = user.userID

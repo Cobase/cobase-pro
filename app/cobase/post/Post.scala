@@ -1,5 +1,7 @@
 package cobase.post
 
+import java.util.UUID
+
 /**
  * The group object.
  *
@@ -9,9 +11,9 @@ package cobase.post
  * @param createdTimestamp Timestamp of the creation.
  */
 case class Post (
-  id: Long,
+  id: UUID,
   content: String,
-  groupId: Long,
+  groupId: UUID,
   createdBy: Option[String],
   createdTimestamp: Long
 )

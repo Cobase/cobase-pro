@@ -1,5 +1,7 @@
 package cobase.group
 
+import java.util.UUID
+
 /**
  * The group link object.
  *
@@ -8,7 +10,7 @@ package cobase.group
  * @param count Count of the posts in the group.
  */
 case class GroupLink (
-  id: Long,
+  id: UUID,
   title: String,
   count: Int
 )

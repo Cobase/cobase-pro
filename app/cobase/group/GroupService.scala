@@ -2,6 +2,8 @@ package cobase.group
 
 import javax.inject.Inject
 
+import java.util.UUID
+
 /**
  * Handles actions to groups.
  *
@@ -19,7 +21,7 @@ class GroupService @Inject() (groupDAO: GroupDAO) {
    * @param groupId The id to retrieve a group.
    * @return The retrieved group or None if no group could be retrieved for the given id.
    */
-  def findById(groupId: Long): Option[Group] = groupDAO.findById(groupId)
+  def findById(groupId: UUID): Option[Group] = groupDAO.findById(groupId)
 
   /**
    * Saves a group with given data.

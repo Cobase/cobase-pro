@@ -14,16 +14,16 @@ POST        /authenticate/credentials        @cobase.play.user.CredentialsAuthCo
 # Group related
 GET         /groups/add                      @cobase.play.group.GroupController.addGroupForm
 POST        /groups                          @cobase.play.group.GroupController.addGroup
-GET         /group/:groupId/edit             @cobase.play.group.GroupController.editGroupForm(groupId: Long)
-POST        /group/:groupId                  @cobase.play.group.GroupController.editGroup(groupId: Long)
-GET         /group/:groupId/subscribe        @cobase.play.group.GroupController.subscribe(groupId: Long)
-GET         /group/:groupId/unsubscribe      @cobase.play.group.GroupController.unsubscribe(groupId: Long)
+GET         /group/:groupId/edit             @cobase.play.group.GroupController.editGroupForm(groupId: java.util.UUID)
+POST        /group/:groupId                  @cobase.play.group.GroupController.editGroup(groupId: java.util.UUID)
+GET         /group/:groupId/subscribe        @cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
+GET         /group/:groupId/unsubscribe      @cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
 
 # Post related
-GET         /post/:postId/edit               @cobase.play.post.PostController.editPostForm(postId: Long)
-POST        /post/:postId                    @cobase.play.post.PostController.editPost(postId: Long)
-GET         /group/:groupId/posts            @cobase.play.post.PostController.viewPosts(groupId: Long)
-POST        /group/:groupId/posts            @cobase.play.post.PostController.addPost(groupId: Long)
+GET         /post/:postId/edit               @cobase.play.post.PostController.editPostForm(postId: java.util.UUID)
+POST        /post/:postId                    @cobase.play.post.PostController.editPost(postId: java.util.UUID)
+GET         /group/:groupId/posts            @cobase.play.post.PostController.viewPosts(groupId: java.util.UUID)
+POST        /group/:groupId/posts            @cobase.play.post.PostController.addPost(groupId: java.util.UUID)
 
 # Search
 GET         /posts/search                    @cobase.play.post.SearchController.searchPosts

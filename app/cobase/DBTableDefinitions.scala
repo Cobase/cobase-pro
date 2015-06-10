@@ -18,7 +18,7 @@ object DBTableDefinitions {
     avatarURL: Option[String]
   )
 
-  class Users(tag: Tag) extends Table[DBUser](tag, "user") {
+  class Users(tag: Tag) extends Table[DBUser](tag, "users") {
     def id = column[String]("userID", O.PrimaryKey)
     def firstName = column[Option[String]]("first_name")
     def lastName = column[Option[String]]("last_name")
@@ -34,7 +34,7 @@ object DBTableDefinitions {
     providerKey: String
   )
 
-  class LoginInfos(tag: Tag) extends Table[DBLoginInfo](tag, "logininfo") {
+  class LoginInfos(tag: Tag) extends Table[DBLoginInfo](tag, "login_infos") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def providerID = column[String]("provider_id")
     def providerKey = column[String]("provider_key")
@@ -46,7 +46,7 @@ object DBTableDefinitions {
     loginInfoId: Long
   )
 
-  class UserLoginInfos(tag: Tag) extends Table[DBUserLoginInfo](tag, "userlogininfo") {
+  class UserLoginInfos(tag: Tag) extends Table[DBUserLoginInfo](tag, "user_login_infos") {
     def userID = column[String]("user_id", O.NotNull)
     def loginInfoId = column[Long]("logininfo_id", O.NotNull)
     def * = (userID, loginInfoId) <> (DBUserLoginInfo.tupled, DBUserLoginInfo.unapply)
@@ -59,7 +59,7 @@ object DBTableDefinitions {
     loginInfoId: Long
   )
 
-  class PasswordInfos(tag: Tag) extends Table[DBPasswordInfo](tag, "passwordinfo") {
+  class PasswordInfos(tag: Tag) extends Table[DBPasswordInfo](tag, "password_infos") {
     def hasher = column[String]("hasher")
     def password = column[String]("password")
     def salt = column[Option[String]]("salt")
@@ -74,7 +74,7 @@ object DBTableDefinitions {
     loginInfoId: Long
   )
 
-  class OAuth1Infos(tag: Tag) extends Table[DBOAuth1Info](tag, "oauth1info") {
+  class OAuth1Infos(tag: Tag) extends Table[DBOAuth1Info](tag, "oauth1_infos") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def token = column[String]("token")
     def secret = column[String]("secret")
@@ -91,7 +91,7 @@ object DBTableDefinitions {
     loginInfoId: Long
   )
 
-  class OAuth2Infos(tag: Tag) extends Table[DBOAuth2Info](tag, "oauth2info") {
+  class OAuth2Infos(tag: Tag) extends Table[DBOAuth2Info](tag, "oauth2_infos") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def accessToken = column[String]("access_token")
     def tokenType = column[Option[String]]("token_type")
@@ -106,7 +106,7 @@ object DBTableDefinitions {
     loginInfoId: Long
   )
 
-  class OpenIDInfos(tag: Tag) extends Table[DBOpenIDInfo](tag, "openidinfo") {
+  class OpenIDInfos(tag: Tag) extends Table[DBOpenIDInfo](tag, "openid_infos") {
     def id = column[String]("id")
     def loginInfoId = column[Long]("logininfo_id")
     def * = (id, loginInfoId) <> (DBOpenIDInfo.tupled, DBOpenIDInfo.unapply)
@@ -118,7 +118,7 @@ object DBTableDefinitions {
     value: String
   )
 
-  class OpenIDAttributes(tag: Tag) extends Table[DBOpenIDAttribute](tag, "openidattributes") {
+  class OpenIDAttributes(tag: Tag) extends Table[DBOpenIDAttribute](tag, "openid_attributes") {
     def id = column[String]("id")
     def key = column[String]("key")
     def value = column[String]("value")

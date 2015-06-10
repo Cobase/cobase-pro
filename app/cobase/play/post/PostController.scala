@@ -118,7 +118,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
               val timestamp: Long = System.currentTimeMillis / 1000
 
               postService.save(
-                Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp) // TODO: fix the ugly hack with the ID
+                Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp)
               )
 
               Redirect(routes.PostController.viewPosts(groupId))

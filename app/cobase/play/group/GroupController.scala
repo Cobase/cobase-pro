@@ -41,7 +41,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         },
         data => {
           groupService.save(
-            Group(UUID.randomUUID, data.title, data.tags) // TODO: fix the ugly hack with the ID
+            Group(UUID.randomUUID, data.title, data.tags)
           )
 
           Redirect(

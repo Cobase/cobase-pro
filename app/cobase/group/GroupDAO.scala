@@ -36,7 +36,7 @@ class GroupDAO {
 
       implicit val getGroupResult =
         GetResult(r =>
-          GroupLink(UUID.fromString(r.nextString().toString()), r.nextString().toString(), r.nextInt())
+          GroupLink(UUID.fromString(r.nextString()), r.nextString(), r.nextInt())
         )
 
       val groupLinks = Q[GroupLink] +

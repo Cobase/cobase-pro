@@ -1,6 +1,3 @@
-# --- Created by Slick DDL
-# To stop Slick DDL generation, remove this comment and start using Evolutions
-
 # --- !Ups
 
 create table "groups" ("id" UUID NOT NULL PRIMARY KEY,"title" VARCHAR(254) NOT NULL,"tags" VARCHAR(254) NOT NULL);

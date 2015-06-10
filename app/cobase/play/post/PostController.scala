@@ -25,7 +25,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
                                 subscriptionService: SubscriptionService)
   extends Silhouette[User, SessionAuthenticator] {
 
-  def viewPosts(groupId: String) = SecuredAction.async { implicit request =>
+  def viewPosts(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) => Ok(views.html.group(
@@ -47,7 +47,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     )
   }
 
-  def editPostForm(postId: String) = SecuredAction.async { implicit request =>
+  def editPostForm(postId: UUID) = SecuredAction.async { implicit request =>
     Future.successful {
       val postAndGroup = for {
         post <- postService.findById(postId)
@@ -69,7 +69,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     }
   }
 
-  def editPost(postId: String) = SecuredAction.async { implicit request =>
+  def editPost(postId: UUID) = SecuredAction.async { implicit request =>
     Future.successful {
       val postAndGroup = for {
         post <- postService.findById(postId)
@@ -98,7 +98,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
     }
   }
 
-  def addPost(groupId: String) = SecuredAction.async { implicit request =>
+  def addPost(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -118,7 +118,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
               val timestamp: Long = System.currentTimeMillis / 1000
 
               postService.save(
-                Post(UUID.randomUUID.toString, data.content, groupId, request.identity.fullName, timestamp) // TODO: fix the ugly hack with the ID
+                Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp) // TODO: fix the ugly hack with the ID
               )
 
               Redirect(routes.PostController.viewPosts(groupId))

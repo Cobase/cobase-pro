@@ -41,7 +41,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
         },
         data => {
           groupService.save(
-            Group(UUID.randomUUID.toString, data.title, data.tags) // TODO: fix the ugly hack with the ID
+            Group(UUID.randomUUID, data.title, data.tags) // TODO: fix the ugly hack with the ID
           )
 
           Redirect(
@@ -52,7 +52,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     )
   }
 
-  def editGroupForm(groupId: String) = SecuredAction.async { implicit request =>
+  def editGroupForm(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -69,7 +69,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     )
   }
 
-  def editGroup(groupId: String) = SecuredAction.async { implicit request =>
+  def editGroup(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -100,7 +100,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   /**
    * Subscribe the current user to a group
    */
-  def subscribe(groupId: String) = SecuredAction.async { implicit request =>
+  def subscribe(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>
@@ -122,7 +122,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   /**
    * Unsubscribe the current user from a group
    */
-  def unsubscribe(groupId: String) = SecuredAction.async { implicit request =>
+  def unsubscribe(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
         case Some(group) =>

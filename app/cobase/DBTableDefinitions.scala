@@ -126,7 +126,7 @@ object DBTableDefinitions {
   }
 
   class Groups(tag: Tag) extends Table[Group](tag, "groups") {
-    def id = column[String]("id", O.PrimaryKey)
+    def id = column[UUID]("id", O.PrimaryKey, O.DBType("UUID"))
     def title = column[String]("title")
     def tags = column[String]("tags")
     def idx = index("idx_group_id", (id), unique = true)
@@ -134,9 +134,9 @@ object DBTableDefinitions {
   }
 
   class Posts(tag: Tag) extends Table[Post](tag, "posts") {
-    def id = column[String]("id", O.PrimaryKey)
+    def id = column[UUID]("id", O.PrimaryKey, O.DBType("UUID"))
     def content = column[String]("content", O.DBType("text"))
-    def groupId = column[String]("group_id")
+    def groupId = column[UUID]("group_id", O.DBType("UUID"))
     def createdBy = column[Option[String]]("created_by")
     def createdTimestamp = column[Long]("created_timestamp")
     def idx = index("idx_post_group", (groupId), unique = false)
@@ -146,7 +146,7 @@ object DBTableDefinitions {
   class Subscriptions(tag: Tag) extends Table[Subscription](tag, "subscriptions") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def userId = column[String]("user_id")
-    def groupId = column[String]("group_id")
+    def groupId = column[UUID]("group_id", O.DBType("UUID"))
     def idx1 = index("idx_subscr_group", (groupId), unique = false)
     def idx2 = index("idx_subscr_user", (userId), unique = false)
     def idx3 = index("idx_subscr_comb", (groupId, userId), unique = true)

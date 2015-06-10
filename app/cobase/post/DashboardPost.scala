@@ -1,5 +1,7 @@
 package cobase.post
 
+import java.util.UUID
+
 /**
   * The group link object.
   *
@@ -13,5 +15,5 @@ case class DashboardPost(
   createdBy: String,
   createdTimestamp: Long,
   groupTitle: String,
-  groupId: String
+  groupId: UUID
 )

@@ -8,6 +8,8 @@ import play.api.db.slick._
 import scala.concurrent.Future
 import scala.slick.jdbc.{GetResult, StaticQuery => Q}
 
+import java.util.UUID
+
 /**
  * Give access to the user object using Slick
  */
@@ -34,7 +36,7 @@ class GroupDAO {
 
       implicit val getGroupResult =
         GetResult(r =>
-          GroupLink(r.nextString().toString(), r.nextString().toString(), r.nextInt())
+          GroupLink(UUID.fromString(r.nextString().toString()), r.nextString().toString(), r.nextInt())
         )
 
       val groupLinks = Q[GroupLink] +
@@ -62,7 +64,7 @@ class GroupDAO {
    * @param groupId The id of the group to find.
    * @return The found group or None if no group for the given id could be found.
    */
-  def findById(groupId: String): Option[Group] = {
+  def findById(groupId: UUID): Option[Group] = {
     DB withSession { implicit session =>
       slickGroups.filter(
         _.id === groupId

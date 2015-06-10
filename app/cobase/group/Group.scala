@@ -1,5 +1,7 @@
 package cobase.group
 
+import java.util.UUID
+
 /**
  * The group object.
  *
@@ -8,7 +10,7 @@ package cobase.group
  * @param tags Comma seperated list of twitter hashtags.
  */
 case class Group (
-  id: String,
+  id: UUID,
   title: String,
   tags: String
 )

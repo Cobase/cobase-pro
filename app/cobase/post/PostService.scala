@@ -1,6 +1,7 @@
 package cobase.post
 
 import javax.inject.Inject
+import java.util.UUID
 
 import cobase.user.User
 
@@ -24,7 +25,7 @@ class PostService @Inject() (postDAO: PostDAO) {
    * @param postId The id to retrieve a post.
    * @return The retrieved post or None if no post could be retrieved for the given id.
    */
-  def findById(postId: String): Option[Post] = postDAO.findById(postId)
+  def findById(postId: UUID): Option[Post] = postDAO.findById(postId)
 
   /**
    * Retrieves a post that matches the specified search phrase.
@@ -40,7 +41,7 @@ class PostService @Inject() (postDAO: PostDAO) {
    * @param groupId Group id to retrieve posts from.
    * @return List of group posts.
    */
-  def findLatestPostsForGroup(groupId: String): List[Post] = postDAO.findLatestPostsForGroup(groupId)
+  def findLatestPostsForGroup(groupId: UUID): List[Post] = postDAO.findLatestPostsForGroup(groupId)
 
   /**
    * Saves a post with given data.

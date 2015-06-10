@@ -1,5 +1,7 @@
 package cobase.user
 
+import java.util.UUID
+
 /**
  * The user object.
  *
@@ -10,5 +12,5 @@ package cobase.user
 case class Subscription(
   id: Long,
   userID: String,
-  groupId: String
+  groupId: UUID
 )

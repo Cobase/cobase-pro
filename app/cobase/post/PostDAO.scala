@@ -112,7 +112,7 @@ class PostDAO {
           DashboardPost(r.nextString(), r.nextString(), r.nextLong(), r.nextString(), UUID.fromString(r.nextString()))
         )
 
-      val userId = user.userID
+      val userId = user.id
 
       val dashboardPosts = Q[DashboardPost] +
         s"""

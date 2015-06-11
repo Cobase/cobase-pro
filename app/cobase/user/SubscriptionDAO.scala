@@ -21,7 +21,7 @@ class SubscriptionDAO {
   def isUserSubscribedToGroup(user: User, group: Group): Boolean = {
     DB withSession { implicit session =>
       val subscription = slickSubscriptions.filter(
-        _.userId === user.userID
+        _.userId === user.id
       ).filter(
         _.groupId === group.id
       ).firstOption
@@ -39,7 +39,7 @@ class SubscriptionDAO {
   def subscribeUserToGroup(user: User, group: Group): Unit = {
     DB withSession { implicit session =>
       slickSubscriptions.insert(
-        Subscription(0, user.userID, group.id)
+        Subscription(0, user.id, group.id)
       )
     }
   }
@@ -53,7 +53,7 @@ class SubscriptionDAO {
   def unsubscribeUserFromGroup(user: User, group: Group): Unit = {
     DB withSession { implicit session =>
       slickSubscriptions.filter(
-        _.userId === user.userID
+        _.userId === user.id
       ).filter(
         _.groupId === group.id
       ).delete

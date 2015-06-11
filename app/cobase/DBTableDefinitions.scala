@@ -10,7 +10,7 @@ import cobase.user.Subscription
 object DBTableDefinitions {
 
   case class DBUser (
-    userID: String,
+    id: String,
     firstName: Option[String],
     lastName: Option[String],
     fullName: Option[String],
@@ -19,7 +19,7 @@ object DBTableDefinitions {
   )
 
   class Users(tag: Tag) extends Table[DBUser](tag, "users") {
-    def id = column[String]("userID", O.PrimaryKey)
+    def id = column[String]("id", O.PrimaryKey)
     def firstName = column[Option[String]]("first_name")
     def lastName = column[Option[String]]("last_name")
     def fullName = column[Option[String]]("full_name")
@@ -42,14 +42,14 @@ object DBTableDefinitions {
   }
 
   case class DBUserLoginInfo (
-    userID: String,
+    userId: String,
     loginInfoId: Long
   )
 
   class UserLoginInfos(tag: Tag) extends Table[DBUserLoginInfo](tag, "user_login_infos") {
-    def userID = column[String]("user_id", O.NotNull)
-    def loginInfoId = column[Long]("logininfo_id", O.NotNull)
-    def * = (userID, loginInfoId) <> (DBUserLoginInfo.tupled, DBUserLoginInfo.unapply)
+    def userId = column[String]("user_id", O.NotNull)
+    def loginInfoId = column[Long]("login_info_id", O.NotNull)
+    def * = (userId, loginInfoId) <> (DBUserLoginInfo.tupled, DBUserLoginInfo.unapply)
   }
 
   case class DBPasswordInfo (
@@ -63,7 +63,7 @@ object DBTableDefinitions {
     def hasher = column[String]("hasher")
     def password = column[String]("password")
     def salt = column[Option[String]]("salt")
-    def loginInfoId = column[Long]("logininfo_id")
+    def loginInfoId = column[Long]("login_info_id")
     def * = (hasher, password, salt, loginInfoId) <> (DBPasswordInfo.tupled, DBPasswordInfo.unapply)
   }
 
@@ -78,7 +78,7 @@ object DBTableDefinitions {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def token = column[String]("token")
     def secret = column[String]("secret")
-    def loginInfoId = column[Long]("logininfo_id")
+    def loginInfoId = column[Long]("login_info_id")
     def * = (id.?, token, secret, loginInfoId) <> (DBOAuth1Info.tupled, DBOAuth1Info.unapply)
   }
 
@@ -97,7 +97,7 @@ object DBTableDefinitions {
     def tokenType = column[Option[String]]("token_type")
     def expiresIn = column[Option[Int]]("expires_in")
     def refreshToken = column[Option[String]]("refresh_token")
-    def loginInfoId = column[Long]("logininfo_id")
+    def loginInfoId = column[Long]("login_info_id")
     def * = (id.?, accessToken, tokenType, expiresIn, refreshToken, loginInfoId) <> (DBOAuth2Info.tupled, DBOAuth2Info.unapply)
   }
 
@@ -108,7 +108,7 @@ object DBTableDefinitions {
 
   class OpenIDInfos(tag: Tag) extends Table[DBOpenIDInfo](tag, "openid_infos") {
     def id = column[String]("id")
-    def loginInfoId = column[Long]("logininfo_id")
+    def loginInfoId = column[Long]("login_info_id")
     def * = (id, loginInfoId) <> (DBOpenIDInfo.tupled, DBOpenIDInfo.unapply)
   }
 

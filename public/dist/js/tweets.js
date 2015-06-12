@@ -31,7 +31,7 @@ var TweetList = React.createClass({
     render: function() {
         var tweetNodes = this.props.data.map(function(tweet, index) {
             return (
-                <Tweet screenName={tweet.screenName} realName={tweet.realName} profileImageURL={tweet.profileImageURL} createdAt={tweet.createdAt} text={tweet.text} key={index}></Tweet>
+                <Tweet screenName={tweet.screenName} realName={tweet.realName} profileImageURL={tweet.profileImageURL} createdAgo={tweet.createdAgo} text={tweet.text} key={index}></Tweet>
             );
         });
         return (
@@ -61,7 +61,7 @@ var Tweet = React.createClass({
                     <div className="timeline-body wordbreak">
                         {this.props.text}
                         <br/>
-                        <span className="time ago"><i className="fa fa-clock-o"></i> {this.props.createdAt}</span>
+                        <span className="time ago"><i className="fa fa-clock-o"></i> {this.props.createdAgo}</span>
                     </div>
                 </div>
             </li>

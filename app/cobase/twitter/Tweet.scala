@@ -5,5 +5,5 @@ case class Tweet (
   screenName: String,
   profileImageURL: String,
   text: String,
-  createdAt: java.util.Date
+  createdAgo: String
 )

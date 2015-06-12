@@ -7,6 +7,8 @@ import scala.collection.JavaConverters._
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import java.util.Locale;
+import com.ocpsoft.pretty.time.PrettyTime;
 
 class TwitterService {
   def getGroupTweets(hashtags: String): Option[List[Tweet]] = {
@@ -25,6 +27,7 @@ class TwitterService {
 
     val query = new Query(twitterQuery)
     val result = Try(twitter.search(query))
+    val prettyfier = new PrettyTime(new Locale("DEFAULT"))
 
     result match {
       case Success(res) => {
@@ -34,7 +37,7 @@ class TwitterService {
             status.getUser.getScreenName,
             status.getUser.getProfileImageURL,
             status.getText,
-            status.getCreatedAt
+            prettyfier.format(status.getCreatedAt)
           )
         Some(tweets)
       }

@@ -3,31 +3,34 @@
 # ~~~~
 
 # User Control
-GET         /                                @cobase.play.user.ApplicationController.index
-GET         /sign-in                         @cobase.play.user.AuthenticationController.signIn
-GET         /sign-out                        @cobase.play.user.AuthenticationController.signOut
-GET         /sign-up                         @cobase.play.user.SignUpController.signUpForm
-POST        /sign-up                         @cobase.play.user.SignUpController.signUp
-GET         /authenticate/:provider          @cobase.play.user.SocialAuthController.authenticate(provider)
-POST        /authenticate/credentials        @cobase.play.user.CredentialsAuthController.authenticate
+GET         /                                  @cobase.play.user.ApplicationController.index
+GET         /sign-in                           @cobase.play.user.AuthenticationController.signIn
+GET         /sign-out                          @cobase.play.user.AuthenticationController.signOut
+GET         /sign-up                           @cobase.play.user.SignUpController.signUpForm
+POST        /sign-up                           @cobase.play.user.SignUpController.signUp
+GET         /authenticate/:provider            @cobase.play.user.SocialAuthController.authenticate(provider)
+POST        /authenticate/credentials          @cobase.play.user.CredentialsAuthController.authenticate
 
 # Group related
-GET         /groups/add                      @cobase.play.group.GroupController.addGroupForm
-POST        /groups                          @cobase.play.group.GroupController.addGroup
-GET         /group/:groupId/edit             @cobase.play.group.GroupController.editGroupForm(groupId: java.util.UUID)
-POST        /group/:groupId                  @cobase.play.group.GroupController.editGroup(groupId: java.util.UUID)
-GET         /group/:groupId/subscribe        @cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
-GET         /group/:groupId/unsubscribe      @cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
+GET         /groups/add                        @cobase.play.group.GroupController.addGroupForm
+POST        /groups                            @cobase.play.group.GroupController.addGroup
+GET         /group/:groupId/edit               @cobase.play.group.GroupController.editGroupForm(groupId: java.util.UUID)
+POST        /group/:groupId                    @cobase.play.group.GroupController.editGroup(groupId: java.util.UUID)
+GET         /group/:groupId/subscribe          @cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
+GET         /group/:groupId/unsubscribe        @cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
 
 # Post related
-GET         /post/:postId/edit               @cobase.play.post.PostController.editPostForm(postId: java.util.UUID)
-POST        /post/:postId                    @cobase.play.post.PostController.editPost(postId: java.util.UUID)
-GET         /group/:groupId/posts            @cobase.play.post.PostController.viewPosts(groupId: java.util.UUID)
-POST        /group/:groupId/posts            @cobase.play.post.PostController.addPost(groupId: java.util.UUID)
+GET         /post/:postId/edit                 @cobase.play.post.PostController.editPostForm(postId: java.util.UUID)
+POST        /post/:postId                      @cobase.play.post.PostController.editPost(postId: java.util.UUID)
+GET         /group/:groupId/posts              @cobase.play.post.PostController.viewPosts(groupId: java.util.UUID)
+POST        /group/:groupId/posts              @cobase.play.post.PostController.addPost(groupId: java.util.UUID)
 
 # Search
-GET         /posts/search                    @cobase.play.post.SearchController.searchPosts
+GET         /posts/search                      @cobase.play.post.SearchController.searchPosts
+
+# External
+GET         /group/:groupId/tweets             @cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                    controllers.Assets.at(path="/public", file)
-GET         /webjars/*file                   controllers.WebJarAssets.at(file)
+GET         /assets/*file                      controllers.Assets.at(path="/public", file)
+GET         /webjars/*file                     controllers.WebJarAssets.at(file)

@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 import cobase.group.{GroupService, Group}
 import cobase.post.PostService
-import cobase.twitter.TwitterService
+import cobase.twitter.{Tweet, TwitterService}
 import cobase.user._
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
@@ -12,12 +12,8 @@ import play.api.i18n.Messages
 
 import scala.concurrent.Future
 import java.util.UUID
+import play.api.libs.json._
 
-/**
- * The group controller.
- *
- * @param env The Silhouette environment.
- */
 class GroupController @Inject() (implicit val env: Environment[User, SessionAuthenticator],
                                  groupService: GroupService,
                                  postService: PostService,
@@ -97,9 +93,6 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     )
   }
 
-  /**
-   * Subscribe the current user to a group
-   */
   def subscribe(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
@@ -119,9 +112,6 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
     )
   }
 
-  /**
-   * Unsubscribe the current user from a group
-   */
   def unsubscribe(groupId: UUID) = SecuredAction.async { implicit request =>
     Future.successful(
       groupService.findById(groupId) match {
@@ -137,6 +127,29 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
           groupService.findGroupLinks,
           "Group with id " + groupId + " not found"
         ))
+      }
+    )
+  }
+
+  def getTweetsForGroup(groupId: UUID) = SecuredAction.async { implicit request =>
+    implicit val twitterFeedItemWrites = Json.writes[Tweet]
+
+    Future.successful(
+      groupService.findById(groupId) match {
+        case Some(group) =>
+          val tweets = twitterService.getGroupTweets(group.tags)
+          tweets match {
+            case Some(_) => Ok(
+              Json.toJson(
+                tweets
+              )
+            )
+            case None => NotFound("No tweets found")
+          }
+
+        case None => NotFound(
+          "Group with id " + groupId + " not found"
+        )
       }
     )
   }

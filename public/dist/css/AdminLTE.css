@@ -1682,6 +1682,12 @@ a:focus {
   margin-right: 10px;
   margin-bottom: 15px;
 }
+
+.timeline > li {
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
 .timeline > li:before,
 .timeline > li:after {
   content: " ";
@@ -1745,6 +1751,7 @@ a:focus {
   left: 18px;
   top: 0;
 }
+
 /*
  * Component: Button
  * -----------------

@@ -13,11 +13,6 @@ import play.api.i18n.Messages
 import scala.concurrent.Future
 import java.util.UUID
 
-/**
- * The post controller.
- *
- * @param env The Silhouette environment.
- */
 class PostController @Inject() (implicit val env: Environment[User, SessionAuthenticator],
                                 groupService: GroupService,
                                 postService: PostService,
@@ -33,7 +28,6 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
           groupService.findGroupLinks,
           group,
           postService.findLatestPostsForGroup(groupId),
-          twitterService.getGroupTweets(group.tags),
           subscriptionService.isUserSubscribedToGroup(request.identity, group),
           PostForm.form
         ))
@@ -109,7 +103,6 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
                 groupService.findGroupLinks,
                 group,
                 postService.findLatestPostsForGroup(groupId),
-                twitterService.getGroupTweets(group.tags),
                 subscriptionService.isUserSubscribedToGroup(request.identity, group),
                 formWithErrors
               ))

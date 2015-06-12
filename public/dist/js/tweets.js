@@ -31,9 +31,7 @@ var TweetList = React.createClass({
     render: function() {
         var tweetNodes = this.props.data.map(function(tweet, index) {
             return (
-                <Tweet screenName={tweet.screenName} realName={tweet.realName} profileImageURL={tweet.profileImageURL} createdAt={tweet.createdAt} text={tweet.text} key={index}>
-                    {tweet.text}
-                </Tweet>
+                <Tweet screenName={tweet.screenName} realName={tweet.realName} profileImageURL={tweet.profileImageURL} createdAt={tweet.createdAt} text={tweet.text} key={index}></Tweet>
             );
         });
         return (

@@ -1,24 +1,26 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     react: {
-      single_file_output: {
-        files: {
-          'public/dist/js/react/tweets.js': 'app/assets/js/react/tweets.jsx'
-        }
+      jsx: {
+        files: [
+          {
+            expand: true,
+            cwd: 'app/assets/js/react',
+            src: [ '*.jsx' ],
+            dest: 'public/dist/js/react',
+            ext: '.js'
+          }
+        ]
       }
     },
-    jshint: {
-      files: ['Gruntfile.js', 'app/assets/js/**/*.js'],
-      options: {
-        globals: {
-          jQuery: true
-        }
-      }
-    },
+
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      react: {
+        files: 'app/assets/js/react/*.jsx',
+        tasks: ['react']
+      }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -26,7 +28,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-react');
   grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['jshint', 'react']);
+  grunt.registerTask('default', ['react']);
 
 };
 

@@ -22,3 +22,5 @@ activator
 /deploy.sh
 /update.sh
 /nohup.out
+node_modules/
+public/dist/js/react/*

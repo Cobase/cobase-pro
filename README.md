@@ -31,18 +31,22 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 - JDK 6 or later
 - Activator (https://typesafe.com/activator)
 - PostgreSQL / MySQL
+- NPM & Grunt
 
 
 ## Installation
 
-1. Clone the repository.
+1. Clone this repository
 2. Open PostgreSQL console as postgres user: `psql -U postgres`
 3. In PostgreSQL console, create database: `create database cobase_pro`
 4. Copy conf/application.conf.dist to conf/application.conf (and configure!)
 5. Copy conf/silhouette.conf.dist to conf/silhouette.conf (and configure!)
 6. Copy conf/twitter.conf.dist to conf/twitter.conf (and configure!)
 7. Add database settings to conf/application.conf according to database created
-8. Start application with `activator "run 9001"`
+8. Install npm components: `npm install`
+9. Transform React files: `grunt`
+10. Start application with `activator run`
+11. Open browser (http://locahost:9000)
 
 
 ## Database migrations
@@ -64,27 +68,7 @@ Run tests by entering:
 - Database abstraction: [Slick](http://slick.typesafe.com)
 - Framework: [Play for Scala](https://www.playframework.com)
 - Twitter: [Twitter4J](http://www.twitter4j.org)
-
-
-## Screenshots
-
-Screenshots below are from the current state of the application and may contain dummy data and static content simulating real-world case scenario.
-
-Login screen
-![Sign in screen](public/samples/login.png "Sign in screen")
-
-Registration screen
-![Sign up screen](public/samples/register.png "Sign up screen")
-
-New group
-![New group page](public/samples/new_group.png "New group page")
-
-Group posts
-![Group post listing page](public/samples/group_posts.png "Group post listing page")
-
-Group's Twitter feed
-![Group's Twitter feed](public/samples/group_tweets.png "Group's Twitter feed")
-
+- View: [React](https://facebook.github.io/react)
 
 ## License
 

@@ -134,7 +134,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
   def getTweetsForGroup(groupId: UUID) = SecuredAction.async { implicit request =>
     implicit val twitterFeedItemWrites = Json.writes[Tweet]
 
-    Future.successful{
+    Future.successful {
       val tweets = for {
         group <- groupService.findById(groupId)
         tweets <- twitterService.getGroupTweets(group.tags)

@@ -12,7 +12,6 @@
   groupLinks: List[GroupLink],
   group: Group,
   posts: List[Post],
-  tweets: Option[List[twitter4j.Status]],
   subscribed: Boolean,
   postForm: Form[PostFormData]
 )(implicit request: RequestHeader)
@@ -23,7 +22,7 @@
 
 @main("CobasePRO - " + group.title, Option(user), groupLinks, pageTitle) {
     <div class="row">
-        @if(!tweets) {
+        @if(group.tags.isEmpty) {
             <div class="col-md-12">
         } else {
             <div class="col-md-8">
@@ -94,44 +93,19 @@
                 </div>
             </div>
         </div>
-        @if(!tweets.isEmpty) {
+        @if(!group.tags.isEmpty) {
             <div class="col-md-4">
-                <div id='twitter-feed'>
+                <div id='twitter-feed' data-group-id="@group.id">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h3>Twitter feed</h3>
-                            @if(!group.tags.isEmpty) {
-                                <h4>@group.tags.split(",").sortWith(_ < _).mkString(", ")</h4>
-                            }
-                            <ul class="timeline noline">
-                                @tweets.get.map { tweet =>
-                                <li>
-                                    <div class="twitter-item">
-                                        <h3 class="timeline-header">
-                                            <div class="row">
-                                                <div class="tweet-info">
-                                                    <img class="twitter-icon" src="@tweet.getUser.getProfileImageURL/">
-                                                </div>
-                                                <div class="tweet">
-                                                    <div>@tweet.getUser.getName</div>
-                                                    <div><a href="https://twitter.com/@tweet.getUser.getScreenName">@@@tweet.getUser.getScreenName</a></div>
-                                                </div>
-                                            </div>
-                                        </h3>
-                                        <div class="timeline-body wordbreak">
-                                            @linkify(tweet.getText.toString)
-                                            <br/>
-                                            <span class="time ago"><i class="fa fa-clock-o"></i> @prettytime(tweet.getCreatedAt)</span>
-                                        </div>
-
-                                    </div>
-                                </li>
-                                }
-                            </ul>
-                        </div>
+                        <h3>Twitter feed</h3>
+                        <h4>@group.tags.replaceAll(",", ", ")</h4>
+                        <div class="col-md-12" id="twitter"></div>
                     </div>
                 </div>
             </div>
         }
     </div>
+
+    <script src="/assets/plugins/react/react.js"></script>
+    <script src="/assets/dist/js/react/tweets.js"></script>
 }

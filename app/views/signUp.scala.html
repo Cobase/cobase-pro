@@ -1,9 +1,9 @@
 @import views.html.helpers._
 
-@import cobase.play.user.SignUpForm
+@import cobase.play.user.SignUpFormData
 @import cobase.play.user.routes.{SignUpController => signUpControllerRoutes, AuthenticationController => authenticationControllerRoutes}
 
-@(signInForm: Form[SignUpForm.Data])(implicit request: RequestHeader)
+@(signInForm: Form[SignUpFormData])(implicit request: RequestHeader)
 
 @blank("CobasePRO - Sign Up") {
 <div class="register-box">

@@ -1,6 +1,6 @@
 package cobase.twitter
 
-case class Tweet (
+case class Tweet(
   realName: String,
   screenName: String,
   profileImageURL: String,

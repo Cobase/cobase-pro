@@ -11,13 +11,6 @@ import play.api.db.slick._
  */
 class SubscriptionDAO {
 
-  /**
-   * Check if given user is subscribed to given group.
-   *
-   * @param User user
-   * @param Group group
-   * @return boolean
-   */
   def isUserSubscribedToGroup(user: User, group: Group): Boolean = {
     DB withSession { implicit session =>
       val subscription = slickSubscriptions.filter(
@@ -26,16 +19,10 @@ class SubscriptionDAO {
         _.groupId === group.id
       ).firstOption
 
-      !subscription.isEmpty
+      subscription.isDefined
     }
   }
 
-  /**
-   * Subscribe user to a group
-   *
-   * @param user User
-   * @param group Group
-   */
   def subscribeUserToGroup(user: User, group: Group): Unit = {
     DB withSession { implicit session =>
       slickSubscriptions.insert(
@@ -44,12 +31,6 @@ class SubscriptionDAO {
     }
   }
 
-  /**
-   * Unsubscribe user from a group
-   *
-   * @param user User
-   * @param group Group
-   */
   def unsubscribeUserFromGroup(user: User, group: Group): Unit = {
     DB withSession { implicit session =>
       slickSubscriptions.filter(

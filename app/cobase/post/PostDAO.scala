@@ -17,36 +17,20 @@ import java.util.UUID
  */
 class PostDAO {
 
-  /**
-   * Finds all posts.
-   *
-   * @return Seq[Post] List of all posts found.
-   */
-  def findAll() = {
+  def findAll: List[Post] = {
     DB withSession { implicit session =>
       slickPosts.list
     }
   }
 
-  /**
-   * Finds a post by its id.
-   *
-   * @param postId The id of the post to find.
-   * @return The found post or None if no post for the given id could be found.
-   */
   def findById(postId: UUID): Option[Post] = {
     DB withSession { implicit session =>
-      slickPosts.filter(
-        _.id === postId
-      ).firstOption
+      slickPosts.filter(_.id === postId).firstOption
     }
   }
 
   /**
-   * Finds a post by a search phrase.
-   *
-   * @param phrase The search phrase.
-   * @return List of found posts.
+   * Finds posts by search phrase.
    */
   def findByPhrase(phrase: String): List[Post] = {
     DB withSession { implicit session =>
@@ -56,13 +40,7 @@ class PostDAO {
     }
   }
 
-  /**
-   * Finds all latest posts by group id.
-   *
-   * @param groupId The id of the group to find posts from.
-   * @return The list of found posts.
-   */
-  def findLatestPostsForGroup(groupId: UUID) = {
+  def findLatestPostsForGroup(groupId: UUID): List[Post] = {
     DB withSession { implicit session =>
       slickPosts.filter(
         _.groupId === groupId
@@ -70,13 +48,7 @@ class PostDAO {
     }
   }
 
-  /**
-   * Saves a post with the post data.
-   *
-   * @param post
-   * @return Post
-   */
-  def save(post: Post) = {
+  def add(post: Post): Future[Post] = {
     DB withSession { implicit session =>
       Future.successful {
         slickPosts.insert(post)
@@ -85,13 +57,7 @@ class PostDAO {
     }
   }
 
-  /**
-   * Updates a post with the post data.
-   *
-   * @param post
-   * @return Post
-   */
-  def update(post: Post) = {
+  def update(post: Post): Future[Post] = {
     DB withSession { implicit session =>
       Future.successful {
         slickPosts.filter(_.id === post.id).update(post)
@@ -101,9 +67,7 @@ class PostDAO {
   }
 
   /**
-   * Get posts related to user's subscriptions
-   *
-   * @return Seq[DashboardPosts
+   * Get posts related to user's subscriptions.
    */
   def getDashboardPosts(user: User): List[DashboardPost] = {
     DB withSession { implicit session =>

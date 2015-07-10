@@ -15,12 +15,7 @@ import java.util.UUID
  */
 class GroupDAO {
 
-  /**
-   * Find all groups.
-   *
-   * @return Seq[Group]
-   */
-  def findAll = {
+  def findAll: List[Group] = {
     DB withSession { implicit session =>
       slickGroups.sortBy(_.title.toLowerCase.asc).list
     }
@@ -28,12 +23,9 @@ class GroupDAO {
 
   /**
    * Get list of groups and their post counts
-   *
-   * @return Seq[GroupLink]
    */
-  def findGroupLinks = {
+  def findGroupLinks: List[GroupLink] = {
     DB withSession { implicit session =>
-
       implicit val getGroupResult =
         GetResult(r =>
           GroupLink(UUID.fromString(r.nextString()), r.nextString(), r.nextInt())
@@ -58,27 +50,13 @@ class GroupDAO {
     }
   }
 
-  /**
-   * Finds a group by its user id.
-   *
-   * @param groupId The id of the group to find.
-   * @return The found group or None if no group for the given id could be found.
-   */
   def findById(groupId: UUID): Option[Group] = {
     DB withSession { implicit session =>
-      slickGroups.filter(
-        _.id === groupId
-      ).firstOption
+      slickGroups.filter(_.id === groupId).firstOption
     }
   }
 
-  /**
-   * Saves a group with the group data.
-   *
-   * @param group
-   * @return Group
-   */
-  def save(group: Group) = {
+  def add(group: Group): Future[Group] = {
     DB withSession { implicit session =>
       Future.successful {
         slickGroups.insert(group)
@@ -87,13 +65,7 @@ class GroupDAO {
     }
   }
 
-  /**
-   * Updates a group with the group data.
-   *
-   * @param group
-   * @return Group
-   */
-  def update(group: Group) = {
+  def update(group: Group): Future[Group] = {
     DB withSession { implicit session =>
       Future.successful {
         slickGroups.filter(_.id === group.id).update(group)

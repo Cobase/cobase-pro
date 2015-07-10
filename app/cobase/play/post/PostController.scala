@@ -110,7 +110,7 @@ class PostController @Inject() (implicit val env: Environment[User, SessionAuthe
             data => {
               val timestamp: Long = System.currentTimeMillis / 1000
 
-              postService.save(
+              postService.add(
                 Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp)
               )
 

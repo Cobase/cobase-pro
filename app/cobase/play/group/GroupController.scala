@@ -36,7 +36,7 @@ class GroupController @Inject() (implicit val env: Environment[User, SessionAuth
           )
         },
         data => {
-          groupService.save(
+          groupService.add(
             Group(UUID.randomUUID, data.title, data.tags)
           )
 

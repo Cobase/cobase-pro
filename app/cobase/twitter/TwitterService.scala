@@ -7,8 +7,8 @@ import scala.collection.JavaConverters._
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
-import java.util.Locale;
-import com.ocpsoft.pretty.time.PrettyTime;
+import java.util.Locale
+import com.ocpsoft.pretty.time.PrettyTime
 
 class TwitterService {
   def getGroupTweets(hashtags: String): Option[List[Tweet]] = {
@@ -17,7 +17,7 @@ class TwitterService {
     val accessKey = current.configuration.getString("twitter.accessKey").getOrElse("")
     val accessToken = current.configuration.getString("twitter.accessToken").getOrElse("")
     val queryMode = current.configuration.getString("twitter.queryMode").getOrElse("OR")
-    val twitterQuery = hashtags.replace(",", " " + queryMode + " ");
+    val twitterQuery = hashtags.replace(",", " " + queryMode + " ")
 
     val twitter = new TwitterFactory().getInstance()
     twitter.setOAuthConsumer(consumerKey, consumerSecret)

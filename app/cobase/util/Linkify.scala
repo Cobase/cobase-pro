@@ -7,8 +7,6 @@ class Linkify {
 
   /**
    * Convert all URLs into links and all hashtags into search url.
-   * @param s
-   * @return String
    */
   def convert(s: String): String = {
     val urlRegex = """(?i)\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]""".r

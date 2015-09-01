@@ -9,9 +9,9 @@
 @import cobase.play.post.routes.{PostController => postControllerRoutes}
 
 @(user: User,
-  groupLinks: List[GroupLink],
+  groupLinks: Seq[GroupLink],
   group: Group,
-  posts: List[Post],
+  posts: Seq[Post],
   subscribed: Boolean,
   postForm: Form[PostFormData]
 )(implicit request: RequestHeader)
@@ -44,24 +44,26 @@
                             </div>
                             <div class="box-body">
                                 @helper.form(action = postControllerRoutes.addPost(group.id)) {
-                                @textarea(postForm("content"), "Post content", icon = "")
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>
-                                    </div><!-- /.col -->
-                                    <div class="col-xs-8 text-right edit-group-link">
-                                        @subscribed match {
-                                            case true => {
-                                                <a href="@groupControllerRoutes.unsubscribe(group.id)">Unsubscribe</a>
+                                    @helper.CSRF.formField
+                                    @textarea(postForm("content"), "Post content", icon = "")
+
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>
+                                        </div><!-- /.col -->
+                                        <div class="col-xs-8 text-right edit-group-link">
+                                            @subscribed match {
+                                                case true => {
+                                                    <a href="@groupControllerRoutes.unsubscribe(group.id)">Unsubscribe</a>
+                                                }
+                                                case false => {
+                                                    <a href="@groupControllerRoutes.subscribe(group.id)">Subscribe</a>
+                                                }
                                             }
-                                            case false => {
-                                                <a href="@groupControllerRoutes.subscribe(group.id)">Subscribe</a>
-                                            }
-                                        }
-                                        &nbsp;|&nbsp;
-                                        <a href="@groupControllerRoutes.editGroupForm(group.id)">Edit group</a>
+                                            &nbsp;|&nbsp;
+                                            <a href="@groupControllerRoutes.editGroupForm(group.id)">Edit group</a>
+                                        </div>
                                     </div>
-                                </div>
                                 }
                             </div>
                         </div>

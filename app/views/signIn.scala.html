@@ -1,39 +1,44 @@
-@import com.mohiva.play.silhouette.api.util.Credentials
-@import com.mohiva.play.silhouette.api.Environment
-@import com.mohiva.play.silhouette.impl.providers._
+@import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
 @import views.html.helpers._
 
-@import cobase.user.User
+@import cobase.play.user.SignInData
 @import cobase.play.user.routes.{CredentialsAuthController => credentialsAuthControllerRoutes, SignUpController => signUpControllerRoutes}
 
-@(signInForm: Form[Credentials])(implicit env: Environment[User, _], request: RequestHeader)
+@(signInForm: Form[SignInData], socialProviders: SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages)
 
 @blank("CobasePRO - Sign In") {
     <div class="login-box">
         <div class="login-logo">
             <a href="../../index2.html"><b>Cobase</b>PRO</a>
         </div>
+
         <div class="login-box-body">
             <p class="login-box-msg">Login into system</p>
+
             @request.flash.get("error").map { msg =>
                 <p class="login-box-msg"><strong>Error:</strong> @msg</p>
             }
+
             @helper.form(action = credentialsAuthControllerRoutes.authenticate()) {
-                @text(signInForm("identifier"), "Email", icon = "at")
+                @helper.CSRF.formField
+                @text(signInForm("email"), "Email", icon = "at")
                 @password(signInForm("password"), "Password", icon = "key")
+
                 <div class="row top20 bottom10">
                     <div class="col-xs-12">
                         <label>
-                            <input type="checkbox"> <span class="checkbox-label">Remember me</span>
+                            <input type="checkbox" id="rememberMe" name="rememberMe" value="true"> <span class="checkbox-label">Remember me</span>
                         </label>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-success btn-block btn-flat">Sign In</button>
-                    </div><!-- /.col -->
+                    </div>
                 </div>
             }
+
             <p class="not-a-member top20">Not a member? <a href="@signUpControllerRoutes.signUp">Sign up now</a></p>
         </div>
     </div>

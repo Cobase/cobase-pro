@@ -1,13 +1,17 @@
 package cobase
 
-import _root_.play.api.db.slick.Config.driver.simple._
 import java.util.UUID
 
 import cobase.group.Group
 import cobase.post.Post
 import cobase.user.Subscription
+import com.mohiva.play.silhouette.api.LoginInfo
+import slick.driver.JdbcProfile
 
-object DBTableDefinitions {
+trait DBTableDefinitions {
+  protected val driver: JdbcProfile
+
+  import driver.api._
 
   case class DBUser (
     id: String,
@@ -47,8 +51,8 @@ object DBTableDefinitions {
   )
 
   class UserLoginInfos(tag: Tag) extends Table[DBUserLoginInfo](tag, "user_login_infos") {
-    def userId = column[String]("user_id", O.NotNull)
-    def loginInfoId = column[Long]("login_info_id", O.NotNull)
+    def userId = column[String]("user_id")
+    def loginInfoId = column[Long]("login_info_id")
     def * = (userId, loginInfoId) <> (DBUserLoginInfo.tupled, DBUserLoginInfo.unapply)
   }
 
@@ -126,29 +130,29 @@ object DBTableDefinitions {
   }
 
   class Groups(tag: Tag) extends Table[Group](tag, "groups") {
-    def id = column[UUID]("id", O.PrimaryKey, O.DBType("UUID"))
+    def id = column[UUID]("id", O.PrimaryKey, O.SqlType("UUID"))
     def title = column[String]("title")
     def tags = column[String]("tags")
-    def idx = index("idx_group_id", (id), unique = true)
+    def idx = index("idx_group_id", id, unique = true)
     def * = (id, title, tags) <> (Group.tupled, Group.unapply)
   }
 
   class Posts(tag: Tag) extends Table[Post](tag, "posts") {
-    def id = column[UUID]("id", O.PrimaryKey, O.DBType("UUID"))
-    def content = column[String]("content", O.DBType("text"))
-    def groupId = column[UUID]("group_id", O.DBType("UUID"))
+    def id = column[UUID]("id", O.PrimaryKey, O.SqlType("UUID"))
+    def content = column[String]("content", O.SqlType("text"))
+    def groupId = column[UUID]("group_id", O.SqlType("UUID"))
     def createdBy = column[Option[String]]("created_by")
     def createdTimestamp = column[Long]("created_timestamp")
-    def idx = index("idx_post_group", (groupId), unique = false)
+    def idx = index("idx_post_group", groupId, unique = false)
     def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
   }
 
   class Subscriptions(tag: Tag) extends Table[Subscription](tag, "subscriptions") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def userId = column[UUID]("user_id", O.DBType("UUID"))
-    def groupId = column[UUID]("group_id", O.DBType("UUID"))
-    def idx1 = index("idx_subscr_group", (groupId), unique = false)
-    def idx2 = index("idx_subscr_user", (userId), unique = false)
+    def userId = column[UUID]("user_id", O.SqlType("UUID"))
+    def groupId = column[UUID]("group_id", O.SqlType("UUID"))
+    def idx1 = index("idx_subscr_group", groupId, unique = false)
+    def idx2 = index("idx_subscr_user", userId, unique = false)
     def idx3 = index("idx_subscr_comb", (groupId, userId), unique = true)
     def * = (id, userId, groupId) <> (Subscription.tupled, Subscription.unapply)
   }
@@ -164,4 +168,11 @@ object DBTableDefinitions {
   val slickGroups = TableQuery[Groups]
   val slickPosts = TableQuery[Posts]
   val slickSubscriptions = TableQuery[Subscriptions]
+
+  // queries used in multiple places
+  def loginInfoQuery(loginInfo: LoginInfo) = {
+    slickLoginInfos.filter(dbLoginInfo =>
+      dbLoginInfo.providerID === loginInfo.providerID && dbLoginInfo.providerKey === loginInfo.providerKey
+    )
+  }
 }

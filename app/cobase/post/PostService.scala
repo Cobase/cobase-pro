@@ -12,16 +12,16 @@ import scala.concurrent.Future
  */
 class PostService @Inject() (postDAO: PostDAO) {
 
-  def findAll: List[Post] = postDAO.findAll
+  def findAll: Future[Seq[Post]] = postDAO.findAll
 
-  def findById(postId: UUID): Option[Post] = postDAO.findById(postId)
+  def findById(postId: UUID): Future[Option[Post]] = postDAO.findById(postId)
 
   /**
    * Retrieves a post that matches the specified search phrase.
    */
-  def findByPhrase(phrase: String): List[Post] = postDAO.findByPhrase(phrase)
+  def findByPhrase(phrase: String): Future[Seq[Post]] = postDAO.findByPhrase(phrase)
 
-  def findLatestPostsForGroup(groupId: UUID): List[Post] = postDAO.findLatestPostsForGroup(groupId)
+  def findLatestPostsForGroup(groupId: UUID): Future[Seq[Post]] = postDAO.findLatestPostsForGroup(groupId)
 
   def add(post: Post): Future[Post] = postDAO.add(post)
 
@@ -30,6 +30,6 @@ class PostService @Inject() (postDAO: PostDAO) {
   /**
    * Get posts found based on user subscriptions
    */
-  def getDashboardPosts(user: User): List[DashboardPost] = postDAO.getDashboardPosts(user)
+  def getDashboardPosts(user: User): Future[Seq[DashboardPost]] = postDAO.getDashboardPosts(user)
 
 }

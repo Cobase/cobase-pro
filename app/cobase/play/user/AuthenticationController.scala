@@ -4,7 +4,9 @@ import javax.inject.Inject
 
 import cobase.user.User
 import com.mohiva.play.silhouette.api.{Environment, LogoutEvent, Silhouette}
-import com.mohiva.play.silhouette.impl.authenticators.SessionAuthenticator
+import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
+import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
@@ -14,19 +16,22 @@ import scala.concurrent.Future
  * @param env The Silhouette environment.
  */
 class AuthenticationController @Inject() (
-  implicit val env: Environment[User, SessionAuthenticator]
-) extends Silhouette[User, SessionAuthenticator] {
+  val env: Environment[User, CookieAuthenticator],
+  val messagesApi: MessagesApi,
+  socialProviderRegistry: SocialProviderRegistry
+) extends Silhouette[User, CookieAuthenticator] {
+
   def signIn = UserAwareAction.async { implicit request =>
     request.identity match {
-      case Some(user) => Future.successful(Redirect(routes.ApplicationController.index))
-      case None => Future.successful(Ok(views.html.signIn(SignInForm.form)))
+      case Some(user) => Future.successful(Redirect(routes.ApplicationController.index()))
+      case None => Future.successful(Ok(views.html.signIn(SignInForm.form, socialProviderRegistry)))
     }
   }
 
   def signOut = SecuredAction.async { implicit request =>
-    val result = Future.successful(Redirect(routes.ApplicationController.index))
-    env.eventBus.publish(LogoutEvent(request.identity, request, request2lang))
+    val result = Redirect(routes.ApplicationController.index())
+    env.eventBus.publish(LogoutEvent(request.identity, request, request2Messages))
 
-    request.authenticator.discard(result)
+    env.authenticatorService.discard(request.authenticator, result)
   }
 }

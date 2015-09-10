@@ -6,17 +6,27 @@
 # The secret key is used to secure cryptographics functions.
 # If you deploy your application to several instances be sure to use the same key!
 # Make sure this string is at least 16 characters long.
-application.secret="changemechangemechangeme"
+play.crypto.secret="changemechangemechangeme"
 
 # The application languages
 # ~~~~~
-application.langs="en"
+play.i18n.langs=["en"]
 
-# Global object class
+# Registers the error handler
 # ~~~~~
-# Define the Global object class for this application.
-# Default to Global in the root package.
-application.global=cobase.play.Global
+play.http.errorHandler = "cobase.play.ErrorHandler"
+
+# Registers the request handler
+# ~~~~~
+play.http.requestHandler = "play.api.http.DefaultHttpRequestHandler"
+
+# Registers the filters
+# ~~~~~
+play.http.filters = "cobase.play.Filters"
+
+# The application DI modules
+# ~~~~~
+play.modules.enabled += "cobase.play.SilhouetteModule"
 
 # Router
 # ~~~~~
@@ -34,33 +44,65 @@ application.global=cobase.play.Global
 # You can declare as many datasources as you want.
 # By convention, the default datasource is named `default`
 # ~~~~~
-db.default.driver=org.postgresql.Driver
-db.default.url="jdbc:postgresql://localhost/cobase_pro"
-db.default.user="postgres"
-db.default.pass=""
-
+slick.dbs.default.driver="slick.driver.PostgresDriver$"
+slick.dbs.default.db.driver=org.postgresql.Driver
+slick.dbs.default.db.url="jdbc:postgresql://localhost/cobase_pro"
+slick.dbs.default.db.user="postgres"
+slick.dbs.default.db.pass=""
+slick.dbs.default.db.numThreads=10
+slick.dbs.default.db.queueSize=1000
+slick.dbs.default.db.connectionTimeout=5000
+slick.dbs.default.db.validationTimeout=5000
 
 # play-slick configuration
 # ~~~~~
 slick.default="cobase.*"
-silhouette.seed.db.useSlick=true
 
 # Evolutions
 # ~~~~~
 # You can disable evolutions if needed
 # evolutionplugin=disabled
 
-# Logger
-# ~~~~~
-# You can also configure logback (http://logback.qos.ch/),
-# by providing an application-logger.xml file in the conf directory.
-
-logger.root=ERROR
-logger.play=INFO
-logger.application=INFO
-#logger.com.mohiva=DEBUG
-
 # Cobase related configurations
 cobase.organizationName="Organization Name"
 
+# Security Filter Configuration - Content Security Policy
+# ~~~~~
+#play.filters.headers.contentSecurityPolicy
+# default-src
+# 'self'
+# img-src
+# 'self'
+# fbcdn-profile-a.akamaihd.net (Facebook)
+# *.twimg.com (Twitter)
+# *.googleusercontent.com (Google)
+# *.xingassets.com (Xing)
+# vk.com (VK)
+# *.yimg.com (Yahoo)
+# secure.gravatar.com
+# style-src
+# 'self'
+# 'unsafe-inline'
+# cdnjs.cloudflare.com
+# maxcdn.bootstrapcdn.com
+# cdn.jsdelivr.net
+# fonts.googleapis.com
+# 'unsafe-inline' (in-line css found in bootstrap.min.js)
+# font-src
+# 'self'
+# fonts.gstatic.com
+# fonts.googleapis.com
+# cdnjs.cloudflare.com
+# script-src
+# 'self'
+# clef.io
+# connect-src
+# 'self'
+# twitter.com
+# *.xing.com
+# frame-src
+# clef.io
+play.filters.headers.contentSecurityPolicy="default-src 'self'; img-src 'self' fbcdn-profile-a.akamaihd.net *.twimg.com *.googleusercontent.com *.xingassets.com vk.com *.yimg.com secure.gravatar.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' clef.io; connect-src 'self' twitter.com *.xing.com; frame-src clef.io"
+
 include "silhouette.conf"
+include "twitter.conf"

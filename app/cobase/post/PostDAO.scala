@@ -1,98 +1,80 @@
 package cobase.post
 
+import java.util.UUID
+import javax.inject.Inject
+
 import cobase.DBTableDefinitions
 import cobase.user.User
-import DBTableDefinitions._
-import play.api.Play.current
-import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick._
+import slick.driver.JdbcProfile
+import slick.jdbc.GetResult
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.slick.jdbc.{GetResult, StaticQuery => Q}
-
-import java.util.UUID
 
 /**
  * Give access to the user object using Slick
  */
-class PostDAO {
+class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+  import driver.api._
 
-  def findAll: List[Post] = {
-    DB withSession { implicit session =>
-      slickPosts.list
-    }
+  def findAll: Future[Seq[Post]] = {
+    db.run(slickPosts.result)
   }
 
-  def findById(postId: UUID): Option[Post] = {
-    DB withSession { implicit session =>
-      slickPosts.filter(_.id === postId).firstOption
-    }
+  def findById(postId: UUID): Future[Option[Post]] = {
+    db.run(slickPosts.filter(_.id === postId).result.headOption)
   }
 
   /**
    * Finds posts by search phrase.
    */
-  def findByPhrase(phrase: String): List[Post] = {
-    DB withSession { implicit session =>
-      slickPosts.filter(
-        _.content.toLowerCase.like("%" + phrase.toLowerCase + "%")
-      ).sortBy(_.id.desc).list
-    }
+  def findByPhrase(phrase: String): Future[Seq[Post]] = {
+    db.run(
+      slickPosts
+        .filter(_.content.toLowerCase.like("%" + phrase.toLowerCase + "%"))
+        .sortBy(_.id.desc)
+        .result
+    )
   }
 
-  def findLatestPostsForGroup(groupId: UUID): List[Post] = {
-    DB withSession { implicit session =>
-      slickPosts.filter(
-        _.groupId === groupId
-      ).sortBy(_.createdTimestamp.desc).list
-    }
+  def findLatestPostsForGroup(groupId: UUID): Future[Seq[Post]] = {
+    db.run(
+      slickPosts
+        .filter(_.groupId === groupId)
+        .sortBy(_.createdTimestamp.desc)
+        .result
+    )
   }
 
   def add(post: Post): Future[Post] = {
-    DB withSession { implicit session =>
-      Future.successful {
-        slickPosts.insert(post)
-        post
-      }
-    }
+    db.run(slickPosts += post)
+      .map(_ => post)
   }
 
   def update(post: Post): Future[Post] = {
-    DB withSession { implicit session =>
-      Future.successful {
-        slickPosts.filter(_.id === post.id).update(post)
-        post
-      }
-    }
+    db.run(slickPosts.filter(_.id === post.id).update(post))
+      .map(_ => post)
   }
 
   /**
    * Get posts related to user's subscriptions.
    */
-  def getDashboardPosts(user: User): List[DashboardPost] = {
-    DB withSession { implicit session =>
-      implicit val getPostResult =
-        GetResult(r =>
-          DashboardPost(r.nextString(), r.nextString(), r.nextLong(), r.nextString(), UUID.fromString(r.nextString()))
-        )
+  def getDashboardPosts(user: User): Future[Seq[DashboardPost]] = {
+    implicit val getPostResult =
+      GetResult(r =>
+        DashboardPost(r.nextString(), r.nextString(), r.nextLong(), r.nextString(), UUID.fromString(r.nextString()))
+      )
 
-      val userId = user.id
+    val query = sql"""
+      SELECT p.content, p.created_by, p.created_timestamp, g.title, g.id
+      FROM posts p
+      INNER JOIN groups g ON g.id = p.group_id
+      INNER JOIN subscriptions s ON s.group_id = p.group_id
+      WHERE s.user_id = CAST(${user.id.toString} AS uuid)
+      ORDER BY p.created_timestamp DESC
+    """.as[DashboardPost]
 
-      val dashboardPosts = Q[DashboardPost] +
-        s"""
-            SELECT
-              p.content, p.created_by, p.created_timestamp, g.title, g.id
-            FROM
-              posts p, groups g, subscriptions s
-            WHERE
-              g.id = p.group_id AND
-              s.group_id = p.group_id AND
-              s.user_id = '$userId'
-            ORDER BY p.created_timestamp DESC
-        """
-
-      dashboardPosts.list
-    }
+    db.run(query)
   }
-
 }

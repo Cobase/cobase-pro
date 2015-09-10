@@ -11,11 +11,11 @@ import scala.concurrent.Future
  */
 class GroupService @Inject() (groupDAO: GroupDAO) {
 
-  def findAll: List[Group] = groupDAO.findAll
+  def findAll: Future[Seq[Group]] = groupDAO.findAll
 
-  def findGroupLinks: List[GroupLink] = groupDAO.findGroupLinks
+  def findGroupLinks: Future[Seq[GroupLink]] = groupDAO.findGroupLinks
 
-  def findById(groupId: UUID): Option[Group] = groupDAO.findById(groupId)
+  def findById(groupId: UUID): Future[Option[Group]] = groupDAO.findById(groupId)
 
   def add(group: Group): Future[Group] = groupDAO.add(group)
 

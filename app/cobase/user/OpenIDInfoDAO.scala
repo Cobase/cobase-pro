@@ -1,70 +1,121 @@
 package cobase.user
 
+import javax.inject.Inject
+
 import cobase.DBTableDefinitions
 import com.mohiva.play.silhouette.api.LoginInfo
 import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
 import com.mohiva.play.silhouette.impl.providers.OpenIDInfo
-import DBTableDefinitions._
-import play.api.db.slick.Config.driver.simple._
-import play.api.db.slick._
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.libs.concurrent.Execution.Implicits._
+import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
 
 /**
  * The DAO to store the OpenID information.
+ *
+ * Note: Not thread safe, demo only.
  */
-class OpenIDInfoDAO extends DelegableAuthInfoDAO[OpenIDInfo] {
+class OpenIDInfoDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends DelegableAuthInfoDAO[OpenIDInfo] with HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+  import driver.api._
 
-  import play.api.Play.current
+  protected def openIDInfoQuery(loginInfo: LoginInfo) = for {
+    dbLoginInfo <- loginInfoQuery(loginInfo)
+    dbOpenIDInfo <- slickOpenIDInfos if dbOpenIDInfo.loginInfoId === dbLoginInfo.id
+  } yield dbOpenIDInfo
 
-  /**
-   * Saves the OpenID info.
-   *
-   * @param loginInfo The login info for which the auth info should be saved.
-   * @param authInfo The OpenID info to save.
-   * @return The saved OpenID info or None if the OpenID info couldn't be saved.
-   */
-  def save(loginInfo: LoginInfo, authInfo: OpenIDInfo): Future[OpenIDInfo] = {
-    Future.successful(
-      DB withSession { implicit session =>
-        val infoId = slickLoginInfos.filter(
-          x => x.providerID === loginInfo.providerID && x.providerKey === loginInfo.providerKey
-        ).first.id.get
-        val infoQuery = slickOpenIDInfos.filter(_.loginInfoId === infoId)
-        infoQuery.firstOption match {
-          case Some(info) => {
-            infoQuery.delete
-            slickOpenIDAttributes.filter(_.id === info.id).delete
-          }
-          case None =>
-        }
-        slickOpenIDInfos insert DBOpenIDInfo(authInfo.id, infoId)
+  protected def addAction(loginInfo: LoginInfo, authInfo: OpenIDInfo) =
+    loginInfoQuery(loginInfo).result.head.flatMap { dbLoginInfo =>
+      DBIO.seq(
+        slickOpenIDInfos += DBOpenIDInfo(authInfo.id, dbLoginInfo.id.get),
         slickOpenIDAttributes ++= authInfo.attributes.map {
           case (key, value) => DBOpenIDAttribute(authInfo.id, key, value)
-        }
-        authInfo
+        })
+    }.transactionally
+
+  protected def updateAction(loginInfo: LoginInfo, authInfo: OpenIDInfo) =
+    openIDInfoQuery(loginInfo).result.head.flatMap { dbOpenIDInfo =>
+      DBIO.seq(
+        slickOpenIDInfos filter(_.id === dbOpenIDInfo.id) update dbOpenIDInfo.copy(id = authInfo.id),
+        slickOpenIDAttributes.filter(_.id === dbOpenIDInfo.id).delete,
+        slickOpenIDAttributes ++= authInfo.attributes.map {
+          case (key, value) => DBOpenIDAttribute(authInfo.id, key, value)
+        })
+    }.transactionally
+
+  /**
+   * Finds the auth info which is linked with the specified login info.
+   *
+   * @param loginInfo The linked login info.
+   * @return The retrieved auth info or None if no auth info could be retrieved for the given login info.
+   */
+  def find(loginInfo: LoginInfo): Future[Option[OpenIDInfo]] = {
+    val query = openIDInfoQuery(loginInfo).joinLeft(slickOpenIDAttributes).on(_.id === _.id)
+    val result = db.run(query.result)
+    result.map { openIDInfos =>
+      if (openIDInfos.isEmpty) None
+      else {
+        val attrs = openIDInfos.collect { case (id, Some(attr)) => (attr.key, attr.value) }.toMap
+        Some(OpenIDInfo(openIDInfos.head._1.id, attrs))
       }
-    )
+    }
   }
 
   /**
-   * Finds the OpenID info which is linked with the specified login info.
+   * Adds new auth info for the given login info.
    *
-   * @param loginInfo The linked login info.
-   * @return The retrieved OpenID info or None if no OpenID info could be retrieved for the given login info.
+   * @param loginInfo The login info for which the auth info should be added.
+   * @param authInfo The auth info to add.
+   * @return The added auth info.
    */
-  def find(loginInfo: LoginInfo): Future[Option[OpenIDInfo]] = {
-    Future.successful(
-      DB withSession { implicit session =>
-        slickLoginInfos.filter(info => info.providerID === loginInfo.providerID && info.providerKey === loginInfo.providerKey).firstOption match {
-          case Some(info) =>
-            val openIDInfo = slickOpenIDInfos.filter(_.loginInfoId === info.id).first
-            val openIDAttributes = slickOpenIDAttributes.filter(_.id === openIDInfo.id).
-              list.map(attr => (attr.key, attr.value)).toMap
-            Some(OpenIDInfo(openIDInfo.id, openIDAttributes))
-          case None => None
-        }
-      }
-    )
+  def add(loginInfo: LoginInfo, authInfo: OpenIDInfo): Future[OpenIDInfo] =
+    db.run(addAction(loginInfo, authInfo)).map(_ => authInfo)
+
+  /**
+   * Updates the auth info for the given login info.
+   *
+   * @param loginInfo The login info for which the auth info should be updated.
+   * @param authInfo The auth info to update.
+   * @return The updated auth info.
+   */
+  def update(loginInfo: LoginInfo, authInfo: OpenIDInfo): Future[OpenIDInfo] =
+    db.run(updateAction(loginInfo, authInfo)).map(_ => authInfo)
+
+  /**
+   * Saves the auth info for the given login info.
+   *
+   * This method either adds the auth info if it doesn't exists or it updates the auth info
+   * if it already exists.
+   *
+   * @param loginInfo The login info for which the auth info should be saved.
+   * @param authInfo The auth info to save.
+   * @return The saved auth info.
+   */
+  def save(loginInfo: LoginInfo, authInfo: OpenIDInfo): Future[OpenIDInfo] = {
+    val query = loginInfoQuery(loginInfo).joinLeft(slickOpenIDInfos).on(_.id === _.loginInfoId)
+    val action = query.result.head.flatMap {
+      case (dbLoginInfo, Some(dbOpenIDInfo)) => updateAction(loginInfo, authInfo)
+      case (dbLoginInfo, None)               => addAction(loginInfo, authInfo)
+    }
+    db.run(action).map(_ => authInfo)
+  }
+
+  /**
+   * Removes the auth info for the given login info.
+   *
+   * @param loginInfo The login info for which the auth info should be removed.
+   * @return A future to wait for the process to be completed.
+   */
+  def remove(loginInfo: LoginInfo): Future[Unit] = {
+    // val attributeQuery = for {
+    //  dbOpenIDInfo <- openIDInfoQuery(loginInfo)
+    //  dbOpenIDAttributes <- slickOpenIDAttributes.filter(_.id === dbOpenIDInfo.id)
+    //} yield dbOpenIDAttributes
+    // Use subquery workaround instead of join because slick only supports selecting
+    // from a single table for update/delete queries (https://github.com/slick/slick/issues/684).
+    val openIDInfoSubQuery = slickOpenIDInfos.filter(_.loginInfoId in loginInfoQuery(loginInfo).map(_.id))
+    val attributeSubQuery = slickOpenIDAttributes.filter(_.id in openIDInfoSubQuery.map(_.id))
+    db.run((openIDInfoSubQuery.delete andThen attributeSubQuery.delete).transactionally).map(_ => ())
   }
 }

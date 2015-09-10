@@ -5,7 +5,7 @@
 @import cobase.user.User
 @import cobase.post.Post
 
-@(user: User, groupLinks: List[GroupLink], posts: List[Post])(implicit request: RequestHeader)
+@(user: User, groupLinks: Seq[GroupLink], posts: Seq[Post])(implicit request: RequestHeader)
 
 @pageTitle = {
     Search Results

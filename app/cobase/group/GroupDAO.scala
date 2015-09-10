@@ -1,77 +1,57 @@
 package cobase.group
 
-import cobase.DBTableDefinitions._
-import play.api.Play.current
-import play.api.db.slick.Config.driver.simple._
-import play.api.db.slick._
-
-import scala.concurrent.Future
-import scala.slick.jdbc.{GetResult, StaticQuery => Q}
-
 import java.util.UUID
+import javax.inject.Inject
+
+import cobase.DBTableDefinitions
+import play.api.db.slick._
+import slick.driver.JdbcProfile
+import slick.jdbc.GetResult
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Give access to the user object using Slick
  */
-class GroupDAO {
+class GroupDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+  import driver.api._
 
-  def findAll: List[Group] = {
-    DB withSession { implicit session =>
-      slickGroups.sortBy(_.title.toLowerCase.asc).list
-    }
+  def findAll: Future[Seq[Group]] = {
+    db.run(slickGroups.sortBy(_.title.toLowerCase.asc).result)
   }
 
   /**
    * Get list of groups and their post counts
    */
-  def findGroupLinks: List[GroupLink] = {
-    DB withSession { implicit session =>
-      implicit val getGroupResult =
-        GetResult(r =>
-          GroupLink(UUID.fromString(r.nextString()), r.nextString(), r.nextInt())
-        )
+  def findGroupLinks: Future[Seq[GroupLink]] = {
+    implicit val getGroupResult =
+      GetResult(r =>
+        GroupLink(UUID.fromString(r.nextString()), r.nextString(), r.nextInt())
+      )
 
-      val groupLinks = Q[GroupLink] +
-        """
-          SELECT
-            g.id, g.title, COUNT(p.id)
-          FROM
-            groups g
-          LEFT JOIN
-            posts p
-          ON
-            p.group_id = g.id
-          GROUP BY
-            g.id, g.title
-          ORDER BY upper(g.title)
-        """
+    val query = sql"""
+      SELECT g.id, g.title, COUNT(p.id)
+      FROM groups g
+      LEFT JOIN posts p ON p.group_id = g.id
+      GROUP BY g.id, g.title
+      ORDER BY upper(g.title)
+    """.as[GroupLink]
 
-      groupLinks.list
-    }
+    db.run(query)
   }
 
-  def findById(groupId: UUID): Option[Group] = {
-    DB withSession { implicit session =>
-      slickGroups.filter(_.id === groupId).firstOption
-    }
+  def findById(groupId: UUID): Future[Option[Group]] = {
+    db.run(slickGroups.filter(_.id === groupId).result.headOption)
   }
 
   def add(group: Group): Future[Group] = {
-    DB withSession { implicit session =>
-      Future.successful {
-        slickGroups.insert(group)
-        group
-      }
-    }
+    db.run(slickGroups += group)
+      .map(_ => group)
   }
 
   def update(group: Group): Future[Group] = {
-    DB withSession { implicit session =>
-      Future.successful {
-        slickGroups.filter(_.id === group.id).update(group)
-        group
-      }
-    }
+    db.run(slickGroups.filter(_.id === group.id).update(group))
+      .map(_ => group)
   }
-
 }

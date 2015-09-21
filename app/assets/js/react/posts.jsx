@@ -58,7 +58,7 @@ var Post = React.createClass({
             <li>
                 <i className="fa fa-comments bg-yellow"></i>
                 <div className="timeline-item">
-                    <span className="time"><i className="fa fa-clock-o"></i> {this.props.createdTimestamp}</span>
+                    <span className="time"><i className="fa fa-clock-o"></i>&nbsp;&nbsp;<span data-livestamp={this.props.createdTimestamp}></span></span>
                     <h3 className="timeline-header">{this.props.createdBy}</h3>
                     <div className="timeline-body wordbreak">
                         {this.props.content.split("\n").map(function(item, index) {

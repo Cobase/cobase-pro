@@ -1677,26 +1677,26 @@ a:focus {
   margin: 0;
   border-radius: 2px;
 }
-.timeline > li {
+.timeline > div > li {
   position: relative;
   margin-right: 10px;
   margin-bottom: 15px;
 }
 
-.timeline > li {
+.timeline > div > li {
   position: relative;
   margin-right: 10px;
   margin-bottom: 15px;
 }
-.timeline > li:before,
-.timeline > li:after {
+.timeline > div > li:before,
+.timeline > div > li:after {
   content: " ";
   display: table;
 }
-.timeline > li:after {
+.timeline > div > li:after {
   clear: both;
 }
-.timeline > li > .timeline-item {
+.timeline > div > li > .timeline-item {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   border-radius: 3px;
@@ -1708,13 +1708,13 @@ a:focus {
   padding: 0;
   position: relative;
 }
-.timeline > li > .timeline-item > .time {
+.timeline > div > li > .timeline-item > .time {
   color: #999;
   float: right;
   padding: 10px;
   font-size: 12px;
 }
-.timeline > li > .timeline-item > .timeline-header {
+.timeline > div > li > .timeline-item > .timeline-header {
   margin: 0;
   color: #555;
   border-bottom: 1px solid #f4f4f4;
@@ -1722,23 +1722,23 @@ a:focus {
   font-size: 16px;
   line-height: 1.1;
 }
-.timeline > li > .timeline-item > .timeline-header > a {
+.timeline > div > li > .timeline-item > .timeline-header > a {
   font-weight: 600;
 }
-.timeline > li > .timeline-item > .timeline-body,
-.timeline > li > .timeline-item > .timeline-footer {
+.timeline > div > li > .timeline-item > .timeline-body,
+.timeline > div > li > .timeline-item > .timeline-footer {
   padding: 10px;
 }
-.timeline > li.time-label > span {
+.timeline > div > li.time-label > span {
   font-weight: 600;
   padding: 5px;
   display: inline-block;
   background-color: #fff;
   border-radius: 4px;
 }
-.timeline > li > .fa,
-.timeline > li > .glyphicon,
-.timeline > li > .ion {
+.timeline > div > li > .fa,
+.timeline > div > li > .glyphicon,
+.timeline > div > li > .ion {
   width: 30px;
   height: 30px;
   font-size: 15px;

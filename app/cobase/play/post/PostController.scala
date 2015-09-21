@@ -11,6 +11,7 @@ import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.json.Json
 
 import scala.concurrent.Future
 
@@ -48,6 +49,19 @@ class PostController @Inject() (
             "Group with id " + groupId + " not found"
           ))
         }
+    }
+  }
+
+  def getPostsForGroup(groupId: UUID) = SecuredAction.async { implicit request =>
+    groupService.findById(groupId).flatMap {
+      case Some(group) =>
+        implicit val postWrites = Json.writes[Post]
+
+        val futurePosts = postService.findLatestPostsForGroup(groupId)
+
+        futurePosts.map(posts => Ok(Json.toJson(posts)))
+
+      case None => Future.successful(NotFound("No posts found"))
     }
   }
 

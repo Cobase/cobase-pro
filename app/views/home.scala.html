@@ -35,20 +35,23 @@
                 case _ => {
                     @dashboardPosts.map { post =>
                     <ul class="timeline">
-                        <li>
-                            <i class="fa fa-comments bg-yellow"></i>
-                            <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
-                                <h3 class="timeline-header">@post.createdBy &raquo; <a href="@postControllerRoutes.viewPosts(post.groupId)">@post.groupTitle</a></h3>
-                                <div class="timeline-body wordbreak">
+                        <div>
+                            <li>
+                                <i class="fa fa-comments bg-yellow"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
+                                    <h3 class="timeline-header">@post.createdBy &raquo; <a href="@postControllerRoutes.viewPosts(post.groupId)">@post.groupTitle</a></h3>
+                                    <div class="timeline-body wordbreak">
                                     @linkify(post.content)
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        }
-                        <li>
-                            <i class="fa fa-clock-o bg-gray"></i>
-                        </li>
+                            </li>
+                    }
+                    <li>
+                        <i class="fa fa-clock-o bg-gray"></i>
+                    </li>
+
+                        </div>
                     </ul>
                 }
             }

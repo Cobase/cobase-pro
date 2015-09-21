@@ -70,26 +70,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <ul class="timeline">
-                                @posts.map { post =>
-                                <li>
-                                    <i class="fa fa-comments bg-yellow"></i>
-                                    <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> @prettytime(new Date(post.createdTimestamp * 1000))</span>
-                                        <h3 class="timeline-header">@post.createdBy</h3>
-                                        <div class="timeline-body wordbreak">
-                                            @linkify(post.content)
-                                        </div>
-                                        <div style="text-align: right; padding-right: 7px; padding-bottom: 2px;">
-                                            <a href="@postControllerRoutes.editPostForm(post.id)"><i class="fa fa-edit"></i></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                }
-                                <li>
-                                    <i class="fa fa-clock-o bg-gray"></i>
-                                </li>
-                            </ul>
+                            <div id="group-posts" data-group-id="@group.id"></div>
                         </div>
                     </div>
                 </div>
@@ -110,4 +91,5 @@
 
     <script src="/assets/plugins/react/react.js"></script>
     <script src="/assets/dist/js/react/tweets.js"></script>
+    <script src="/assets/dist/js/react/posts.js"></script>
 }

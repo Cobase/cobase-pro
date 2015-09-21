@@ -70,6 +70,6 @@ var Tweet = React.createClass({
 });
 
 React.render(
-    <TweetBox url={'/group/' + $('#twitter-feed').attr("data-group-id") + '/tweets'} />,
+    <TweetBox url={'/group/' + $('#twitter-feed').attr("data-group-id") + '/api/tweets'} />,
     document.getElementById('twitter')
 );

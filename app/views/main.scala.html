@@ -184,13 +184,17 @@
     <script src="/assets/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
     <script src="/assets/plugins/moment/moment.js" type="text/javascript"></script>
     <script src="/assets/plugins/livestamp/livestamp.min.js" type="text/javascript"></script>
+    <script src="/assets/plugins/linkify/linkify.min.js" type="text/javascript"></script>
     <script src="/assets/dist/js/app.min.js" type="text/javascript"></script>
     <script src="/assets/dist/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
     <script src="/assets/dist/js/autosize.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/assets/dist/js/cobase.js" type="text/javascript" charset="utf-8"></script>
 
     <script>
-        autosize($('.autosize'));
+        $(function() {
+            autosize($('.autosize'));
+            $(".post-content").linkify();
+        });
     </script>
 </body>
 </html>

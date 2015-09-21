@@ -64,7 +64,7 @@ var Post = React.createClass({
                         {this.props.content.split("\n").map(function(item, index) {
                             return (
                                 <div>
-                                    {item}
+                                    <span className="post-content">{item}</span>
                                     <br/>
                                 </div>
                             )

@@ -1,4 +1,6 @@
 var React = require('react');
+var TimeAgo = require('react-timeago');
+var Linkify = require('react-linkify');
 var $ = require('jquery');
 
 var PostList = React.createClass({
@@ -32,17 +34,19 @@ var Post = React.createClass({
             <li>
                 <i className="fa fa-comments bg-yellow"></i>
                 <div className="timeline-item">
-                    <span className="time"><i className="fa fa-clock-o"></i>&nbsp;&nbsp;<span data-livestamp={this.props.createdTimestamp}></span></span>
+                    <span className="time"><i className="fa fa-clock-o"></i>&nbsp;&nbsp;<TimeAgo date={this.props.createdTimestamp}></TimeAgo></span>
                     <h3 className="timeline-header">{this.props.createdBy}</h3>
                     <div className="timeline-body wordbreak">
-                        {this.props.content.split("\n").map(function(item, index) {
-                            return (
-                                <div>
-                                    <span className="post-content">{item}</span>
-                                    <br/>
-                                </div>
-                            )
-                        })}
+                        <Linkify>
+                            {this.props.content.split("\n").map(function(item, index) {
+                                return (
+                                    <div>
+                                        <span className="post-content">{item}</span>
+                                        <br/>
+                                    </div>
+                                )
+                            })}
+                        </Linkify>
                     </div>
                     <div style={divStyle}>
                         <a href={'/post/' + this.props.id + '/edit'}><i className="fa fa-edit"></i></a>

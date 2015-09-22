@@ -133,7 +133,7 @@ class PostController @Inject() (
             }
           },
           data => {
-            val timestamp: Long = System.currentTimeMillis / 1000
+            val timestamp: Long = System.currentTimeMillis
 
             for {
               _ <- postService.add(Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp))

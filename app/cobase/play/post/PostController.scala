@@ -28,15 +28,13 @@ class PostController @Inject() (
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         val futureGroupLinks = groupService.findGroupLinks
-        val futurePosts = postService.findLatestPostsForGroup(groupId)
         val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.identity, group)
 
         for {
           groupLinks <- futureGroupLinks
-          posts <- futurePosts
           isSubscribedToGroup <- futureIsSubscribedToGroup
         } yield {
-          Ok(views.html.group(request.identity, groupLinks, group, posts, isSubscribedToGroup, PostForm.form))
+          Ok(views.html.group(request.identity, groupLinks, group, isSubscribedToGroup, PostForm.form))
         }
 
       case None =>
@@ -121,15 +119,13 @@ class PostController @Inject() (
         PostForm.form.bindFromRequest.fold(
           formWithErrors => {
             val futureGroupLinks = groupService.findGroupLinks
-            val futurePosts = postService.findLatestPostsForGroup(groupId)
             val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.identity, group)
 
             for {
               groupLinks <- futureGroupLinks
-              posts <- futurePosts
               isSubscribedToGroup <- futureIsSubscribedToGroup
             } yield {
-              Ok(views.html.group(request.identity, groupLinks, group, posts, isSubscribedToGroup, formWithErrors))
+              Ok(views.html.group(request.identity, groupLinks, group, isSubscribedToGroup, formWithErrors))
             }
           },
           data => {

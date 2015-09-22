@@ -1,5 +1,3 @@
-console.log('hello world');
-
 var React = require('react');
 var $ = require('jquery');
 
@@ -12,8 +10,6 @@ require('./../../../public/plugins/iCheck/icheck.js');
 require('./../../../public/plugins/jQueryUI/jquery-ui-1.10.3.js');
 
 require('./tag-it.js');
-//require('./html5shiv.min.js');
-//require('./respond.min.js');
 require('./bootstrap-tagsinput.js');
 
 require('./../css/AdminLTE.css');
@@ -83,5 +79,22 @@ $(function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue',
         increaseArea: '20%' // optional
+    });
+});
+
+$(document).ready(function() {
+    $("#tags").tagit({
+        preprocessTag: function(tag) {
+            if (!tag) { return ''; }
+
+            if (tag.substr(0, 1) == "#") {
+                return tag;
+            } else if (tag.substr(0, 1) == "@@") {
+                return tag;
+            } else {
+                return "#" + tag;
+            }
+
+        }
     });
 });

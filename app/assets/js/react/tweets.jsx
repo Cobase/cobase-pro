@@ -1,31 +1,5 @@
-var TweetBox = React.createClass({
-    loadTweetsFromServer: function() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                $('#twitter').text("Feed could not be loaded.");
-            }.bind(this)
-        });
-    },
-    getInitialState: function() {
-        return {data: []};
-    },
-    componentDidMount: function() {
-        this.loadTweetsFromServer();
-    },
-    render: function() {
-        return (
-            <ul className="twitter-timeline noline">
-                <TweetList data={this.state.data} />
-            </ul>
-        );
-    }
-});
+var React = require('react');
+var $ = require('jquery');
 
 var TweetList = React.createClass({
     render: function() {
@@ -69,7 +43,31 @@ var Tweet = React.createClass({
     }
 });
 
-React.render(
-    <TweetBox url={'/group/' + $('#twitter-feed').attr("data-group-id") + '/api/tweets'} />,
-    document.getElementById('twitter')
-);
+module.exports = React.createClass({
+     loadTweetsFromServer: function() {
+         $.ajax({
+             url: this.props.url,
+             dataType: 'json',
+             cache: false,
+             success: function(data) {
+                 this.setState({data: data});
+             }.bind(this),
+             error: function(xhr, status, err) {
+                 $('#twitter').text("Feed could not be loaded.");
+             }.bind(this)
+         });
+     },
+     getInitialState: function() {
+         return {data: []};
+     },
+     componentDidMount: function() {
+         this.loadTweetsFromServer();
+     },
+     render: function() {
+         return (
+             <ul className="twitter-timeline noline">
+                 <TweetList data={this.state.data} />
+             </ul>
+         );
+     }
+ });

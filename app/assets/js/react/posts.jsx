@@ -1,31 +1,5 @@
-var GroupPosts = React.createClass({
-    loadPostsFromServer: function() {
-        $.ajax({
-            url: document.location.origin + this.props.url,
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                $('#group-posts').text("Posts could not be loaded.");
-            }.bind(this)
-        });
-    },
-    getInitialState: function() {
-        return {data: []};
-    },
-    componentDidMount: function() {
-        this.loadPostsFromServer();
-    },
-    render: function() {
-        return (
-            <ul className="timeline">
-                <PostList data={this.state.data} />
-            </ul>
-        );
-    }
-});
+var React = require('react');
+var $ = require('jquery');
 
 var PostList = React.createClass({
     render: function() {
@@ -79,7 +53,31 @@ var Post = React.createClass({
     }
 });
 
-React.render(
-    <GroupPosts url={'/group/' + $('#group-posts').attr("data-group-id") + '/api/posts'}/>,
-    document.getElementById('group-posts')
-);
+module.exports = React.createClass({
+     loadPostsFromServer: function() {
+         $.ajax({
+             url: document.location.origin + this.props.url,
+             dataType: 'json',
+             cache: false,
+             success: function(data) {
+                 this.setState({data: data});
+             }.bind(this),
+             error: function(xhr, status, err) {
+                 $('#group-posts').text("Posts could not be loaded.");
+             }.bind(this)
+         });
+     },
+     getInitialState: function() {
+         return {data: []};
+     },
+     componentDidMount: function() {
+         this.loadPostsFromServer();
+     },
+     render: function() {
+         return (
+             <ul className="timeline">
+                 <PostList data={this.state.data} />
+             </ul>
+         );
+     }
+});

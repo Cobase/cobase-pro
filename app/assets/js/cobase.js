@@ -1,3 +1,30 @@
+console.log('hello world');
+
+var React = require('react');
+var $ = require('jquery');
+
+var GroupPosts = require('./react/posts.jsx');
+var TweetBox = require('./react/tweets.jsx');
+
+var autosize = require('./autosize.min.js');
+
+require('./../../../public/plugins/iCheck/icheck.js');
+require('./../../../public/plugins/jQueryUI/jquery-ui-1.10.3.js');
+
+require('./tag-it.js');
+//require('./html5shiv.min.js');
+//require('./respond.min.js');
+require('./bootstrap-tagsinput.js');
+
+require('./../css/AdminLTE.css');
+require('./../css/bootstrap-tagsinput.css');
+require('./../css/cobase.css');
+require('./../css/font-awesome.css');
+require('./../css/skins/_all-skins.min.css');
+require('./../jquery-ui/jquery-ui-flick.css');
+require('./../css/jquery.tagit.css');
+require('./../../../public/bootstrap/css/bootstrap.min.css');
+require('./../../../public/plugins/iCheck/all.css');
 
 /* Generate switchable tabs */
 $(function() {
@@ -24,5 +51,37 @@ $(function() {
 
           e.preventDefault();
         });
+    });
+});
+
+$(function() {
+    autosize($('.autosize'));
+
+    //$(".post-content").linkify();
+
+    var groupPostsContainer = document.getElementById('group-posts');
+
+    if (groupPostsContainer) {
+        React.render(
+            <GroupPosts url={'/group/' + $('#group-posts').attr("data-group-id") + '/api/posts'}/>,
+            groupPostsContainer
+        );
+    }
+
+    var twitterContainer = document.getElementById('twitter');
+
+    if (twitterContainer) {
+        React.render(
+            <TweetBox url={'/group/' + $('#twitter-feed').attr("data-group-id") + '/api/tweets'} />,
+            twitterContainer
+        );
+    }
+});
+
+$(function () {
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
     });
 });

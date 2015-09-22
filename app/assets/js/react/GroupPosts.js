@@ -38,7 +38,7 @@ var Post = React.createClass({
                     <h3 className="timeline-header">{this.props.createdBy}</h3>
                     <div className="timeline-body wordbreak">
                         <Linkify>
-                            {this.props.content.split("\n").map(function(item, index) {
+                            {this.props.content.split('\n').map(function(item, index) {
                                 return (
                                     <div>
                                         <span className="post-content">{item}</span>
@@ -49,7 +49,7 @@ var Post = React.createClass({
                         </Linkify>
                     </div>
                     <div style={divStyle}>
-                        <a href={'/post/' + this.props.id + '/edit'}><i className="fa fa-edit"></i></a>
+                        <a href={`/post/${this.props.id}/edit`}><i className="fa fa-edit"></i></a>
                     </div>
                 </div>
             </li>
@@ -57,7 +57,7 @@ var Post = React.createClass({
     }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
      loadPostsFromServer: function() {
          $.ajax({
              url: document.location.origin + this.props.url,
@@ -67,7 +67,7 @@ module.exports = React.createClass({
                  this.setState({data: data});
              }.bind(this),
              error: function(xhr, status, err) {
-                 $('#group-posts').text("Posts could not be loaded.");
+                 $('#group-posts').text('Posts could not be loaded.');
              }.bind(this)
          });
      },

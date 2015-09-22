@@ -53,13 +53,11 @@ $(function() {
 $(function() {
     autosize($('.autosize'));
 
-    //$(".post-content").linkify();
-
     var groupPostsContainer = document.getElementById('group-posts');
 
     if (groupPostsContainer) {
         React.render(
-            <GroupPosts url={'/group/' + $('#group-posts').attr("data-group-id") + '/api/posts'}/>,
+            <GroupPosts url={'/group/' + $('#group-posts').attr('data-group-id') + '/api/posts'}/>,
             groupPostsContainer
         );
     }
@@ -68,7 +66,7 @@ $(function() {
 
     if (twitterContainer) {
         React.render(
-            <TweetBox url={'/group/' + $('#twitter-feed').attr("data-group-id") + '/api/tweets'} />,
+            <TweetBox url={'/group/' + $('#twitter-feed').attr('data-group-id') + '/api/tweets'} />,
             twitterContainer
         );
     }
@@ -83,16 +81,16 @@ $(function () {
 });
 
 $(document).ready(function() {
-    $("#tags").tagit({
+    $('#tags').tagit({
         preprocessTag: function(tag) {
             if (!tag) { return ''; }
 
-            if (tag.substr(0, 1) == "#") {
+            if (tag.substr(0, 1) == '#') {
                 return tag;
-            } else if (tag.substr(0, 1) == "@@") {
+            } else if (tag.substr(0, 1) == '@@') {
                 return tag;
             } else {
-                return "#" + tag;
+                return '#' + tag;
             }
 
         }

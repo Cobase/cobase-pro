@@ -43,7 +43,7 @@ var Tweet = React.createClass({
     }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
      loadTweetsFromServer: function() {
          $.ajax({
              url: this.props.url,
@@ -53,7 +53,7 @@ module.exports = React.createClass({
                  this.setState({data: data});
              }.bind(this),
              error: function(xhr, status, err) {
-                 $('#twitter').text("Feed could not be loaded.");
+                 $('#twitter').text('Feed could not be loaded.');
              }.bind(this)
          });
      },

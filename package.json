@@ -12,7 +12,8 @@
     "grunt-react": "^0.12.2",
     "jquery": "^2.1.4",
     "react": "^0.13.3",
-    "react-linkify": "0.0.4"
+    "react-linkify": "0.0.4",
+    "react-timeago": "^2.2.1"
   },
   "devDependencies": {
     "css-loader": "^0.18.0",

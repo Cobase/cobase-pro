@@ -1,8 +1,8 @@
 var React = require('react');
 var $ = require('jquery');
 
-var GroupPosts = require('./react/posts.jsx');
-var TweetBox = require('./react/tweets.jsx');
+var GroupPosts = require('./react/GroupPosts.js');
+var TweetBox = require('./react/TweetBox.js');
 
 var autosize = require('./autosize.min.js');
 

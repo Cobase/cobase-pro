@@ -10,10 +10,10 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                loader: 'jsx-loader'
+                test: /\.js?$/,
+                loader: 'babel-loader!eslint-loader',
+                exclude: /(node_modules|jquery|bootstrap|autosize\.min\.js|tag\-it\.js)/
             },
-            {test: /\.jsx$/, loader: 'jsx-loader'},
             {
                 test: /\.less$/,
                 loaders: [
@@ -43,6 +43,10 @@ module.exports = {
                 loader: 'file-loader?name=webpack-assets/fonts/[name].[ext]'
             }
         ]
+    },
+    resolve: {
+        modulesDirectories: ['node_modules'],
+        extensions: ['', '.js', '.jsx']
     },
     plugins: [
         new webpack.ProvidePlugin({

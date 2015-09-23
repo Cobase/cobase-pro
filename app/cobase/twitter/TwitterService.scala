@@ -21,12 +21,14 @@ class TwitterService {
     Future {
       val result = createTwitter.search(query)
 
+      val format = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm")
+      format.format(new java.util.Date())
       for (status <- result.getTweets.asScala.toSeq) yield Tweet(
         status.getUser.getName,
         status.getUser.getScreenName,
         status.getUser.getProfileImageURL,
         status.getText,
-        new PrettyTime(new Locale("DEFAULT")).format(status.getCreatedAt)
+        format.format(status.getCreatedAt)
       )
     }
   }

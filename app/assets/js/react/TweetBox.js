@@ -1,4 +1,6 @@
 var React = require('react');
+var TimeAgo = require('react-timeago');
+var Linkify = require('react-linkify');
 var $ = require('jquery');
 
 var TweetList = React.createClass({
@@ -33,9 +35,9 @@ var Tweet = React.createClass({
                         </div>
                     </h3>
                     <div className="timeline-body wordbreak">
-                        {this.props.text}
+                        <Linkify>{this.props.text}</Linkify>
                         <br/>
-                        <span className="time ago"><i className="fa fa-clock-o"></i> {this.props.createdAgo}</span>
+                        <span className="time ago"><i className="fa fa-clock-o"></i> <TimeAgo date={this.props.createdAgo}></TimeAgo></span>
                     </div>
                 </div>
             </li>

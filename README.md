@@ -31,7 +31,7 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 - JDK 6 or later
 - Activator (https://typesafe.com/activator)
 - PostgreSQL / MySQL
-- NPM & Grunt
+- NPM & Webpack
 
 
 ## Installation
@@ -44,7 +44,7 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 6. Copy conf/twitter.conf.dist to conf/twitter.conf (and configure!)
 7. Add database settings to conf/application.conf according to database created
 8. Install npm components: `npm install`
-9. Transform React files: `grunt`
+9. Transform React files: `webpack`
 10. Start application with `activator run`
 11. Open browser (http://locahost:9000)
 

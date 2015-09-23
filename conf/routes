@@ -29,8 +29,9 @@ POST        /group/:groupId/posts              cobase.play.post.PostController.a
 GET         /posts/search                      cobase.play.post.SearchController.searchPosts
 
 # External
-GET         /group/:groupId/api/tweets         cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
-GET         /group/:groupId/api/posts          cobase.play.post.PostController.getPostsForGroup(groupId: java.util.UUID)
+GET         /api/dashboard                     cobase.play.post.PostController.getDashboardPosts
+GET         /api/group/:groupId/tweets         cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
+GET         /api/group/:groupId/posts          cobase.play.post.PostController.getPostsForGroup(groupId: java.util.UUID)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                      controllers.Assets.at(path="/public", file)

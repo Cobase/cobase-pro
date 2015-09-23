@@ -4,7 +4,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 import cobase.group.{Group, GroupService}
-import cobase.post.{Post, PostService}
+import cobase.post.{Post, DashboardPost, PostService}
 import cobase.twitter.TwitterService
 import cobase.user.{SubscriptionService, User}
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
@@ -142,5 +142,13 @@ class PostController @Inject() (
           groupLinks <- groupService.findGroupLinks
         } yield NotFound(views.html.notFound(request.identity, groupLinks, "Group with id " + groupId + " not found"))
     }
+  }
+
+  def getDashboardPosts() = SecuredAction.async { implicit request =>
+    implicit val postWrites = Json.writes[DashboardPost]
+
+    postService.getDashboardPosts(request.identity)
+      .map(dashboardPosts => Ok(Json.toJson(dashboardPosts)))
+
   }
 }

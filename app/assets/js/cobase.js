@@ -1,6 +1,7 @@
 var React = require('react');
 var $ = require('jquery');
 
+var DasboardPosts = require('./react/DashboardPosts.js');
 var GroupPosts = require('./react/GroupPosts.js');
 var TweetBox = require('./react/TweetBox.js');
 
@@ -48,11 +49,20 @@ $(function() {
 $(function() {
     autosize($('.autosize'));
 
+    var dashboardPostsContainer = document.getElementById('dashboard-posts');
+
+    if (dashboardPostsContainer) {
+        React.render(
+            <DasboardPosts url={'/api/dashboard'}/>,
+            dashboardPostsContainer
+        );
+    }
+
     var groupPostsContainer = document.getElementById('group-posts');
 
     if (groupPostsContainer) {
         React.render(
-            <GroupPosts url={'/group/' + $('#group-posts').attr('data-group-id') + '/api/posts'}/>,
+            <GroupPosts url={'/api/group/' + $('#group-posts').attr('data-group-id') + '/posts'}/>,
             groupPostsContainer
         );
     }
@@ -61,7 +71,7 @@ $(function() {
 
     if (twitterContainer) {
         React.render(
-            <TweetBox url={'/group/' + $('#twitter-feed').attr('data-group-id') + '/api/tweets'} />,
+            <TweetBox url={'/api/group/' + $('#twitter-feed').attr('data-group-id') + '/tweets'} />,
             twitterContainer
         );
     }

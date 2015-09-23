@@ -406,11 +406,21 @@ div.mode-buttons {
 }
 
 @media (max-width: 991px) {
+
+  #twitter-feed > div > h3 {
+    margin-top: 30px;
+  }
+
   #twitter-feed h3 {
     margin-top: 0px;
     margin-bottom: 10px;
     margin-left: 15px;
   }
+
+  #twitter-feed > div > h4 {
+    margin-bottom: 30px;
+  }
+
   #twitter-feed h4 {
     margin-bottom: 5px;
   }

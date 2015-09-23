@@ -6,21 +6,16 @@ var TweetBox = require('./react/TweetBox.js');
 
 var autosize = require('./autosize.min.js');
 
+require('./../../../public/plugins/slimScroll/jquery.slimscroll.min.js');
 require('./../../../public/plugins/iCheck/icheck.js');
 require('./../../../public/plugins/jQueryUI/jquery-ui-1.10.3.js');
+require('./../../../public/plugins/jQueryUI/jquery-ui-1.10.3.min.js');
+require('./../../../public/bootstrap/js/bootstrap.min.js');
 
 require('./tag-it.js');
 require('./bootstrap-tagsinput.js');
+require('./app.js');
 
-require('./../css/AdminLTE.css');
-require('./../css/bootstrap-tagsinput.css');
-require('./../css/cobase.css');
-require('./../css/font-awesome.css');
-require('./../css/skins/_all-skins.min.css');
-require('./../jquery-ui/jquery-ui-flick.css');
-require('./../css/jquery.tagit.css');
-require('./../../../public/bootstrap/css/bootstrap.min.css');
-require('./../../../public/plugins/iCheck/all.css');
 
 /* Generate switchable tabs */
 $(function() {
@@ -80,7 +75,7 @@ $(function () {
     });
 });
 
-$(document).ready(function() {
+$(function () {
     $('#tags').tagit({
         preprocessTag: function(tag) {
             if (!tag) { return ''; }

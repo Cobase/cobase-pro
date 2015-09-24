@@ -4,13 +4,14 @@ import java.util.UUID
 import javax.inject.Inject
 
 import cobase.group.{Group, GroupService}
-import cobase.post.{Post, PostService}
+import cobase.post.{Post, DashboardPost, PostService}
 import cobase.twitter.TwitterService
 import cobase.user.{SubscriptionService, User}
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.json.Json
 
 import scala.concurrent.Future
 
@@ -27,15 +28,13 @@ class PostController @Inject() (
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         val futureGroupLinks = groupService.findGroupLinks
-        val futurePosts = postService.findLatestPostsForGroup(groupId)
         val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.identity, group)
 
         for {
           groupLinks <- futureGroupLinks
-          posts <- futurePosts
           isSubscribedToGroup <- futureIsSubscribedToGroup
         } yield {
-          Ok(views.html.group(request.identity, groupLinks, group, posts, isSubscribedToGroup, PostForm.form))
+          Ok(views.html.group(request.identity, groupLinks, group, isSubscribedToGroup, PostForm.form))
         }
 
       case None =>
@@ -48,6 +47,19 @@ class PostController @Inject() (
             "Group with id " + groupId + " not found"
           ))
         }
+    }
+  }
+
+  def getPostsForGroup(groupId: UUID) = SecuredAction.async { implicit request =>
+    groupService.findById(groupId).flatMap {
+      case Some(group) =>
+        implicit val postWrites = Json.writes[Post]
+
+        val futurePosts = postService.findLatestPostsForGroup(groupId)
+
+        futurePosts.map(posts => Ok(Json.toJson(posts)))
+
+      case None => Future.successful(NotFound("No posts found"))
     }
   }
 
@@ -107,19 +119,17 @@ class PostController @Inject() (
         PostForm.form.bindFromRequest.fold(
           formWithErrors => {
             val futureGroupLinks = groupService.findGroupLinks
-            val futurePosts = postService.findLatestPostsForGroup(groupId)
             val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.identity, group)
 
             for {
               groupLinks <- futureGroupLinks
-              posts <- futurePosts
               isSubscribedToGroup <- futureIsSubscribedToGroup
             } yield {
-              Ok(views.html.group(request.identity, groupLinks, group, posts, isSubscribedToGroup, formWithErrors))
+              Ok(views.html.group(request.identity, groupLinks, group, isSubscribedToGroup, formWithErrors))
             }
           },
           data => {
-            val timestamp: Long = System.currentTimeMillis / 1000
+            val timestamp: Long = System.currentTimeMillis
 
             for {
               _ <- postService.add(Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp))
@@ -132,5 +142,13 @@ class PostController @Inject() (
           groupLinks <- groupService.findGroupLinks
         } yield NotFound(views.html.notFound(request.identity, groupLinks, "Group with id " + groupId + " not found"))
     }
+  }
+
+  def getDashboardPosts() = SecuredAction.async { implicit request =>
+    implicit val postWrites = Json.writes[DashboardPost]
+
+    postService.getDashboardPosts(request.identity)
+      .map(dashboardPosts => Ok(Json.toJson(dashboardPosts)))
+
   }
 }

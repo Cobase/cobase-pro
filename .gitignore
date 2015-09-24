@@ -23,4 +23,6 @@ activator
 /update.sh
 /nohup.out
 node_modules/
-public/dist/js/react/*
+public/dist/*
+webpack-assets/
+public/webpack-assets

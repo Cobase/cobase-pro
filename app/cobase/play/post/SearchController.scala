@@ -26,17 +26,15 @@ class SearchController @Inject() (
    */
   def searchPosts = SecuredAction.async { implicit request =>
     val futureGroupLinks = groupService.findGroupLinks
-    val futureDashboardPosts = postService.getDashboardPosts(request.identity)
 
     val groupLinksAndDashboardPosts = for {
       groupLinks <- futureGroupLinks
-      dashboardPosts <- futureDashboardPosts
-    } yield (groupLinks, dashboardPosts)
+    } yield (groupLinks)
 
     groupLinksAndDashboardPosts.flatMap {
-      case (groupLinks, dashboardPosts) =>
+      case (groupLinks) =>
         SearchForm.form.bindFromRequest.fold(
-          formWithErrors => Future.successful(Ok(views.html.home(request.identity, groupLinks, dashboardPosts))),
+          formWithErrors => Future.successful(Ok(views.html.home(request.identity, groupLinks))),
           data => {
             for {
               posts <- postService.findByPhrase(data.phrase)

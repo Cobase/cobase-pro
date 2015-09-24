@@ -1,31 +1,7 @@
-var TweetBox = React.createClass({
-    loadTweetsFromServer: function() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                $('#twitter').text("Feed could not be loaded.");
-            }.bind(this)
-        });
-    },
-    getInitialState: function() {
-        return {data: []};
-    },
-    componentDidMount: function() {
-        this.loadTweetsFromServer();
-    },
-    render: function() {
-        return (
-            <ul className="twitter-timeline noline">
-                <TweetList data={this.state.data} />
-            </ul>
-        );
-    }
-});
+var React = require('react');
+var TimeAgo = require('react-timeago');
+var Linkify = require('react-linkify');
+var $ = require('jquery');
 
 var TweetList = React.createClass({
     render: function() {
@@ -59,9 +35,9 @@ var Tweet = React.createClass({
                         </div>
                     </h3>
                     <div className="timeline-body wordbreak">
-                        {this.props.text}
+                        <Linkify>{this.props.text}</Linkify>
                         <br/>
-                        <span className="time ago"><i className="fa fa-clock-o"></i> {this.props.createdAgo}</span>
+                        <span className="time ago"><i className="fa fa-clock-o"></i> <TimeAgo date={this.props.createdAgo}></TimeAgo></span>
                     </div>
                 </div>
             </li>
@@ -69,7 +45,31 @@ var Tweet = React.createClass({
     }
 });
 
-React.render(
-    <TweetBox url={'/group/' + $('#twitter-feed').attr("data-group-id") + '/tweets'} />,
-    document.getElementById('twitter')
-);
+export default React.createClass({
+     loadTweetsFromServer: function() {
+         $.ajax({
+             url: this.props.url,
+             dataType: 'json',
+             cache: false,
+             success: function(data) {
+                 this.setState({data: data});
+             }.bind(this),
+             error: function(xhr, status, err) {
+                 $('#twitter').text('Feed could not be loaded.');
+             }.bind(this)
+         });
+     },
+     getInitialState: function() {
+         return {data: []};
+     },
+     componentDidMount: function() {
+         this.loadTweetsFromServer();
+     },
+     render: function() {
+         return (
+             <ul className="twitter-timeline noline">
+                 <TweetList data={this.state.data} />
+             </ul>
+         );
+     }
+ });

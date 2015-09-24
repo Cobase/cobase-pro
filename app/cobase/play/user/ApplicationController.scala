@@ -31,16 +31,9 @@ class ApplicationController @Inject() (
    */
   def index = SecuredAction.async { implicit request =>
     val futureGroupLinks = groupService.findGroupLinks
-    val futureDashboardPosts = postService.getDashboardPosts(request.identity)
 
-    val groupLinksAndDashboardPosts = for {
-      groupLinks <- futureGroupLinks
-      dashboardPosts <- futureDashboardPosts
-    } yield (groupLinks, dashboardPosts)
-
-    groupLinksAndDashboardPosts.flatMap {
-      case (groupLinks, dashboardPosts) =>
-        Future.successful(Ok(views.html.home(request.identity, groupLinks, dashboardPosts)))
-    }
+    for {
+      groupLinks <- groupService.findGroupLinks
+    } yield Ok(views.html.home(request.identity, groupLinks))
   }
 }

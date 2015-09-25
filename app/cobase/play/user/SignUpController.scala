@@ -37,9 +37,9 @@ class SignUpController @Inject() (
 ) extends Silhouette[User, CookieAuthenticator] {
 
   def signUpForm = UserAwareAction.async { implicit request =>
-    val isRegistrationsAllowed = Play.current.configuration.getString("cobase.allowRegistration")
+    val isRegistrationAllowed = Play.current.configuration.getString("cobase.allowRegistration")
 
-    isRegistrationsAllowed match {
+    isRegistrationAllowed match {
       case Some("true") => request.identity match {
         case Some(user) => Future.successful(Redirect(routes.AuthenticationController.signIn()))
         case None => Future.successful(Ok(views.html.signUp(SignUpForm.form)))

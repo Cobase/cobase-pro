@@ -14,5 +14,6 @@ case class Post(
   content: String,
   groupId: UUID,
   createdBy: Option[String],
-  createdTimestamp: Long
+  createdTimestamp: Long,
+  isActive: Boolean
 )

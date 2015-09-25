@@ -132,7 +132,7 @@ class PostController @Inject() (
             val timestamp: Long = System.currentTimeMillis
 
             for {
-              _ <- postService.add(Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp))
+              _ <- postService.add(Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp, true))
             } yield Redirect(routes.PostController.viewPosts(groupId))
           }
         )

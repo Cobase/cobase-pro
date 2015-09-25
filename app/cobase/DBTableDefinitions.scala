@@ -143,8 +143,9 @@ trait DBTableDefinitions {
     def groupId = column[UUID]("group_id", O.SqlType("UUID"))
     def createdBy = column[Option[String]]("created_by")
     def createdTimestamp = column[Long]("created_timestamp")
+    def isActive = column[Boolean]("is_active")
     def idx = index("idx_post_group", groupId, unique = false)
-    def * = (id, content, groupId, createdBy, createdTimestamp) <> (Post.tupled, Post.unapply)
+    def * = (id, content, groupId, createdBy, createdTimestamp, isActive) <> (Post.tupled, Post.unapply)
   }
 
   class Subscriptions(tag: Tag) extends Table[Subscription](tag, "subscriptions") {

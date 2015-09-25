@@ -18,7 +18,12 @@ class GroupDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider
   import driver.api._
 
   def findAll: Future[Seq[Group]] = {
-    db.run(slickGroups.sortBy(_.title.toLowerCase.asc).result)
+    db.run(
+      slickGroups
+        .filter(_.isActive === true)
+        .sortBy(_.title.toLowerCase.asc)
+        .result
+    )
   }
 
   /**
@@ -34,6 +39,7 @@ class GroupDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider
       SELECT g.id, g.title, COUNT(p.id)
       FROM groups g
       LEFT JOIN posts p ON p.group_id = g.id
+      WHERE g.is_active = true
       GROUP BY g.id, g.title
       ORDER BY upper(g.title)
     """.as[GroupLink]
@@ -42,7 +48,13 @@ class GroupDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider
   }
 
   def findById(groupId: UUID): Future[Option[Group]] = {
-    db.run(slickGroups.filter(_.id === groupId).result.headOption)
+    db.run(
+      slickGroups
+        .filter(_.id === groupId)
+        .filter(_.isActive === true)
+        .result
+        .headOption
+    )
   }
 
   def add(group: Group): Future[Group] = {

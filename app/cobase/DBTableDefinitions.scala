@@ -133,8 +133,9 @@ trait DBTableDefinitions {
     def id = column[UUID]("id", O.PrimaryKey, O.SqlType("UUID"))
     def title = column[String]("title")
     def tags = column[String]("tags")
+    def isActive = column[Boolean]("is_active")
     def idx = index("idx_group_id", id, unique = true)
-    def * = (id, title, tags) <> (Group.tupled, Group.unapply)
+    def * = (id, title, tags, isActive) <> (Group.tupled, Group.unapply)
   }
 
   class Posts(tag: Tag) extends Table[Post](tag, "posts") {

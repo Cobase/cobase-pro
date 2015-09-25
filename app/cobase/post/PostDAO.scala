@@ -73,6 +73,7 @@ class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
       INNER JOIN groups g ON g.id = p.group_id
       INNER JOIN subscriptions s ON s.group_id = p.group_id
       WHERE s.user_id = CAST(${user.id.toString} AS uuid)
+      AND g.is_active = true
       AND p.is_active = true
       ORDER BY p.created_timestamp DESC
     """.as[DashboardPost]

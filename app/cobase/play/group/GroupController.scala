@@ -39,7 +39,7 @@ class GroupController @Inject() (
       },
       data => {
         for {
-          _ <- groupService.add(Group(UUID.randomUUID, data.title, data.tags))
+          _ <- groupService.add(Group(UUID.randomUUID, data.title, data.tags, true))
         } yield {
           Redirect(cobase.play.user.routes.ApplicationController.index())
             .flashing("info" -> Messages("group.created"))
@@ -82,7 +82,7 @@ class GroupController @Inject() (
           },
           data => {
             for {
-              _ <- groupService.update(Group(group.id, data.title, data.tags))
+              _ <- groupService.update(Group(group.id, data.title, data.tags, true))
             } yield {
               Redirect(cobase.play.post.routes.PostController.viewPosts(group.id))
                 .flashing("info" -> Messages("group.updated"))

@@ -8,11 +8,13 @@ import java.util.UUID
  * @param groupId ID of the group the post belongs to.
  * @param createdBy The userId of the creator.
  * @param createdTimestamp Timestamp of the creation.
+ * @param isActive is group visible to user
  */
 case class Post(
   id: UUID,
   content: String,
   groupId: UUID,
   createdBy: Option[String],
-  createdTimestamp: Long
+  createdTimestamp: Long,
+  isActive: Boolean
 )

@@ -39,7 +39,9 @@
                 </div>
             }
 
-            <p class="not-a-member top20">Not a member? <a href="@signUpControllerRoutes.signUp">Sign up now</a></p>
+            @if(play.Play.application().configuration().getString("cobase.allowRegistration") == "true") {
+                <p class="not-a-member top20">Not a member? <a href="@signUpControllerRoutes.signUp">Sign up now</a></p>
+            }
         </div>
     </div>
 }

@@ -65,6 +65,7 @@ slick.default="cobase.*"
 
 # Cobase related configurations
 cobase.organizationName="Organization Name"
+cobase.allowRegistration=true
 
 # Security Filter Configuration - Content Security Policy
 # ~~~~~

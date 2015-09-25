@@ -13,6 +13,7 @@ import com.mohiva.play.silhouette.impl.providers._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.Action
+import play.api.Play
 
 import scala.concurrent.Future
 
@@ -36,9 +37,14 @@ class SignUpController @Inject() (
 ) extends Silhouette[User, CookieAuthenticator] {
 
   def signUpForm = UserAwareAction.async { implicit request =>
-    request.identity match {
-      case Some(user) => Future.successful(Redirect(routes.ApplicationController.index()))
-      case None => Future.successful(Ok(views.html.signUp(SignUpForm.form)))
+    val isRegistrationsAllowed = Play.current.configuration.getString("cobase.allowRegistration")
+
+    isRegistrationsAllowed match {
+      case Some("true") => request.identity match {
+        case Some(user) => Future.successful(Redirect(routes.AuthenticationController.signIn()))
+        case None => Future.successful(Ok(views.html.signUp(SignUpForm.form)))
+      }
+      case _ => Future.successful(Redirect(routes.AuthenticationController.signIn()))
     }
   }
 

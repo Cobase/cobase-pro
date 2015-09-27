@@ -61,11 +61,9 @@ export default React.createClass({
             dataType: 'json',
             cache: false,
             success: function(data) {
-                console.log(data);
                 this.setState({data: data});
             }.bind(this),
             error: function(xhr, status, err) {
-                console.log(document.location.origin + this.props.url);
                 $('#group-posts').text('Posts could not be loaded.');
             }.bind(this)
         });

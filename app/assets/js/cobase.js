@@ -7,8 +7,8 @@ var TweetBox = require('./react/TweetBox.js');
 
 var autosize = require('./autosize.min.js');
 
+//require('./../../../public/plugins/iCheck/icheck.js');
 require('./../../../public/plugins/slimScroll/jquery.slimscroll.min.js');
-require('./../../../public/plugins/iCheck/icheck.js');
 require('./../../../public/plugins/jQueryUI/jquery-ui-1.10.3.js');
 require('./../../../public/plugins/jQueryUI/jquery-ui-1.10.3.min.js');
 require('./../../../public/bootstrap/js/bootstrap.min.js');
@@ -77,13 +77,13 @@ $(function() {
     }
 });
 
-$(function () {
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-    });
-});
+//$(function () {
+//    $('input').iCheck({
+//        checkboxClass: 'icheckbox_square-blue',
+//        radioClass: 'iradio_square-blue',
+//        increaseArea: '20%' // optional
+//    });
+//});
 
 $(function () {
     $('#tags').tagit({

@@ -13,7 +13,7 @@ import scala.concurrent.Future
 /**
  * Give access to the subscription object using Slick
  */
-class SubscriptionDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+class SubscriptionRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
   import driver.api._
 
   def isUserSubscribedToGroup(user: User, group: Group): Future[Boolean] = {

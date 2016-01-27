@@ -11,10 +11,6 @@ POST        /sign-up                           cobase.play.user.SignUpController
 GET         /authenticate/:provider            cobase.play.user.SocialAuthController.authenticate(provider)
 POST        /authenticate/credentials          cobase.play.user.CredentialsAuthController.authenticate
 
-# Group related
-GET         /group/:groupId/subscribe          cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
-GET         /group/:groupId/unsubscribe        cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
-
 # Post related
 GET         /post/:postId/edit                 cobase.play.post.PostController.editPostForm(postId: java.util.UUID)
 POST        /post/:postId                      cobase.play.post.PostController.editPost(postId: java.util.UUID)
@@ -42,4 +38,5 @@ GET         /groups                             cobase.play.group.GroupControlle
 POST        /groups                             cobase.play.group.GroupController.addGroup
 GET         /groups/:groupId/tweets             cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
 PUT         /groups/:groupId                    cobase.play.group.GroupController.updateGroup(groupId: java.util.UUID)
-
+POST        /groups/:groupId/subscribe          cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
+DELETE      /groups/:groupId/unsubscribe        cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)

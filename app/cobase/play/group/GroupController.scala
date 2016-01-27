@@ -54,7 +54,7 @@ class GroupController @Inject() (
               .map(group => Ok(Json.toJson(group)))
           }
         )
-      case None => Future.successful(BadRequest(Json.toJson("Group not found.")))
+      case None => Future.successful(BadRequest(Json.toJson("Group not found")))
     }
   }
 
@@ -70,51 +70,29 @@ class GroupController @Inject() (
     }
   }
 
-  // BELOW CODE IS TO BE RESTIFIED
-
-  def subscribe(groupId: UUID) = SecuredAction.async { implicit request =>
+  def subscribe(groupId: UUID) = Action.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         for {
-          _ <- subscriptionService.subscribeUserToGroup(request.identity, group)
+          _ <- subscriptionService.subscribeUserToGroup(request.user, group)
         } yield {
-          Redirect(cobase.play.user.routes.ApplicationController.index())
-            .flashing("info" -> Messages("group.subscribe"))
+          Ok(Json.obj())
         }
 
-      case None =>
-        for {
-          groupLinks <- groupService.findGroupLinks
-        } yield {
-          NotFound(views.html.notFound(
-            request.identity,
-            groupLinks,
-            "Group with id " + groupId + " not found"
-          ))
-        }
+      case None => Future.successful(NotFound("Group not found"))
     }
   }
 
-  def unsubscribe(groupId: UUID) = SecuredAction.async { implicit request =>
+  def unsubscribe(groupId: UUID) = Action.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         for {
-          _ <- subscriptionService.unsubscribeUserFromGroup(request.identity, group)
+          _ <- subscriptionService.unsubscribeUserFromGroup(request.user, group)
         } yield {
-          Redirect(cobase.play.user.routes.ApplicationController.index())
-            .flashing("info" -> Messages("group.unsubscribe"))
+          Ok(Json.obj())
         }
 
-      case None =>
-        for {
-          groupLinks <- groupService.findGroupLinks
-        } yield {
-          NotFound(views.html.notFound(
-            request.identity,
-            groupLinks,
-            "Group with id " + groupId + " not found"
-          ))
-        }
+      case None => Future.successful(NotFound("Group not found"))
     }
   }
 

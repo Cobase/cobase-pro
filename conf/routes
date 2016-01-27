@@ -12,8 +12,6 @@ GET         /authenticate/:provider            cobase.play.user.SocialAuthContro
 POST        /authenticate/credentials          cobase.play.user.CredentialsAuthController.authenticate
 
 # Group related
-GET         /groups/add                        cobase.play.group.GroupController.addGroupForm
-POST        /groups                            cobase.play.group.GroupController.addGroup
 GET         /group/:groupId/edit               cobase.play.group.GroupController.editGroupForm(groupId: java.util.UUID)
 POST        /group/:groupId                    cobase.play.group.GroupController.editGroup(groupId: java.util.UUID)
 GET         /group/:groupId/subscribe          cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
@@ -36,3 +34,14 @@ GET         /api/group/:groupId/posts          cobase.play.post.PostController.g
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                      controllers.Assets.at(path="/public", file)
 GET         /webjars/*file                     controllers.WebJarAssets.at(file)
+
+#####################
+# Restify refactore #
+#####################
+
+# Group
+GET         /groups                             cobase.play.group.GroupController.getGroups
+POST        /groups                             cobase.play.group.GroupController.addGroup
+GET         /groups/:groupId/tweets             cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
+
+

@@ -14,7 +14,7 @@ import scala.concurrent.Future
 /**
  * Give access to the user object using Slick
  */
-class GroupDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+class GroupRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
   import driver.api._
 
   def findAll: Future[Seq[Group]] = {

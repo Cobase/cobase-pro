@@ -1,6 +1,6 @@
 /logs
 project/project
-projectFilesBackup/
+projectFilesBackup*
 project/target
 conf/application.conf
 conf/silhouette.conf

@@ -33,4 +33,17 @@ class GroupService @Inject() (groupRepository: GroupRepository) {
       }
   }
 
+  def updateGroup(data: UpdateGroupRequest, groupId: UUID): Future[Group] = {
+    groupRepository
+      .update(Group(
+        groupId,
+        data.title,
+        data.tags,
+        true
+      ))
+      .map { group =>
+        group
+      }
+  }
+
 }

@@ -17,3 +17,12 @@ $ curl -X POST \
        -d '{"title": "[TITLE_STRING]", "tags": "[TWITTER_HASHTAGS_STRING]"}' \
        http://localhost:9001/api/groups       
 ```
+
+### Update existing group
+
+```bash
+$ curl -X PUT \
+       -H "Content-type: application/json" \
+       -d '{"title": "[TITLE_STRING]", "tags": "[TWITTER_HASHTAGS_STRING]"}' \
+       http://localhost:9001/api/groups/[UUID]       
+```

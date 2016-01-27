@@ -3,7 +3,7 @@ package cobase.play.group
 import java.util.UUID
 import javax.inject.Inject
 
-import cobase.group.{AddGroupRequest, GroupLink, Group, GroupService}
+import cobase.group._
 import cobase.post.PostService
 import cobase.twitter.{Tweet, TwitterService}
 import cobase.user._
@@ -25,13 +25,6 @@ class GroupController @Inject() (
   twitterService: TwitterService
 ) extends Silhouette[User, CookieAuthenticator] {
 
-  def getGroups = Action.async { implicit request =>
-    implicit val groupLinkWrites = Json.format[GroupLink]
-    for {
-      groupLinks <- groupService.findGroupLinks
-    } yield Ok(Json.toJson(groupLinks))
-  }
-
   def addGroup = Action.async(parse.json) { implicit request =>
     request.body.validate[AddGroupRequest].fold(
       errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
@@ -41,6 +34,28 @@ class GroupController @Inject() (
           .map(group => Ok(Json.toJson(group)))
       }
     )
+  }
+
+  def getGroups = Action.async { implicit request =>
+    implicit val groupLinkWrites = Json.format[GroupLink]
+    for {
+      groupLinks <- groupService.findGroupLinks
+    } yield Ok(Json.toJson(groupLinks))
+  }
+
+  def updateGroup(groupId: UUID) = Action.async(parse.json) { implicit request =>
+    groupService.findById(groupId).flatMap {
+      case Some(group) =>
+        request.body.validate[UpdateGroupRequest].fold(
+          errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
+          updateGroupRequest => {
+            implicit val groupWrites = Json.format[Group]
+            groupService.updateGroup(updateGroupRequest, groupId)
+              .map(group => Ok(Json.toJson(group)))
+          }
+        )
+      case None => Future.successful(BadRequest(Json.toJson("Group not found.")))
+    }
   }
 
   def getTweetsForGroup(groupId: UUID) = Action.async { implicit request =>
@@ -56,62 +71,6 @@ class GroupController @Inject() (
   }
 
   // BELOW CODE IS TO BE RESTIFIED
-
-
-  def editGroupForm(groupId: UUID) = SecuredAction.async { implicit request =>
-    val futureGroup = groupService.findById(groupId)
-    val futureGroupLinks = groupService.findGroupLinks
-
-    for {
-      group <- futureGroup
-      groupLinks <- futureGroupLinks
-    } yield {
-      group match {
-        case Some(g) =>
-          val filledForm = GroupForm.form.fill(GroupFormData(g.title, g.tags))
-
-          Ok(views.html.editGroup(request.identity, groupLinks, filledForm, g))
-
-        case None => NotFound(views.html.notFound(
-          request.identity,
-          groupLinks,
-          "Group with id " + groupId + " not found"
-        ))
-      }
-    }
-  }
-
-  def editGroup(groupId: UUID) = SecuredAction.async { implicit request =>
-    groupService.findById(groupId).flatMap {
-      case Some(group) =>
-        GroupForm.form.bindFromRequest.fold(
-          formWithErrors => {
-            for {
-              groupLinks <- groupService.findGroupLinks
-            } yield Ok(views.html.editGroup(request.identity, groupLinks, formWithErrors, group))
-          },
-          data => {
-            for {
-              _ <- groupService.update(Group(group.id, data.title, data.tags, true))
-            } yield {
-              Redirect(cobase.play.post.routes.PostController.viewPosts(group.id))
-                .flashing("info" -> Messages("group.updated"))
-            }
-          }
-        )
-
-      case None =>
-        for {
-          groupLinks <- groupService.findGroupLinks
-        } yield {
-          NotFound(views.html.notFound(
-            request.identity,
-            groupLinks,
-            "Group with id " + groupId + " not found"
-          ))
-        }
-    }
-  }
 
   def subscribe(groupId: UUID) = SecuredAction.async { implicit request =>
     groupService.findById(groupId).flatMap {

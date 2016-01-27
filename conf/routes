@@ -12,8 +12,6 @@ GET         /authenticate/:provider            cobase.play.user.SocialAuthContro
 POST        /authenticate/credentials          cobase.play.user.CredentialsAuthController.authenticate
 
 # Group related
-GET         /group/:groupId/edit               cobase.play.group.GroupController.editGroupForm(groupId: java.util.UUID)
-POST        /group/:groupId                    cobase.play.group.GroupController.editGroup(groupId: java.util.UUID)
 GET         /group/:groupId/subscribe          cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
 GET         /group/:groupId/unsubscribe        cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
 
@@ -43,5 +41,5 @@ GET         /webjars/*file                     controllers.WebJarAssets.at(file)
 GET         /groups                             cobase.play.group.GroupController.getGroups
 POST        /groups                             cobase.play.group.GroupController.addGroup
 GET         /groups/:groupId/tweets             cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
-
+PUT         /groups/:groupId                    cobase.play.group.GroupController.updateGroup(groupId: java.util.UUID)
 

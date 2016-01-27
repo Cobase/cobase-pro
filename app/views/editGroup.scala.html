@@ -28,17 +28,11 @@
                        <p class="register-box-msg"><strong>Error:</strong> @msg</p>
                     }
 
-                    @helper.form(action = groupControllerRoutes.editGroup(group.id)) {
-                        @helper.CSRF.formField
-                        @text(groupForm("title"), "Title", icon = "")
-                        @tags(groupForm("tags"), "Twitter hashtags")
-
                         <div class="row">
                             <div class="col-xs-4">
                                 <button type="submit" class="btn btn-success btn-block btn-flat">Update</button>
                             </div>
                         </div>
-                    }
                 </div>
             </div>
         </div>

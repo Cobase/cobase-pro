@@ -1,10 +1,5 @@
 @import views.html.helpers._
 
-@import cobase.play.user.SignUpData
-@import cobase.play.user.routes.{SignUpController => signUpControllerRoutes, AuthenticationController => authenticationControllerRoutes}
-
-@(signInForm: Form[SignUpData])(implicit request: RequestHeader)
-
 @blank("CobasePRO - Sign Up") {
     <div class="register-box">
         <div class="register-logo">
@@ -14,25 +9,15 @@
         <div class="register-box-body">
             <p class="register-box-msg">Register an account</p>
 
-            @request.flash.get("error").map { msg =>
-                <p class="register-box-msg"><strong>Error:</strong> @msg</p>
-            }
-
-            @helper.form(action = signUpControllerRoutes.signUp()) {
-                @helper.CSRF.formField
-                @text(signInForm("firstName"), "First name", icon = "person")
-                @text(signInForm("lastName"), "Last name", icon = "person")
-                @text(signInForm("email"), "Email", icon = "at")
-                @password(signInForm("password"), "Password", icon = "key")
-
+            <form>
                 <div class="row top20">
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-success btn-block btn-flat">Sign Up</button>
                     </div>
                 </div>
-            }
+            </form>
 
-            <p class="top20">Already a member? <a href="@authenticationControllerRoutes.signIn">Sign in now</a></p>
+            <p class="top20">Already a member? <a href="#">Sign in now</a></p>
         </div>
     </div>
 }

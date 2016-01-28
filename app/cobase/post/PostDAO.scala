@@ -3,7 +3,7 @@ package cobase.post
 import java.util.UUID
 import javax.inject.Inject
 
-import cobase.DBTableDefinitions
+import cobase.DBTables
 import cobase.user.User
 import play.api.db.slick._
 import slick.driver.JdbcProfile
@@ -15,15 +15,15 @@ import scala.concurrent.Future
 /**
  * Give access to the user object using Slick
  */
-class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTables {
   import driver.api._
 
   def findAll: Future[Seq[Post]] = {
-    db.run(slickPosts.result)
+    db.run(posts.result)
   }
 
   def findById(postId: UUID): Future[Option[Post]] = {
-    db.run(slickPosts.filter(_.id === postId).result.headOption)
+    db.run(posts.filter(_.id === postId).result.headOption)
   }
 
   /**
@@ -31,7 +31,7 @@ class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
    */
   def findByPhrase(phrase: String): Future[Seq[Post]] = {
     db.run(
-      slickPosts
+      posts
         .filter(_.content.toLowerCase.like("%" + phrase.toLowerCase + "%"))
         .sortBy(_.id.desc)
         .result
@@ -40,21 +40,21 @@ class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
 
   def findLatestPostsForGroup(groupId: UUID): Future[Seq[Post]] = {
     db.run(
-      slickPosts
+      posts
         .filter(_.groupId === groupId)
         .filter(_.isActive === true)
-        .sortBy(_.createdTimestamp.desc)
+        .sortBy(_.created.desc)
         .result
     )
   }
 
   def add(post: Post): Future[Post] = {
-    db.run(slickPosts += post)
+    db.run(posts += post)
       .map(_ => post)
   }
 
   def update(post: Post): Future[Post] = {
-    db.run(slickPosts.filter(_.id === post.id).update(post))
+    db.run(posts.filter(_.id === post.id).update(post))
       .map(_ => post)
   }
 

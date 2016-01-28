@@ -3,38 +3,36 @@ package cobase.play.post
 import java.util.UUID
 import javax.inject.Inject
 
+import cobase.authentication.AuthenticationService
 import cobase.group.{Group, GroupService}
-import cobase.post.{Post, DashboardPost, PostService}
+import cobase.play.user.SecuredController
+import cobase.post.{DashboardPost, Post, PostService}
 import cobase.twitter.TwitterService
-import cobase.user.{SubscriptionService, User}
-import com.mohiva.play.silhouette.api.{Environment, Silhouette}
-import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import play.api.i18n.{Messages, MessagesApi}
+import cobase.user.SubscriptionService
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 
 import scala.concurrent.Future
 
 class PostController @Inject() (
-  implicit val env: Environment[User, CookieAuthenticator],
-  val messagesApi: MessagesApi,
+  val authenticationService: AuthenticationService,
   groupService: GroupService,
   postService: PostService,
   twitterService: TwitterService,
   subscriptionService: SubscriptionService
-) extends Silhouette[User, CookieAuthenticator] {
+) extends SecuredController {
 
-  def viewPosts(groupId: UUID) = SecuredAction.async { implicit request =>
+  def viewPosts(groupId: UUID) = AuthenticatedAction.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         val futureGroupLinks = groupService.findGroupLinks
-        val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.identity, group)
+        val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.user.user, group)
 
         for {
           groupLinks <- futureGroupLinks
           isSubscribedToGroup <- futureIsSubscribedToGroup
         } yield {
-          Ok(views.html.group(request.identity, groupLinks, group, isSubscribedToGroup, PostForm.form))
+          Ok(views.html.group(request.user.user, groupLinks, group, isSubscribedToGroup, PostForm.form))
         }
 
       case None =>
@@ -42,7 +40,7 @@ class PostController @Inject() (
           groupLinks <- groupService.findGroupLinks
         } yield {
           NotFound(views.html.notFound(
-            request.identity,
+            request.user.user,
             groupLinks,
             "Group with id " + groupId + " not found"
           ))
@@ -50,7 +48,7 @@ class PostController @Inject() (
     }
   }
 
-  def getPostsForGroup(groupId: UUID) = SecuredAction.async { implicit request =>
+  def getPostsForGroup(groupId: UUID) = AuthenticatedAction.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         implicit val postWrites = Json.writes[Post]
@@ -63,20 +61,20 @@ class PostController @Inject() (
     }
   }
 
-  def editPostForm(postId: UUID) = SecuredAction.async { implicit request =>
+  def editPostForm(postId: UUID) = AuthenticatedAction.async { implicit request =>
     getPostAndGroup(postId).flatMap {
         case Some((post, group)) => {
           val filledForm = PostForm.form.fill(PostFormData(post.content))
 
           for {
             groupLinks <- groupService.findGroupLinks
-          } yield Ok(views.html.editPost(request.identity, groupLinks, filledForm, group, post))
+          } yield Ok(views.html.editPost(request.user.user, groupLinks, filledForm, group, post))
         }
 
         case None =>
           for {
             groupLinks <- groupService.findGroupLinks
-          } yield NotFound(views.html.notFound(request.identity, groupLinks, "Post with id " + postId + " not found"))
+          } yield NotFound(views.html.notFound(request.user.user, groupLinks, "Post with id " + postId + " not found"))
       }
   }
 
@@ -90,49 +88,50 @@ class PostController @Inject() (
     }
   }
 
-  def editPost(postId: UUID) = SecuredAction.async { implicit request =>
+  def editPost(postId: UUID) = AuthenticatedAction.async { implicit request =>
     getPostAndGroup(postId).flatMap {
       case Some((post, group)) =>
         PostForm.form.bindFromRequest.fold(
           formWithErrors => {
             for {
               groupLinks <- groupService.findGroupLinks
-            } yield Ok(views.html.editPost(request.identity, groupLinks, formWithErrors, group, post))
+            } yield Ok(views.html.editPost(request.user.user, groupLinks, formWithErrors, group, post))
           },
           data => {
             for {
               _ <- postService.update(post.copy(content = data.content))
-            } yield Redirect(routes.PostController.viewPosts(group.id)).flashing("info" -> Messages("post.updated"))
+            } yield Redirect(routes.PostController.viewPosts(group.id))
+//              .flashing("info" -> Messages("post.updated"))
           }
         )
 
       case None =>
         for {
           groupLinks <- groupService.findGroupLinks
-        } yield NotFound(views.html.notFound(request.identity, groupLinks, "Post with id " + postId + " not found"))
+        } yield NotFound(views.html.notFound(request.user.user, groupLinks, "Post with id " + postId + " not found"))
     }
   }
 
-  def addPost(groupId: UUID) = SecuredAction.async { implicit request =>
+  def addPost(groupId: UUID) = AuthenticatedAction.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         PostForm.form.bindFromRequest.fold(
           formWithErrors => {
             val futureGroupLinks = groupService.findGroupLinks
-            val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.identity, group)
+            val futureIsSubscribedToGroup = subscriptionService.isUserSubscribedToGroup(request.user.user, group)
 
             for {
               groupLinks <- futureGroupLinks
               isSubscribedToGroup <- futureIsSubscribedToGroup
             } yield {
-              Ok(views.html.group(request.identity, groupLinks, group, isSubscribedToGroup, formWithErrors))
+              Ok(views.html.group(request.user.user, groupLinks, group, isSubscribedToGroup, formWithErrors))
             }
           },
           data => {
             val timestamp: Long = System.currentTimeMillis
 
             for {
-              _ <- postService.add(Post(UUID.randomUUID, data.content, groupId, request.identity.fullName, timestamp, true))
+              _ <- postService.add(Post(UUID.randomUUID, data.content, groupId, request.user.user.fullName, timestamp, true))
             } yield Redirect(routes.PostController.viewPosts(groupId))
           }
         )
@@ -140,14 +139,14 @@ class PostController @Inject() (
       case None =>
         for {
           groupLinks <- groupService.findGroupLinks
-        } yield NotFound(views.html.notFound(request.identity, groupLinks, "Group with id " + groupId + " not found"))
+        } yield NotFound(views.html.notFound(request.user.user, groupLinks, "Group with id " + groupId + " not found"))
     }
   }
 
-  def getDashboardPosts() = SecuredAction.async { implicit request =>
+  def getDashboardPosts = AuthenticatedAction.async { implicit request =>
     implicit val postWrites = Json.writes[DashboardPost]
 
-    postService.getDashboardPosts(request.identity)
+    postService.getDashboardPosts(request.user.user)
       .map(dashboardPosts => Ok(Json.toJson(dashboardPosts)))
 
   }

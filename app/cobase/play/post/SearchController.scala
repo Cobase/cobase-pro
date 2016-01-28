@@ -1,44 +1,42 @@
 package cobase.play.post
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
+import cobase.authentication.AuthenticationService
 import cobase.group.GroupService
+import cobase.play.user.SecuredController
 import cobase.post.PostService
-import cobase.user.User
-import com.mohiva.play.silhouette.api.{Environment, Silhouette}
-import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import play.api.i18n.MessagesApi
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+@Singleton
 class SearchController @Inject() (
-  implicit val env: Environment[User, CookieAuthenticator],
-  val messagesApi: MessagesApi,
+  val authenticationService: AuthenticationService,
   groupService: GroupService,
   postService: PostService
-) extends Silhouette[User, CookieAuthenticator] {
+) extends SecuredController {
 
   /**
    * Handles the search from the front page.
    *
    * @return The posts found.
    */
-  def searchPosts = SecuredAction.async { implicit request =>
+  def searchPosts = AuthenticatedAction.async { implicit request =>
     val futureGroupLinks = groupService.findGroupLinks
 
     val groupLinksAndDashboardPosts = for {
       groupLinks <- futureGroupLinks
-    } yield (groupLinks)
+    } yield groupLinks
 
     groupLinksAndDashboardPosts.flatMap {
       case (groupLinks) =>
         SearchForm.form.bindFromRequest.fold(
-          formWithErrors => Future.successful(Ok(views.html.home(request.identity, groupLinks))),
+          formWithErrors => Future.successful(Ok(views.html.home(request.user.user, groupLinks))),
           data => {
             for {
               posts <- postService.findByPhrase(data.phrase)
-            } yield Ok(views.html.search(request.identity, groupLinks, posts))
+            } yield Ok(views.html.search(request.user.user, groupLinks, posts))
           }
         )
     }

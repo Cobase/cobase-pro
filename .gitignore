@@ -3,7 +3,6 @@ project/project
 projectFilesBackup*
 project/target
 conf/application.conf
-conf/silhouette.conf
 conf/twitter.conf
 /target
 /tmp

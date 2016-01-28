@@ -3,7 +3,7 @@ package cobase.group
 import java.util.UUID
 import javax.inject.Inject
 
-import cobase.DBTableDefinitions
+import cobase.DBTables
 import play.api.db.slick._
 import slick.driver.JdbcProfile
 import slick.jdbc.GetResult
@@ -14,12 +14,12 @@ import scala.concurrent.Future
 /**
  * Give access to the user object using Slick
  */
-class GroupRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+class GroupRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTables {
   import driver.api._
 
   def findAll: Future[Seq[Group]] = {
     db.run(
-      slickGroups
+      groups
         .filter(_.isActive === true)
         .sortBy(_.title.toLowerCase.asc)
         .result
@@ -49,7 +49,7 @@ class GroupRepository @Inject() (protected val dbConfigProvider: DatabaseConfigP
 
   def findById(groupId: UUID): Future[Option[Group]] = {
     db.run(
-      slickGroups
+      groups
         .filter(_.id === groupId)
         .filter(_.isActive === true)
         .result
@@ -58,12 +58,12 @@ class GroupRepository @Inject() (protected val dbConfigProvider: DatabaseConfigP
   }
 
   def add(group: Group): Future[Group] = {
-    db.run(slickGroups += group)
+    db.run(groups += group)
       .map(_ => group)
   }
 
   def update(group: Group): Future[Group] = {
-    db.run(slickGroups.filter(_.id === group.id).update(group))
+    db.run(groups.filter(_.id === group.id).update(group))
       .map(_ => group)
   }
 }

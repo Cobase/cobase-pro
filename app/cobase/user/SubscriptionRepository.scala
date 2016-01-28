@@ -2,7 +2,7 @@ package cobase.user
 
 import javax.inject.Inject
 
-import cobase.DBTableDefinitions
+import cobase.DBTables
 import cobase.group.Group
 import play.api.db.slick._
 import slick.driver.JdbcProfile
@@ -13,12 +13,12 @@ import scala.concurrent.Future
 /**
  * Give access to the subscription object using Slick
  */
-class SubscriptionRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTableDefinitions {
+class SubscriptionRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTables {
   import driver.api._
 
   def isUserSubscribedToGroup(user: User, group: Group): Future[Boolean] = {
     val result = db.run(
-      slickSubscriptions
+      subscriptions
         .filter(_.userId === user.id)
         .filter(_.groupId === group.id)
         .result
@@ -29,13 +29,13 @@ class SubscriptionRepository @Inject() (protected val dbConfigProvider: Database
   }
 
   def subscribeUserToGroup(user: User, group: Group): Future[Subscription] = {
-    db.run((slickSubscriptions returning slickSubscriptions.map(_.id)) += Subscription(0, user.id, group.id))
+    db.run((subscriptions returning subscriptions.map(_.id)) += Subscription(0, user.id, group.id))
       .map(id => Subscription(id, user.id, group.id))
   }
 
   def unsubscribeUserFromGroup(user: User, group: Group): Future[Unit] = {
     val result = db.run(
-      slickSubscriptions
+      subscriptions
         .filter(_.userId === user.id)
         .filter(_.groupId === group.id)
         .delete

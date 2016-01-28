@@ -1,39 +1,25 @@
 package cobase.play.user
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
+import cobase.authentication.AuthenticationService
 import cobase.group.GroupService
 import cobase.post.PostService
-import cobase.user.User
-import com.mohiva.play.silhouette.api.{Environment, Silhouette}
-import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import play.api.i18n.MessagesApi
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
-/**
- * The basic application controller.
- *
- * @param env The Silhouette environment.
- */
+@Singleton
 class ApplicationController @Inject() (
-  val messagesApi: MessagesApi,
-  implicit val env: Environment[User, CookieAuthenticator],
+  val authenticationService: AuthenticationService,
   groupService: GroupService,
   postService: PostService
-) extends Silhouette[User, CookieAuthenticator] {
+) extends SecuredController {
 
-  /**
-   * Handles the index action.
-   *
-   * @return The result to display.
-   */
-  def index = SecuredAction.async { implicit request =>
+  def index = AuthenticatedAction.async { implicit request =>
     val futureGroupLinks = groupService.findGroupLinks
 
     for {
       groupLinks <- groupService.findGroupLinks
-    } yield Ok(views.html.home(request.identity, groupLinks))
+    } yield Ok(views.html.home(request.user.user, groupLinks))
   }
 }

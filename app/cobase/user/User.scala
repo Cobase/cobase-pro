@@ -2,25 +2,26 @@ package cobase.user
 
 import java.util.UUID
 
-import com.mohiva.play.silhouette.api.{Identity, LoginInfo}
+import org.joda.time.DateTime
 
-/**
- * The user object.
- *
- * @param id The unique ID of the user.
- * @param loginInfo The linked login info.
- * @param firstName Maybe the first name of the authenticated user.
- * @param lastName Maybe the last name of the authenticated user.
- * @param fullName Maybe the full name of the authenticated user.
- * @param email Maybe the email of the authenticated provider.
- * @param avatarURL Maybe the avatar URL of the authenticated provider.
- */
 case class User(
   id: UUID,
-  loginInfo: LoginInfo,
-  firstName: Option[String],
-  lastName: Option[String],
-  fullName: Option[String],
-  email: Option[String],
-  avatarURL: Option[String]
-) extends Identity
+  username: String,
+  password: String,
+  created: DateTime,
+  verificationToken: String,
+  verified: Option[DateTime] = None,
+  firstName: Option[String] = None,
+  lastName: Option[String] = None,
+  avatarURL: Option[String] = None,
+  passwordResetToken: Option[String] = None,
+  passwordResetRequested: Option[DateTime] = None,
+  passwordResetUsed: Option[DateTime] = None
+) {
+  lazy val fullName: Option[String] = for {
+    first <- firstName
+    last <- lastName
+  } yield (first + last).trim
+
+  lazy val isVerified: Boolean = verified.isDefined
+}

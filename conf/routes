@@ -4,12 +4,6 @@
 
 # User Control
 GET         /                                  cobase.play.user.ApplicationController.index
-GET         /sign-in                           cobase.play.user.AuthenticationController.signIn
-GET         /sign-out                          cobase.play.user.AuthenticationController.signOut
-GET         /sign-up                           cobase.play.user.SignUpController.signUpForm
-POST        /sign-up                           cobase.play.user.SignUpController.signUp
-GET         /authenticate/:provider            cobase.play.user.SocialAuthController.authenticate(provider)
-POST        /authenticate/credentials          cobase.play.user.CredentialsAuthController.authenticate
 
 # Post related
 GET         /post/:postId/edit                 cobase.play.post.PostController.editPostForm(postId: java.util.UUID)
@@ -32,6 +26,13 @@ GET         /webjars/*file                     controllers.WebJarAssets.at(file)
 #####################
 # Restify refactore #
 #####################
+
+# Authentication & User
+
+POST        /login                              cobase.play.user.AuthenticationController.login
+POST        /logout                             cobase.play.user.AuthenticationController.logout
+
+POST        /users                              cobase.play.user.UserController.registerUser
 
 # Group
 GET         /groups                             cobase.play.group.GroupController.getGroups

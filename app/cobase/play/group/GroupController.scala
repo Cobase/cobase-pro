@@ -1,49 +1,47 @@
 package cobase.play.group
 
 import java.util.UUID
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
+import cobase.authentication.AuthenticationService
 import cobase.group._
+import cobase.play.user.SecuredController
 import cobase.post.PostService
 import cobase.twitter.{Tweet, TwitterService}
 import cobase.user._
-import com.mohiva.play.silhouette.api.{Environment, Silhouette}
-import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
-import play.api.mvc.Action
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+@Singleton
 class GroupController @Inject() (
-  implicit val env: Environment[User, CookieAuthenticator],
-  val messagesApi: MessagesApi,
+  val authenticationService: AuthenticationService,
   groupService: GroupService,
   postService: PostService,
   subscriptionService: SubscriptionService,
   twitterService: TwitterService
-) extends Silhouette[User, CookieAuthenticator] {
+) extends SecuredController {
 
-  def addGroup = Action.async(parse.json) { implicit request =>
+  def addGroup = AuthenticatedAction.async(parse.json) { implicit request =>
     request.body.validate[AddGroupRequest].fold(
       errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
       addGroupRequest => {
         implicit val groupWrites = Json.format[Group]
         groupService.addGroup(addGroupRequest)
-          .map(group => Ok(Json.toJson(group)))
+          .map(group => Created(Json.toJson(group)))
       }
     )
   }
 
-  def getGroups = Action.async { implicit request =>
+  def getGroups = AuthenticatedAction.async { implicit request =>
     implicit val groupLinkWrites = Json.format[GroupLink]
     for {
       groupLinks <- groupService.findGroupLinks
     } yield Ok(Json.toJson(groupLinks))
   }
 
-  def updateGroup(groupId: UUID) = Action.async(parse.json) { implicit request =>
+  def updateGroup(groupId: UUID) = AuthenticatedAction.async(parse.json) { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         request.body.validate[UpdateGroupRequest].fold(
@@ -58,7 +56,7 @@ class GroupController @Inject() (
     }
   }
 
-  def getTweetsForGroup(groupId: UUID) = Action.async { implicit request =>
+  def getTweetsForGroup(groupId: UUID) = AuthenticatedAction.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         implicit val twitterFeedItemWrites = Json.writes[Tweet]
@@ -70,11 +68,11 @@ class GroupController @Inject() (
     }
   }
 
-  def subscribe(groupId: UUID) = Action.async { implicit request =>
+  def subscribe(groupId: UUID) = AuthenticatedAction.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         for {
-          _ <- subscriptionService.subscribeUserToGroup(request.user, group)
+          _ <- subscriptionService.subscribeUserToGroup(request.user.user, group)
         } yield {
           Ok(Json.obj())
         }
@@ -83,11 +81,11 @@ class GroupController @Inject() (
     }
   }
 
-  def unsubscribe(groupId: UUID) = Action.async { implicit request =>
+  def unsubscribe(groupId: UUID) = AuthenticatedAction.async { implicit request =>
     groupService.findById(groupId).flatMap {
       case Some(group) =>
         for {
-          _ <- subscriptionService.unsubscribeUserFromGroup(request.user, group)
+          _ <- subscriptionService.unsubscribeUserFromGroup(request.user.user, group)
         } yield {
           Ok(Json.obj())
         }

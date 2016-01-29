@@ -1,37 +1,37 @@
 package cobase.play.user
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
-import cobase.user.User
-import com.mohiva.play.silhouette.api.{Environment, LogoutEvent, Silhouette}
-import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
-import play.api.i18n.MessagesApi
+import cobase.authentication.{AuthenticationRequest, AuthenticationResponse, AuthenticationService}
+import play.api.libs.json._
+import play.api.mvc._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
- * The basic application controller.
- *
- * @param env The Silhouette environment.
- */
+@Singleton
 class AuthenticationController @Inject() (
-  val env: Environment[User, CookieAuthenticator],
-  val messagesApi: MessagesApi,
-  socialProviderRegistry: SocialProviderRegistry
-) extends Silhouette[User, CookieAuthenticator] {
+  val authenticationService: AuthenticationService
+) extends SecuredController {
 
-  def signIn = UserAwareAction.async { implicit request =>
-    request.identity match {
-      case Some(user) => Future.successful(Redirect(routes.ApplicationController.index()))
-      case None => Future.successful(Ok(views.html.signIn(SignInForm.form, socialProviderRegistry)))
-    }
+  def login = Action.async(parse.json) { implicit request =>
+    request.body.validate[AuthenticationRequest].fold(
+      errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
+      authRequest => {
+        authenticationService.login(authRequest.username, authRequest.password).map {
+          case Some(authenticatedUser) => Ok(Json.toJson(
+            AuthenticationResponse.fromAuthenticatedUser(authenticatedUser)
+          ))
+
+          case None => Unauthorized(Json.obj())
+        }
+      }
+    )
   }
 
-  def signOut = SecuredAction.async { implicit request =>
-    val result = Redirect(routes.ApplicationController.index())
-    env.eventBus.publish(LogoutEvent(request.identity, request, request2Messages))
+  def logout = AuthenticatedAction.async(parse.json) { implicit request =>
+    authenticationService.logout(request.user)
 
-    env.authenticatorService.discard(request.authenticator, result)
+    Future.successful(Ok(Json.obj()))
   }
 }

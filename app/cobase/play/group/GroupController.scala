@@ -36,6 +36,7 @@ class GroupController @Inject() (
 
   def getGroups = AuthenticatedAction.async { implicit request =>
     implicit val groupLinkWrites = Json.format[GroupLink]
+
     for {
       groupLinks <- groupService.findGroupLinks
     } yield Ok(Json.toJson(groupLinks))

@@ -87,7 +87,7 @@ Response:
 
     [
       {
-        "count": 0,
+        "postCount": 0,
         "id": "c5947522-b743-494c-b947-53f1fedd370e",
         "title": "title of the group"
       }

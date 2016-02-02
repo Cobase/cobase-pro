@@ -5,19 +5,12 @@
 # User Control
 GET         /                                  cobase.play.user.ApplicationController.index
 
-# Post related
-GET         /post/:postId/edit                 cobase.play.post.PostController.editPostForm(postId: java.util.UUID)
-POST        /post/:postId                      cobase.play.post.PostController.editPost(postId: java.util.UUID)
-GET         /group/:groupId/posts              cobase.play.post.PostController.viewPosts(groupId: java.util.UUID)
-POST        /group/:groupId/posts              cobase.play.post.PostController.addPost(groupId: java.util.UUID)
-
 # Search
 GET         /posts/search                      cobase.play.post.SearchController.searchPosts
 
 # External
 GET         /api/dashboard                     cobase.play.post.PostController.getDashboardPosts
 GET         /api/group/:groupId/tweets         cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
-GET         /api/group/:groupId/posts          cobase.play.post.PostController.getPostsForGroup(groupId: java.util.UUID)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                      controllers.Assets.at(path="/public", file)
@@ -41,3 +34,9 @@ GET         /groups/:groupId/tweets             cobase.play.group.GroupControlle
 PUT         /groups/:groupId                    cobase.play.group.GroupController.updateGroup(groupId: java.util.UUID)
 POST        /groups/:groupId/subscribe          cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
 DELETE      /groups/:groupId/unsubscribe        cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
+
+# Post
+
+GET         /groups/:groupId/posts              cobase.play.post.PostController.getPostsForGroup(groupId: java.util.UUID)
+POST        /groups/:groupId/posts              cobase.play.post.PostController.addPost(groupId: java.util.UUID)
+PUT         /posts/:postId                      cobase.play.post.PostController.updatePost(postId: java.util.UUID)

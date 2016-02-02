@@ -29,16 +29,13 @@
                         <p class="register-box-msg"><strong>Error:</strong> @msg</p>
                     }
 
-                    @helper.form(action = postControllerRoutes.editPost(post.id)) {
-                        @helper.CSRF.formField
-                        @textarea(postForm("content"), "Post content", icon = "")
-
+                    <form>
                         <div class="row">
                             <div class="col-xs-4">
                                 <button type="submit" class="btn btn-success btn-block btn-flat">Update</button>
                             </div>
                         </div>
-                    }
+                    </form>
                 </div>
             </div>
         </div>

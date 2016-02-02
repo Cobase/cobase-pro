@@ -67,7 +67,7 @@ trait DBTables {
     def content = column[String]("content", O.SqlType("text"))
     def groupId = column[UUID]("group_id", O.SqlType("UUID"))
     def createdBy = column[Option[String]]("created_by")
-    def created = column[Long]("created")
+    def created = column[DateTime]("created")
     def isActive = column[Boolean]("is_active")
 
     def * = (id, content, groupId, createdBy, created, isActive) <> (Post.tupled, Post.unapply)

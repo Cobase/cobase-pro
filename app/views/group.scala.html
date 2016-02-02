@@ -42,10 +42,7 @@
                                 <h3 class="box-title">What's on your mind?</h3>
                             </div>
                             <div class="box-body">
-                                @helper.form(action = postControllerRoutes.addPost(group.id)) {
-                                    @helper.CSRF.formField
-                                    @textarea(postForm("content"), "Post content", icon = "")
-
+                                <form>
                                     <div class="row">
                                         <div class="col-xs-4">
                                             <button type="submit" class="btn btn-success btn-block btn-flat">Post</button>
@@ -63,7 +60,7 @@
                                             <a href="#">Edit group</a>
                                         </div>
                                     </div>
-                                }
+                                </form>
                             </div>
                         </div>
                     </div>

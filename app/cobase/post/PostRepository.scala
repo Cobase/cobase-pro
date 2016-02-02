@@ -3,8 +3,10 @@ package cobase.post
 import java.util.UUID
 import javax.inject.Inject
 
+import com.github.tototoshi.slick.PostgresJodaSupport._
 import cobase.DBTables
 import cobase.user.User
+import org.joda.time.DateTime
 import play.api.db.slick._
 import slick.driver.JdbcProfile
 import slick.jdbc.GetResult
@@ -12,10 +14,7 @@ import slick.jdbc.GetResult
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
- * Give access to the user object using Slick
- */
-class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTables {
+class PostRepository @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] with DBTables {
   import driver.api._
 
   def findAll: Future[Seq[Post]] = {
@@ -48,14 +47,18 @@ class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
     )
   }
 
-  def add(post: Post): Future[Post] = {
+  def add(id: UUID, content: String, groupId: UUID, userFullName: Option[String], created: DateTime): Future[Post] = {
+    val post = Post(id, content, groupId, userFullName, created, isActive = true)
+
     db.run(posts += post)
       .map(_ => post)
   }
 
-  def update(post: Post): Future[Post] = {
-    db.run(posts.filter(_.id === post.id).update(post))
-      .map(_ => post)
+  def update(post: Post, content: String): Future[Post] = {
+    val updatedPost = post.copy(content = content)
+
+    db.run(posts.filter(_.id === updatedPost.id).update(updatedPost))
+      .map(_ => updatedPost)
   }
 
   /**
@@ -68,14 +71,14 @@ class PostDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
       )
 
     val query = sql"""
-      SELECT p.content, p.created_by, p.created_timestamp, g.title, g.id
+      SELECT p.content, p.created_by, p.created, g.title, g.id
       FROM posts p
       INNER JOIN groups g ON g.id = p.group_id
       INNER JOIN subscriptions s ON s.group_id = p.group_id
       WHERE s.user_id = CAST(${user.id.toString} AS uuid)
       AND g.is_active = true
       AND p.is_active = true
-      ORDER BY p.created_timestamp DESC
+      ORDER BY p.created DESC
     """.as[DashboardPost]
 
     db.run(query)

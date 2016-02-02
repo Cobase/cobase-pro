@@ -114,3 +114,69 @@ Response:
       "tags": "changed tags",
       "isActive": true
     }
+
+## Posts
+
+### Add post
+
+Request:
+
+    POST /groups/c5947522-b743-494c-b947-53f1fedd370e/posts
+
+    {
+      "content": "text for the post"
+    }
+
+Response:
+
+    201 Created
+
+    {
+      "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459",
+      "active": true,
+      "content": "text for the post",
+      "created": "2016-02-01T15:41:59+0200"
+    }
+
+### Get posts
+
+Request:
+
+    GET /groups/c5947522-b743-494c-b947-53f1fedd370e/posts
+
+Response:
+
+    200 OK
+
+    [
+      {
+        "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459"
+        "active": true,
+        "content": "text for the post",
+        "created": "2016-01-19T14:33:55+0200",
+        "createdBy": "Artur Losopowski",
+      }
+    ]
+
+
+### Update post
+
+Request:
+
+    PUT /posts/33ef00c6-8c2a-4e24-8f5e-05e992cc0459
+
+    {
+      "content": "updated post"
+    }
+
+Response:
+
+    200 OK
+
+    {
+      "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459"
+      "active": true,
+      "content": "updated post",
+      "created": "2016-01-19T14:33:55+0200",
+      "createdBy": "Artur Losopowski",
+    }

@@ -1,7 +1,5 @@
 package cobase.group
 
-import java.util.UUID
-
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json._

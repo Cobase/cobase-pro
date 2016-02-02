@@ -8,7 +8,7 @@ jdk:
 
 before_script:
   - psql -c 'create database cobase_pro;' -U postgres
-  - cp conf/application.conf.dist conf/application.conf
-  - cp conf/twitter.conf.dist conf/twitter.conf
+  - cp server/conf/application.conf.dist server/conf/application.conf
+  - cp server/conf/twitter.conf.dist server/conf/twitter.conf
 
-script: sbt test
+script: cd server && sbt test

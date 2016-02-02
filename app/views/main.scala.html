@@ -3,7 +3,7 @@
 
 @import cobase.play.group.routes.{GroupController => groupControllerRoutes}
 @import cobase.play.user.routes.{ApplicationController => applicationControllerRoutes, AuthenticationController => authenticationControllerRoutes}
-@import cobase.play.post.routes.{SearchController => searchControllerRoutes, PostController => postControllerRoutes}
+
 
 @(title: String,
   user: Option[User] = None,
@@ -138,7 +138,7 @@
                         <a href="@applicationControllerRoutes.index"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
-                <form action="@searchControllerRoutes.searchPosts" method="get" class="sidebar-form">
+                <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="phrase" class="form-control" placeholder="Search..." required/>
                       <span class="input-group-btn">

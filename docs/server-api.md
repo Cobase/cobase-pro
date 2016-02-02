@@ -75,7 +75,7 @@ Response:
       "isActive": true
     }
 
-### Get list of groups
+### Get groups
 
 Request:
 
@@ -117,7 +117,7 @@ Response:
 
 ## Posts
 
-### Add post
+### Add post to group
 
 Request:
 
@@ -133,12 +133,14 @@ Response:
 
     {
       "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459",
+      "groupId": "c5947522-b743-494c-b947-53f1fedd370e",
       "active": true,
       "content": "text for the post",
-      "created": "2016-02-01T15:41:59+0200"
+      "created": "2016-02-01T15:41:59+0200",
+      "createdBy": "Artur Losopowski"
     }
 
-### Get posts
+### Get posts for group
 
 Request:
 
@@ -151,10 +153,11 @@ Response:
     [
       {
         "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459"
+        "groupId": "c5947522-b743-494c-b947-53f1fedd370e",
         "active": true,
         "content": "text for the post",
         "created": "2016-01-19T14:33:55+0200",
-        "createdBy": "Artur Losopowski",
+        "createdBy": "Artur Losopowski"
       }
     ]
 
@@ -174,9 +177,52 @@ Response:
     200 OK
 
     {
-      "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459"
+      "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459",
+      "groupId": "c5947522-b743-494c-b947-53f1fedd370e",
       "active": true,
       "content": "updated post",
       "created": "2016-01-19T14:33:55+0200",
-      "createdBy": "Artur Losopowski",
+      "createdBy": "Artur Losopowski"
     }
+
+### Get posts
+
+Request:
+
+    GET /posts
+
+Response:
+
+    200 OK
+
+    [
+      {
+        "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459"
+        "groupId": "c5947522-b743-494c-b947-53f1fedd370e",
+        "active": true,
+        "content": "text for the post",
+        "created": "2016-01-19T14:33:55+0200",
+        "createdBy": "Artur Losopowski"
+      }
+    ]
+
+### Search for posts
+
+Request:
+
+    GET /posts?phrase=something
+
+Response:
+
+    200 OK
+
+    [
+      {
+        "id": "33ef00c6-8c2a-4e24-8f5e-05e992cc0459"
+        "groupId": "c5947522-b743-494c-b947-53f1fedd370e",
+        "active": true,
+        "content": "something foo bar",
+        "created": "2016-01-19T14:33:55+0200",
+        "createdBy": "Artur Losopowski"
+      }
+    ]

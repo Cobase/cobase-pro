@@ -5,9 +5,6 @@
 # User Control
 GET         /                                  cobase.play.user.ApplicationController.index
 
-# Search
-GET         /posts/search                      cobase.play.post.SearchController.searchPosts
-
 # External
 GET         /api/dashboard                     cobase.play.post.PostController.getDashboardPosts
 GET         /api/group/:groupId/tweets         cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
@@ -40,3 +37,4 @@ DELETE      /groups/:groupId/unsubscribe        cobase.play.group.GroupControlle
 GET         /groups/:groupId/posts              cobase.play.post.PostController.getPostsForGroup(groupId: java.util.UUID)
 POST        /groups/:groupId/posts              cobase.play.post.PostController.addPost(groupId: java.util.UUID)
 PUT         /posts/:postId                      cobase.play.post.PostController.updatePost(postId: java.util.UUID)
+GET         /posts                              cobase.play.post.PostController.getPosts

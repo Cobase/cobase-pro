@@ -52,11 +52,23 @@ class PostController @Inject() (
           errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
           addPostRequest => {
             postService.add(addPostRequest.content, group, request.user.user)
-                .map(post => Created(Json.toJson(AddPostResponse.fromPost(post))))
+                .map(post => Created(Json.toJson(PostResponse.fromPost(post))))
           }
         )
 
       case None => Future.successful(NotFound(Json.obj()))
+    }
+  }
+
+  def getPosts = AuthenticatedAction.async { implicit request =>
+    val futurePosts = request.getQueryString("phrase") match {
+      case Some(phrase) => postService.findByPhrase(phrase)
+
+      case None => postService.findAll
+    }
+
+    futurePosts.map { posts =>
+      Ok(Json.toJson(posts.map(post => PostResponse.fromPost(post))))
     }
   }
 

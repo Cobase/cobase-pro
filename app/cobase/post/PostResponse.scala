@@ -7,6 +7,7 @@ import play.api.libs.json.{Json, Writes}
 
 case class PostResponse(
   id: UUID,
+  groupId: UUID,
   content: String,
   active: Boolean,
   created: DateTime,
@@ -18,6 +19,6 @@ object PostResponse {
   implicit val writes = Json.format[PostResponse]
 
   def fromPost(post: Post): PostResponse = {
-    this(post.id, post.content, post.isActive, post.created, post.createdBy)
+    this(post.id, post.groupId, post.content, post.isActive, post.created, post.createdBy)
   }
 }

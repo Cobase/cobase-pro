@@ -1,0 +1,150 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-weight: normal;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:before,
+:after {
+    display: block;
+    position: absolute;
+}
+html,
+body {
+    height: 100%;
+    background: #eaeaea;
+}
+body {
+    display: flex;
+    font: 14px/1 'Source Sans Pro', sans-serif;
+    color: #777;
+}
+a {
+    cursor: pointer;
+}
+nav {
+    width: 250px;
+    background: #3b4854;
+}
+nav header {
+    position: relative;
+    height: 70px;
+    padding: 15px 0 0 15px;
+    font-size: 15px;
+    color: #fff;
+    border-bottom: 1px solid #465563;
+    background: #303b45;
+}
+nav header span {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+    border: 1px solid #fff;
+}
+
+nav header span:before {
+    content: '\f007';
+    font: normal 20px FontAwesome;
+    top: 7px;
+    left: 9px;
+}
+nav header a:before {
+    content: '\f090';
+    font: normal 20px FontAwesome;
+    top: 22px;
+    right: 15px;
+}
+nav ul li:first-child {
+    padding: 15px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    border-bottom: 1px solid #465563;
+}
+nav ul a {
+    position: relative;
+    display: block;
+    padding: 15px 15px 17px 50px;
+    color: #fff;
+    border-bottom: 1px solid #465563;
+}
+nav ul a:hover,
+nav ul a.active {
+    background: #465563;
+}
+nav ul a:before {
+    font: normal 20px FontAwesome;
+    top: 12px;
+    left: 15px;
+}
+nav ul li.dashboard a:before {
+    content: '\f03a';
+}
+nav ul li.group a:before {
+    content: '\f115';
+}
+nav ul li.settings a:before {
+    content: '\f085';
+}
+nav ul li.logout a:before {
+    content: '\f08b';
+}
+nav ul li.profile a:before {
+    content: '\f234';
+}
+main {
+    flex: 1;
+    padding: 25px;
+    background: #eaeaea;
+}
+main h1 {
+    height: 70px;
+    margin: -25px -25px 25px -25px;
+    padding: 0 25px;
+    line-height: 66px;
+    font-size: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+}
+.flex-grid {
+    display: flex;
+    min-height: 180px;
+    min-width: 400px;
+}
+.flex-grid div {
+    flex: 1;
+    margin: 0 0 20px 0;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+.flex-grid div p {
+    padding-bottom: 10px;
+}
+.flex-grid div .post-datetime {
+    float: right;
+    position: relative;
+    top: -27px;
+    right: 10px;
+    padding-left: 30px;
+}
+.flex-grid div h3 {
+    padding: 12px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+}
+.flex-grid div .content {
+    font-weight: 400;
+    padding: 10px;
+    border: none;
+}

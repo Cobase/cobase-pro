@@ -1,0 +1,13 @@
+.history
+dist
+.idea
+*.iml
+out
+.idea_modules
+.settings
+.DS_Store
+nohup.out
+node_modules/
+public/dist/*
+webpack-assets/
+public/webpack-assets

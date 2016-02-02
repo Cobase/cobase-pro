@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET         /                                  cobase.play.user.ApplicationController.index
+
+# Authentication & User
+
+POST        /login                              cobase.play.user.AuthenticationController.login
+POST        /logout                             cobase.play.user.AuthenticationController.logout
+
+POST        /users                              cobase.play.user.UserController.registerUser
+
+# Group
+GET         /groups                             cobase.play.group.GroupController.getGroups
+GET         /groups/subscribed                  cobase.play.group.GroupController.getSubscribedGroups
+POST        /groups                             cobase.play.group.GroupController.addGroup
+GET         /groups/:groupId/tweets             cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
+PUT         /groups/:groupId                    cobase.play.group.GroupController.updateGroup(groupId: java.util.UUID)
+POST        /groups/:groupId/subscribe          cobase.play.group.GroupController.subscribe(groupId: java.util.UUID)
+DELETE      /groups/:groupId/unsubscribe        cobase.play.group.GroupController.unsubscribe(groupId: java.util.UUID)
+
+# Post
+
+GET         /groups/:groupId/posts              cobase.play.post.PostController.getPostsForGroup(groupId: java.util.UUID)
+POST        /groups/:groupId/posts              cobase.play.post.PostController.addPost(groupId: java.util.UUID)
+PUT         /posts/:postId                      cobase.play.post.PostController.updatePost(postId: java.util.UUID)
+GET         /posts                              cobase.play.post.PostController.getPosts

@@ -1,25 +1,19 @@
 package cobase.play.user
 
-import javax.inject.{Inject, Singleton}
+import java.io.File
+import javax.inject.Singleton
 
-import cobase.authentication.AuthenticationService
-import cobase.group.GroupService
-import cobase.post.PostService
-
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.typesafe.config.ConfigFactory
+import play.api.mvc.{Action, Controller}
 
 @Singleton
-class ApplicationController @Inject() (
-  val authenticationService: AuthenticationService,
-  groupService: GroupService,
-  postService: PostService
-) extends SecuredController {
+class ApplicationController extends Controller {
+  def index = html(ConfigFactory.load.getString("cobase.clientIndex"))
 
-  def index = AuthenticatedAction.async { implicit request =>
-    val futureGroupLinks = groupService.findGroupLinks
+  def html(file: String) = Action {
+    val f = new File(file)
 
-    for {
-      groupLinks <- groupService.findGroupLinks
-    } yield Ok(views.html.home(request.user.user, groupLinks))
+    if (f.exists()) Ok(scala.io.Source.fromFile(f.getCanonicalPath).mkString).as("text/html")
+    else NotFound
   }
 }

@@ -35,9 +35,4 @@ class PostService @Inject() (postRepository: PostRepository) {
   }
 
   def update(post: Post, content: String): Future[Post] = postRepository.update(post, content)
-
-  /**
-   * Get posts found based on user subscriptions
-   */
-  def getDashboardPosts(user: User): Future[Seq[DashboardPost]] = postRepository.getDashboardPosts(user)
 }

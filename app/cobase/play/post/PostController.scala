@@ -71,11 +71,4 @@ class PostController @Inject() (
       Ok(Json.toJson(posts.map(post => PostResponse.fromPost(post))))
     }
   }
-
-  def getDashboardPosts = AuthenticatedAction.async { implicit request =>
-    implicit val postWrites = Json.writes[DashboardPost]
-
-    postService.getDashboardPosts(request.user.user)
-      .map(dashboardPosts => Ok(Json.toJson(dashboardPosts)))
-  }
 }

@@ -60,27 +60,4 @@ class PostRepository @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     db.run(posts.filter(_.id === updatedPost.id).update(updatedPost))
       .map(_ => updatedPost)
   }
-
-  /**
-   * Get posts related to user's subscriptions.
-   */
-  def getDashboardPosts(user: User): Future[Seq[DashboardPost]] = {
-    implicit val getPostResult =
-      GetResult(r =>
-        DashboardPost(r.nextString(), r.nextString(), r.nextLong(), r.nextString(), UUID.fromString(r.nextString()))
-      )
-
-    val query = sql"""
-      SELECT p.content, p.created_by, p.created, g.title, g.id
-      FROM posts p
-      INNER JOIN groups g ON g.id = p.group_id
-      INNER JOIN subscriptions s ON s.group_id = p.group_id
-      WHERE s.user_id = CAST(${user.id.toString} AS uuid)
-      AND g.is_active = true
-      AND p.is_active = true
-      ORDER BY p.created DESC
-    """.as[DashboardPost]
-
-    db.run(query)
-  }
 }

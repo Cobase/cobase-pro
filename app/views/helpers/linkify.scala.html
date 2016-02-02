@@ -1,7 +1,0 @@
-@(content: String)
-
-@import cobase.util.Linkify
-
-@{ val l = new Linkify()
-    Html(l.convert(content).replace("\n", "<br/>"))
-}

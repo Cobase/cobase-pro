@@ -35,11 +35,15 @@ class GroupController @Inject() (
   }
 
   def getGroups = AuthenticatedAction.async { implicit request =>
-    implicit val groupLinkWrites = Json.format[GroupLink]
+    groupService.findGroupLinks.map { groupLinks =>
+      Ok(Json.toJson(groupLinks.map(groupLink => GroupLinkResponse.fromGroup(groupLink))))
+    }
+  }
 
-    for {
-      groupLinks <- groupService.findGroupLinks
-    } yield Ok(Json.toJson(groupLinks))
+  def getSubscribedGroups = AuthenticatedAction.async { implicit request =>
+    groupService.getGroupsLinksSubscribedTo(request.user.user).map { groupLinks =>
+      Ok(Json.toJson(groupLinks.map(groupLink => GroupLinkResponse.fromGroup(groupLink))))
+    }
   }
 
   def updateGroup(groupId: UUID) = AuthenticatedAction.async(parse.json) { implicit request =>

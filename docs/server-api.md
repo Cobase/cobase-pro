@@ -87,11 +87,15 @@ Response:
 
     [
       {
-        "postCount": 0,
         "id": "c5947522-b743-494c-b947-53f1fedd370e",
-        "title": "title of the group"
+        "title": "title of the group",
+        "tags": "some tags",
+        "isActive": true,
+        "postCount": 0
       }
     ]
+
+You can filter to get only groups that the user has subscribed to with `GET /groups/subscribed`.
 
 ### Update existing group
 

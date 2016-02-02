@@ -5,10 +5,6 @@
 # User Control
 GET         /                                  cobase.play.user.ApplicationController.index
 
-# External
-GET         /api/dashboard                     cobase.play.post.PostController.getDashboardPosts
-GET         /api/group/:groupId/tweets         cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
-
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                      controllers.Assets.at(path="/public", file)
 GET         /webjars/*file                     controllers.WebJarAssets.at(file)
@@ -26,6 +22,7 @@ POST        /users                              cobase.play.user.UserController.
 
 # Group
 GET         /groups                             cobase.play.group.GroupController.getGroups
+GET         /groups/subscribed                  cobase.play.group.GroupController.getSubscribedGroups
 POST        /groups                             cobase.play.group.GroupController.addGroup
 GET         /groups/:groupId/tweets             cobase.play.group.GroupController.getTweetsForGroup(groupId: java.util.UUID)
 PUT         /groups/:groupId                    cobase.play.group.GroupController.updateGroup(groupId: java.util.UUID)

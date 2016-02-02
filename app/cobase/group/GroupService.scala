@@ -2,6 +2,8 @@ package cobase.group
 
 import javax.inject.Inject
 import java.util.UUID
+import cobase.user.User
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -46,4 +48,7 @@ class GroupService @Inject() (groupRepository: GroupRepository) {
       }
   }
 
+  def getGroupsLinksSubscribedTo(user: User): Future[Seq[GroupLink]] = {
+    groupRepository.getGroupsLinksSubscribedTo(user)
+  }
 }

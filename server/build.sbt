@@ -13,17 +13,12 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 libraryDependencies ++= Seq(
-  "org.webjars" %% "webjars-play" % "2.4.0-1",
-  "org.webjars" % "webjars-locator" % "0.28",
-  "org.webjars" % "bootstrap" % "3.1.1",
-  "org.webjars" % "jquery" % "1.11.0",
   "net.codingwell" %% "scala-guice" % "4.0.0",
   "com.typesafe.play" %% "play-slick" % "1.1.1",
   "com.typesafe.play" %% "play-slick-evolutions" % "1.1.1",
   "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
   "mysql" % "mysql-connector-java" % "5.1.21",
   "com.github.nscala-time" %% "nscala-time" % "2.6.0",
-  "com.ocpsoft" % "ocpsoft-pretty-time" % "1.0.7",
   "org.twitter4j" % "twitter4j-core" % "3.0.5",
   "org.twitter4j" % "twitter4j-stream" % "3.0.5",
   "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",

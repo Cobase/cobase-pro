@@ -1,8 +1,5 @@
 package cobase.twitter
 
-import java.util.Locale
-
-import com.ocpsoft.pretty.time.PrettyTime
 import play.api.Play.current
 import twitter4j.auth.AccessToken
 import twitter4j.{Query, Twitter, TwitterFactory}

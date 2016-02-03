@@ -22,7 +22,7 @@ class PostService @Inject() (postRepository: PostRepository) {
    */
   def findByPhrase(phrase: String): Future[Seq[Post]] = postRepository.findByPhrase(phrase)
 
-  def findLatestPostsForGroup(groupId: UUID): Future[Seq[Post]] = postRepository.findLatestPostsForGroup(groupId)
+  def findLatestPostsForGroup(group: Group): Future[Seq[Post]] = postRepository.findLatestPostsForGroup(group.id)
 
   def add(content: String, group: Group, user: User): Future[Post] = {
     postRepository.add(

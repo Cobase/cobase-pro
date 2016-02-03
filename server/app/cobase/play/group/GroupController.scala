@@ -17,11 +17,11 @@ import scala.concurrent.Future
 @Singleton
 class GroupController @Inject() (
   val authenticationService: AuthenticationService,
-  groupService: GroupService,
+  val groupService: GroupService,
   postService: PostService,
   subscriptionService: SubscriptionService,
   twitterService: TwitterService
-) extends SecuredController {
+) extends SecuredController with GroupProvider {
 
   def addGroup = AuthenticatedAction.async(parse.json) { implicit request =>
     request.body.validate[AddGroupRequest].fold(
@@ -35,7 +35,7 @@ class GroupController @Inject() (
   }
 
   def getGroups = AuthenticatedAction.async { implicit request =>
-    groupService.findGroupLinks.map { groupLinks =>
+    groupService.getGroupLinks.map { groupLinks =>
       Ok(Json.toJson(groupLinks.map(groupLink => GroupLinkResponse.fromGroup(groupLink))))
     }
   }
@@ -46,57 +46,39 @@ class GroupController @Inject() (
     }
   }
 
-  def updateGroup(groupId: UUID) = AuthenticatedAction.async(parse.json) { implicit request =>
-    groupService.findById(groupId).flatMap {
-      case Some(group) =>
-        request.body.validate[UpdateGroupRequest].fold(
-          errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
-          updateGroupRequest => {
-            implicit val groupWrites = Json.format[Group]
-            groupService.updateGroup(updateGroupRequest, groupId)
-              .map(group => Ok(Json.toJson(group)))
-          }
-        )
-      case None => Future.successful(BadRequest(Json.toJson("Group not found")))
+  def AuthenticatedGroupAction(groupId: UUID) = AuthenticatedAction andThen GroupAction(groupId)
+
+  def updateGroup(groupId: UUID) = AuthenticatedGroupAction(groupId).async(parse.json) { implicit request =>
+    request.body.validate[UpdateGroupRequest].fold(
+      errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
+      updateGroupRequest => {
+        implicit val groupWrites = Json.format[Group]
+
+        groupService.updateGroup(request.group, updateGroupRequest)
+          .map(group => Ok(Json.toJson(group)))
+      }
+    )
+  }
+
+  def getTweetsForGroup(groupId: UUID) = AuthenticatedGroupAction(groupId).async { implicit request =>
+    implicit val twitterFeedItemWrites = Json.writes[Tweet]
+
+    twitterService.getGroupTweets(request.group.tags).map(tweets => Ok(Json.toJson(tweets)))
+  }
+
+  def subscribe(groupId: UUID) = AuthenticatedGroupAction(groupId).async { implicit request =>
+    for {
+      _ <- subscriptionService.subscribeUserToGroup(request.user.user, request.group)
+    } yield {
+      Ok(Json.obj())
     }
   }
 
-  def getTweetsForGroup(groupId: UUID) = AuthenticatedAction.async { implicit request =>
-    groupService.findById(groupId).flatMap {
-      case Some(group) =>
-        implicit val twitterFeedItemWrites = Json.writes[Tweet]
-
-        twitterService.getGroupTweets(group.tags)
-          .map(tweets => Ok(Json.toJson(tweets)))
-
-      case None => Future.successful(NotFound("No tweets found"))
+  def unsubscribe(groupId: UUID) = AuthenticatedGroupAction(groupId).async { implicit request =>
+    for {
+      _ <- subscriptionService.unsubscribeUserFromGroup(request.user.user, request.group)
+    } yield {
+      Ok(Json.obj())
     }
   }
-
-  def subscribe(groupId: UUID) = AuthenticatedAction.async { implicit request =>
-    groupService.findById(groupId).flatMap {
-      case Some(group) =>
-        for {
-          _ <- subscriptionService.subscribeUserToGroup(request.user.user, group)
-        } yield {
-          Ok(Json.obj())
-        }
-
-      case None => Future.successful(NotFound("Group not found"))
-    }
-  }
-
-  def unsubscribe(groupId: UUID) = AuthenticatedAction.async { implicit request =>
-    groupService.findById(groupId).flatMap {
-      case Some(group) =>
-        for {
-          _ <- subscriptionService.unsubscribeUserFromGroup(request.user.user, group)
-        } yield {
-          Ok(Json.obj())
-        }
-
-      case None => Future.successful(NotFound("Group not found"))
-    }
-  }
-
 }

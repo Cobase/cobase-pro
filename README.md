@@ -39,12 +39,12 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 1. Clone this repository
 2. Open PostgreSQL console as postgres user: `psql -U postgres`
 3. In PostgreSQL console, create database: `create database cobase_pro`
-4. Copy conf/application.conf.dist to conf/application.conf (and configure!)
-5. Copy conf/twitter.conf.dist to conf/twitter.conf (and configure!)
-6. Add database settings to conf/application.conf according to database created
-7. Install npm components: `npm install`
+4. Copy `server/conf/application.conf.dist` to `server/conf/application.conf` (and configure!)
+5. Copy `server/conf/twitter.conf.dist` to `server/conf/twitter.conf` (and configure!)
+6. Add database settings to `server/conf/application.conf` according to database created
+7. Install npm components: `cd client && npm install`
 8. Transform React files: `webpack`
-9. Start application with `activator run`
+9. Start application with `cd ../server && activator run`
 10. Open browser (http://locahost:9000)
 
 

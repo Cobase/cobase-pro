@@ -35,7 +35,7 @@ class GroupController @Inject() (
   }
 
   def getGroups = AuthenticatedAction.async { implicit request =>
-    groupService.findGroupLinks.map { groupLinks =>
+    groupService.getGroupLinks.map { groupLinks =>
       Ok(Json.toJson(groupLinks.map(groupLink => GroupLinkResponse.fromGroup(groupLink))))
     }
   }
@@ -54,7 +54,7 @@ class GroupController @Inject() (
       updateGroupRequest => {
         implicit val groupWrites = Json.format[Group]
 
-        groupService.updateGroup(updateGroupRequest, groupId)
+        groupService.updateGroup(request.group, updateGroupRequest)
           .map(group => Ok(Json.toJson(group)))
       }
     )

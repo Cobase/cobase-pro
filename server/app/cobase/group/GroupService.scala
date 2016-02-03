@@ -1,51 +1,28 @@
 package cobase.group
 
-import javax.inject.Inject
 import java.util.UUID
+import javax.inject.Inject
+
 import cobase.user.User
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Handles actions to groups.
  */
 class GroupService @Inject() (groupRepository: GroupRepository) {
+  def getGroups: Future[Seq[Group]] = groupRepository.getGroups
 
-  def findAll: Future[Seq[Group]] = groupRepository.findAll
+  def getGroupLinks: Future[Seq[GroupLink]] = groupRepository.getGroupLinks
 
-  def findGroupLinks: Future[Seq[GroupLink]] = groupRepository.findGroupLinks
-
-  def findById(groupId: UUID): Future[Option[Group]] = groupRepository.findById(groupId)
-
-  def add(group: Group): Future[Group] = groupRepository.add(group)
-
-  def update(group: Group): Future[Group] = groupRepository.update(group)
+  def getGroupById(groupId: UUID): Future[Option[Group]] = groupRepository.getGroupById(groupId)
 
   def addGroup(data: AddGroupRequest): Future[Group] = {
-    groupRepository
-      .add(Group(
-        UUID.randomUUID,
-        data.title,
-        data.tags,
-        true
-      ))
-      .map { group =>
-        group
-      }
+    groupRepository.addGroup(UUID.randomUUID, data.title, data.tags)
   }
 
-  def updateGroup(data: UpdateGroupRequest, groupId: UUID): Future[Group] = {
-    groupRepository
-      .update(Group(
-        groupId,
-        data.title,
-        data.tags,
-        true
-      ))
-      .map { group =>
-        group
-      }
+  def updateGroup(group: Group, data: UpdateGroupRequest): Future[Group] = {
+    groupRepository.updateGroup(group, data.title, data.tags)
   }
 
   def getGroupsLinksSubscribedTo(user: User): Future[Seq[GroupLink]] = {

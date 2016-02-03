@@ -20,7 +20,7 @@ class GroupRepository @Inject() (
 ) extends HasDatabaseConfigProvider[JdbcProfile] with DBTables {
   import driver.api._
 
-  def findAll: Future[Seq[Group]] = {
+  def getGroups: Future[Seq[Group]] = {
     db.run(
       groups
         .filter(_.isActive === true)
@@ -32,7 +32,7 @@ class GroupRepository @Inject() (
   /**
    * Get list of groups and their post counts
    */
-  def findGroupLinks: Future[Seq[GroupLink]] = {
+  def getGroupLinks: Future[Seq[GroupLink]] = {
     implicit val getGroupResult =
       GetResult(r =>
         GroupLink(UUID.fromString(r.nextString()), r.nextString(), r.nextString(), r.nextBoolean(), r.nextInt())
@@ -50,7 +50,7 @@ class GroupRepository @Inject() (
     db.run(query)
   }
 
-  def findById(groupId: UUID): Future[Option[Group]] = {
+  def getGroupById(groupId: UUID): Future[Option[Group]] = {
     db.run(
       groups
         .filter(_.id === groupId)
@@ -60,14 +60,18 @@ class GroupRepository @Inject() (
     )
   }
 
-  def add(group: Group): Future[Group] = {
+  def addGroup(id: UUID, title: String, tags: String): Future[Group] = {
+    val group = Group(id, title, tags, isActive = true)
+
     db.run(groups += group)
       .map(_ => group)
   }
 
-  def update(group: Group): Future[Group] = {
-    db.run(groups.filter(_.id === group.id).update(group))
-      .map(_ => group)
+  def updateGroup(group: Group, title: String, tags: String): Future[Group] = {
+    val updatedGroup = group.copy(title = title, tags = tags)
+
+    db.run(groups.filter(_.id === group.id).update(updatedGroup))
+      .map(_ => updatedGroup)
   }
 
   def getGroupsLinksSubscribedTo(user: User): Future[Seq[GroupLink]] = {

@@ -20,7 +20,7 @@ trait GroupProvider extends Controller {
 
   def GroupAction(id: UUID) = new ActionRefiner[AuthenticatedRequest, GroupRequest] {
     def refine[A](input: AuthenticatedRequest[A]) = {
-      groupService.findById(id).map {
+      groupService.getGroupById(id).map {
         case Some(group) => Right(new GroupRequest(group, input))
         case None => Left(NotFound(Json.toJson(Json.obj())))
       }

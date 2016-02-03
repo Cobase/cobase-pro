@@ -1,7 +1,7 @@
 package cobase.post
 
-import javax.inject.Inject
 import java.util.UUID
+import javax.inject.Inject
 
 import cobase.group.Group
 import cobase.user.User
@@ -13,19 +13,19 @@ import scala.concurrent.Future
  * Handles actions to posts.
  */
 class PostService @Inject() (postRepository: PostRepository) {
-  def findAll: Future[Seq[Post]] = postRepository.findAll
+  def getPosts: Future[Seq[Post]] = postRepository.getPosts
 
-  def findById(postId: UUID): Future[Option[Post]] = postRepository.findById(postId)
+  def getPostById(postId: UUID): Future[Option[Post]] = postRepository.getPostById(postId)
 
   /**
    * Retrieves a post that matches the specified search phrase.
    */
-  def findByPhrase(phrase: String): Future[Seq[Post]] = postRepository.findByPhrase(phrase)
+  def getPostsByPhrase(phrase: String): Future[Seq[Post]] = postRepository.getPostsByPhrase(phrase)
 
-  def findLatestPostsForGroup(group: Group): Future[Seq[Post]] = postRepository.findLatestPostsForGroup(group.id)
+  def getLatestPostsForGroup(group: Group): Future[Seq[Post]] = postRepository.getLatestPostsForGroup(group.id)
 
-  def add(content: String, group: Group, user: User): Future[Post] = {
-    postRepository.add(
+  def addPost(content: String, group: Group, user: User): Future[Post] = {
+    postRepository.addPost(
       UUID.randomUUID,
       content,
       group.id,
@@ -34,5 +34,5 @@ class PostService @Inject() (postRepository: PostRepository) {
     )
   }
 
-  def update(post: Post, content: String): Future[Post] = postRepository.update(post, content)
+  def updatePost(post: Post, content: String): Future[Post] = postRepository.updatePost(post, content)
 }

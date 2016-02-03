@@ -26,7 +26,7 @@ class PostController @Inject() (
   def AuthenticatedGroupAction(groupId: UUID) = AuthenticatedAction andThen GroupAction(groupId)
 
   def getPostsForGroup(groupId: UUID) = AuthenticatedGroupAction(groupId).async { implicit request =>
-    postService.findLatestPostsForGroup(request.group)
+    postService.getLatestPostsForGroup(request.group)
       .map(posts => Ok(Json.toJson(posts.map(post => PostResponse.fromPost(post)))))
   }
 
@@ -35,7 +35,7 @@ class PostController @Inject() (
   def updatePost(postId: UUID) = AuthenticatedPostAction(postId).async(parse.json) { implicit request =>
     request.body.validate[EditPostRequest].fold(
       errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
-      editPostRequest => postService.update(request.post, editPostRequest.content)
+      editPostRequest => postService.updatePost(request.post, editPostRequest.content)
         .map(post => Ok(Json.toJson(PostResponse.fromPost(post))))
     )
   }
@@ -44,7 +44,7 @@ class PostController @Inject() (
     request.body.validate[AddPostRequest].fold(
       errors => Future.successful(BadRequest(Json.obj("errors" -> JsError.toJson(errors)))),
       addPostRequest => {
-        postService.add(addPostRequest.content, request.group, request.user.user)
+        postService.addPost(addPostRequest.content, request.group, request.user.user)
             .map(post => Created(Json.toJson(PostResponse.fromPost(post))))
       }
     )
@@ -52,9 +52,9 @@ class PostController @Inject() (
 
   def getPosts = AuthenticatedAction.async { implicit request =>
     val futurePosts = request.getQueryString("phrase") match {
-      case Some(phrase) => postService.findByPhrase(phrase)
+      case Some(phrase) => postService.getPostsByPhrase(phrase)
 
-      case None => postService.findAll
+      case None => postService.getPosts
     }
 
     futurePosts.map { posts =>

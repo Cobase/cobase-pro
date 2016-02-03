@@ -20,7 +20,7 @@ trait PostProvider extends Controller {
 
   def PostAction(id: UUID) = new ActionRefiner[AuthenticatedRequest, PostRequest] {
     def refine[A](input: AuthenticatedRequest[A]) = {
-      postService.findById(id).map {
+      postService.getPostById(id).map {
         case Some(post) => Right(new PostRequest(post, input))
         case None => Left(NotFound(Json.toJson(Json.obj())))
       }

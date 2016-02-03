@@ -34,11 +34,13 @@ nav {
 nav header {
     position: relative;
     height: 70px;
-    padding: 15px 0 0 15px;
-    font-size: 15px;
-    color: #fff;
+    padding: 20px 0 0 45px;
+    font-size: 25px;
+    font-weight: 100;
     border-bottom: 1px solid #465563;
-    background: #303b45;
+    background: #367fa9;
+    color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 nav header span {
     position: relative;
@@ -73,6 +75,7 @@ nav ul a {
     display: block;
     padding: 15px 15px 17px 50px;
     color: #fff;
+    font-weight: 100;
     border-bottom: 1px solid #465563;
 }
 nav ul a:hover,
@@ -110,10 +113,10 @@ main h1 {
     padding: 0 25px;
     line-height: 66px;
     font-size: 25px;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-weight: 300;
     border-bottom: 1px solid #ddd;
-    background: #fafafa;
+    background: #3c8dbc;
+    color: #ffffff;
 }
 .flex-grid {
     display: flex;

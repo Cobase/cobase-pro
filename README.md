@@ -62,14 +62,12 @@ Run tests by entering:
 
 ## Components used
 
-- UI: [AdminLTE 2.0.0 bootstrap theme](http://almsaeedstudio.com)
+- Backend: [Play for Scala](https://www.playframework.com)
+- Fronted: [React](https://facebook.github.io/react), Flexbox
+- Database: PostgreSQL
 - Database abstraction: [Slick](http://slick.typesafe.com)
-- Framework: [Play for Scala](https://www.playframework.com)
 - Twitter: [Twitter4J](http://www.twitter4j.org)
-- View: [React](https://facebook.github.io/react)
 
 ## License
 
 The code is licensed under [MIT License](http://opensource.org/licenses/MIT).
-
-Demo: http://bit.ly/1x9Whyl Code: http://bit.ly/1vWzASQ #scala #cobasepro #opensource

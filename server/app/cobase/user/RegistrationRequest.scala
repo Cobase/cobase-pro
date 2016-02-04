@@ -15,7 +15,7 @@ object RegistrationRequest {
     (__ \ "username").read[String](email) and
     (__ \ "password").read[String](minLength[String](8)) and
     (__ \ "role").read[String](minLength[String](1))
-      .map(r => r match {
+      .map(_ match {
         case "admin" => "admin"
         case _ => "user"
       })

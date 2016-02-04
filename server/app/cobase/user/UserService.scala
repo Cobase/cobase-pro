@@ -23,6 +23,7 @@ class UserService @Inject() (
         UUID.randomUUID(),
         data.username,
         password,
+        data.role,
         DateTime.now(),
         verificationToken
       ))

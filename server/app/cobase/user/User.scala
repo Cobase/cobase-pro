@@ -8,6 +8,7 @@ case class User(
   id: UUID,
   username: String,
   password: String,
+  role: String,
   created: DateTime,
   verificationToken: String,
   verified: Option[DateTime] = None,

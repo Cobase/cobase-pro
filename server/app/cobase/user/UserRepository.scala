@@ -36,6 +36,7 @@ class UserRepository @Inject() (
       data.id,
       data.username,
       data.hashedPassword,
+      data.role,
       data.created,
       data.verificationToken
     ))

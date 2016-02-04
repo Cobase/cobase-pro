@@ -19,6 +19,7 @@ trait DBTables {
     def id = column[UUID]("id", O.PrimaryKey, O.SqlType("UUID"))
     def email = column[String]("email")
     def password = column[String]("password")
+    def role = column[String]("role")
 
     def created = column[DateTime]("created")
 
@@ -37,7 +38,7 @@ trait DBTables {
     def uniqueVerificationToken = index("users_verification_token_uniq", verificationToken, unique = true)
     def uniquePasswordResetToken = index("users_password_reset_token_uniq", passwordResetToken, unique = true)
 
-    def * = (id, email, password, created, verificationToken, verified, firstName, lastName, avatarURL, passwordResetToken, passwordResetRequested, passwordResetUsed) <> (User.tupled, User.unapply)
+    def * = (id, email, password, role, created, verificationToken, verified, firstName, lastName, avatarURL, passwordResetToken, passwordResetRequested, passwordResetUsed) <> (User.tupled, User.unapply)
   }
 
   class AuthenticationTokens(tag: Tag) extends Table[AuthenticationToken](tag, "authentication_tokens") {

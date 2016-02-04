@@ -8,7 +8,8 @@ Request:
 
     {
       "username": "user@name.com",
-      "password": "password"
+      "password": "password",
+      "role": "user"
     }
 
 Response:
@@ -17,7 +18,8 @@ Response:
 
     {
       "id": "bade3a66-5fe7-4724-a085-77b7f063a9b4",
-      "username": "user@name.com"
+      "username": "user@name.com",
+      "role": "user"
     }
 
 Returns `409 Conflict` if username is already in use.
@@ -41,6 +43,7 @@ Response:
     {
       "id": "bade3a66-5fe7-4724-a085-77b7f063a9b4",
       "username": "user@name.com",
+      "role": "user",
       "token": "4e71d768c43b3cf8aeb80845328137a99c4fa796"
     }
 

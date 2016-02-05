@@ -10,8 +10,9 @@ It's purpose is to enable people to share news and info about various topics in 
 has a dashboard which contains posts from groups only he/she has been subscribed to. This way, user will only be informed 
 by the topics related to interest.
 
-Developers are very welcome to join the project, the more the merrier. If you see something that needs improvement or refactoring, please
-do not hesitate to make the code base better by sending us pull requests.
+Developers are very welcome to join the project, the more the merrier. If you see something that needs improvement or refactoring, please do not hesitate to make the code base better by sending us pull requests.
+
+**NOTE:** This version is not maintained any longer. Current work is under way in (https://github.com/Cobase/cobase-pro/tree/restify) branch.
 
 ## Issues and Wiki
 

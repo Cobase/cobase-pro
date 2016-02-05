@@ -8,6 +8,7 @@ case class RegisterUserData(
   id: UUID,
   username: String,
   hashedPassword: String,
+  role: String,
   created: DateTime,
   verificationToken: String
 )

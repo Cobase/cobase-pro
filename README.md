@@ -37,15 +37,49 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 ## Installation
 
 1. Clone this repository
-2. Open PostgreSQL console as postgres user: `psql -U postgres`
-3. In PostgreSQL console, create database: `create database cobase_pro`
-4. Copy `server/conf/application.conf.dist` to `server/conf/application.conf` (and configure!)
-5. Copy `server/conf/twitter.conf.dist` to `server/conf/twitter.conf` (and configure!)
-6. Add database settings to `server/conf/application.conf` according to database created
-7. Install npm components: `cd client && npm install`
-8. Transform React files: `webpack`
-9. Start application with `cd ../server && activator run`
-10. Open browser (http://locahost:9000)
+2. Configure nginx as shown. The important bits are the `root` and proxying the API calls with `proxy_pass`.
+
+### Nginx example config
+
+    server {
+        listen       80;
+        server_name  cobasepro.tunk.io cobasepro.localhost;
+
+        root         /path/to/cobase-pro/client/dist/;
+
+        error_log    /var/log/nginx/cobase-pro.error.log;
+        access_log   /var/log/nginx/cobase-pro.access.log;
+
+        try_files $uri /index.html;
+
+        location /api/ {
+            proxy_pass       http://127.0.0.1:9000/;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+
+        location ~* ^/assets/ {
+            expires     max;
+            add_header  Cache-Control public;
+            access_log  off;
+        }
+    }
+
+### Server
+
+1. Open PostgreSQL console as postgres user: `psql -U postgres`
+2. In PostgreSQL console, create database: `create database cobase_pro`
+3. `cd server`
+4. Copy application config and configure it: `cp conf/application.conf.dist conf/application.conf`
+5. Copy twitter config and configure it `cp conf/twitter.conf.dist conf/twitter.conf`
+6. Start backend server with `activator run`
+7. Open browser (http://locahost:9000) and apply migrations
+
+### Client
+
+1. `cd client`
+2. Install npm components: `npm install`
+3. Start the client development server: `npm run dev`
+4. Open browser (http://cobasepro.tunk.io)
 
 
 ## Database migrations

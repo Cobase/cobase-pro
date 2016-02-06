@@ -78,7 +78,7 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 
 1. `cd client`
 2. Install npm components: `npm install`
-3. Start the client development server: `npm run dev`
+3. Start the client development server: `npm start`
 4. Open browser (http://cobasepro.tunk.io)
 
 

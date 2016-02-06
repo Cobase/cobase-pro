@@ -5,7 +5,10 @@ const path = require('path');
 module.exports = {
   cache: true,
   devtool: 'cheap-module-source-map',
-  entry: './src/client.js',
+  entry: [
+    'webpack-hot-middleware/client',
+    './src/client.js'
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
@@ -18,7 +21,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['react', 'stage-0', 'es2015']
+          presets: ['react', 'react-hmre', 'stage-0', 'es2015']
         }
       },
       {
@@ -57,6 +60,8 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
       title: 'JavaScript SchamaScript',
       template: 'web/index.html',

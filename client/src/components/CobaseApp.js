@@ -12,8 +12,4 @@ export default class CobaseApp extends Component {
       </div>
     );
   }
-
-  componentDidMount() {
-
-  }
 }

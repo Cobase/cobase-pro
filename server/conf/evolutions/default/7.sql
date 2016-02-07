@@ -1,9 +1,11 @@
 # --- !Ups
 
-alter table "users" add column "role" varchar;
+create type role as enum ('admin', 'user');
+
+alter table "users" add column "role" role;
 
 update users set role = 'user';
 
--- Drop old tables
-alter table "users" drop column "role";
+# --- !Downs
 
+alter table "users" drop column "role";

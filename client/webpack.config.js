@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
@@ -29,13 +30,13 @@ module.exports = {
         loaders: [
           'style-loader',
           'css-loader',
-          'autoprefixer-loader?browsers=last 2 version',
-          'less-loader'
+          'less-loader',
+          'postcss-loader'
         ]
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader!postcss-loader'
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
@@ -53,6 +54,9 @@ module.exports = {
         loader: 'file-loader?name=webpack-assets/fonts/[name].[ext]'
       }
     ]
+  },
+  postcss: function() {
+    return [autoprefixer];
   },
   resolve: {
     modulesDirectories: ['node_modules'],

@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import Sidebar from './Sidebar';
+
+import 'normalize.css/normalize.css';
+import '../styles/main.less';
 
 export default class CobaseApp extends Component {
   render() {
     return (
-      <div>
-        <h1>
-          CobasePRO
-        </h1>
+      <div className="app">
+        <Sidebar />
 
-        {this.props.children}
+        {
+          // A Component defined in routes
+          this.props.children
+        }
       </div>
     );
   }

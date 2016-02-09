@@ -1,0 +1,21 @@
+@import 'variables';
+@import 'reset';
+
+@import 'components/sidebar';
+@import 'components/topbar';
+@import 'components/post';
+
+// move to variables or somewhere else
+@font-face {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: normal;
+}
+
+body { display: flex; }
+
+.app {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+}

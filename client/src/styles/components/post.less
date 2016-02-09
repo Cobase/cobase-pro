@@ -1,0 +1,34 @@
+.post {
+  flex: 1;
+  margin: 0 0 20px 0;
+  border: 1px solid #ddd;
+  background: #fff;
+
+  &-container {
+    padding: @spacer;
+  }
+
+  &-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: @spacer/1.5 @spacer;
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+    margin: 0;
+  }
+
+  &-content {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: @spacer/1.5 @spacer;
+    border: none;
+  }
+
+  &-datetime {
+    font-weight: 400;
+    color: @gray-light;
+  }
+}

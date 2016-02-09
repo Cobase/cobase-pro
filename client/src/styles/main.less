@@ -1,7 +1,9 @@
 @import 'variables';
 @import 'reset';
 
-@import 'sidebar';
+@import 'components/sidebar';
+@import 'components/topbar';
+@import 'components/post';
 
 // move to variables or somewhere else
 @font-face {
@@ -10,158 +12,10 @@
   font-weight: normal;
 }
 
-// remove
-:before,
-:after {
-  display: block;
-  position: absolute;
-}
-
-body {
-  display: flex;
-}
-
-// move to nav.less partial
-nav {
-  width: 250px;
-  background: #3b4854;
-
-  header {
-    position: relative;
-    height: 70px;
-    padding: 20px 0 0 45px;
-    font-size: 25px;
-    font-weight: 100;
-    border-bottom: 1px solid #465563;
-    background: #367fa9;
-    color: #ffffff;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    header a:before {
-      content: '\f090';
-      font: normal 20px FontAwesome;
-      top: 22px;
-      right: 15px;
-    }
-
-    span {
-      position: relative;
-      display: inline-block;
-      width: 36px;
-      height: 36px;
-      margin: 0 10px 0 0;
-      vertical-align: middle;
-      border: 1px solid #fff;
-
-      span:before {
-        content: '\f007';
-        font: normal 20px FontAwesome;
-        top: 7px;
-        left: 9px;
-      }
-    }
-  }
-
-  ul {
-    a {
-      position: relative;
-      display: block;
-      padding: 15px 15px 17px 50px;
-      color: #fff;
-      font-weight: 100;
-      border-bottom: 1px solid #465563;
-
-      &:hover,
-      &.active {
-        background: #465563;
-      }
-
-      &:before {
-        font: normal 20px FontAwesome;
-        top: 12px;
-        left: 15px;
-      }
-    }
-
-    li:first-child {
-      padding: 15px;
-      color: rgba(255, 255, 255, 0.5);
-      text-transform: uppercase;
-      border-bottom: 1px solid #465563;
-    }
-  }
-}
-
-// Move to nav.less partial
-nav ul li.dashboard a:before {
-  content: '\f03a';
-}
-nav ul li.group a:before {
-  content: '\f115';
-}
-nav ul li.settings a:before {
-  content: '\f085';
-}
-nav ul li.logout a:before {
-  content: '\f08b';
-}
-nav ul li.profile a:before {
-  content: '\f234';
-}
+body { display: flex; }
 
 .app {
   display: flex;
   flex: 1;
   flex-direction: row;
-}
-
-// Move to own partial (topbar.less)
-.topbar {
-  height: @spacer*4;
-  flex: 1;
-  align-items: center;
-  display: flex;
-  padding: 0 @spacer;
-  background: #3c8dbc;
-
-  &-title {
-    line-height: @spacer*4;
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 300;
-    color: #ffffff;
-  }
-}
-
-// Move to panel.less partial
-.panel {
-  flex: 1;
-  margin: 0 0 20px 0;
-  border: 1px solid #ddd;
-  background: #fff;
-
-  &-container {
-    padding: @spacer;
-  }
-
-  &-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: @spacer;
-    font-weight: 600;
-    border-bottom: 1px solid #ddd;
-    background: #fafafa;
-  }
-
-  &-content {
-    font-weight: 400;
-    padding: @spacer;
-    border: none;
-  }
-
-  &-datetime {
-    font-weight: 400;
-    color: @gray-light;
-  }
 }

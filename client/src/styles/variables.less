@@ -5,10 +5,13 @@
 @gray-lighter:              #eceeef;
 @gray-lightest:             #f7f7f9;
 
-@brand-blue:                #3C8DBC;
-@brand-blue-dark:           #3680AB;
-@brand-blue-darkest:        #3B4854;
-@brand-grayblue:            #465563;
+@color-topbar:              #3C8DBC;
+@color-sidebar-header:      #3680AB;
+@color-sidebar-header-dark: #3B4854;
+@color-sidebar-nav-light:   #465563;
+
+@color-sidebar-nav-header:  #9CA3A9;
+@color-sidebar-text:        #fefefe;
 
 @brand-primary:             #0275d8;
 @brand-success:             #5cb85c;
@@ -89,7 +92,10 @@
 
 @dt-font-weight:              bold;
 
-@nested-kbd-font-weight:      bold;
 
-@list-inline-padding:         5px;
+// Components
+//
+// Dimensions for individual components or areas that should be on sync with each other
+// F.e. Topbar should have same height as Sidebar header.
 
+@topbar-height: @spacer*4;

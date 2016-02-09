@@ -2,14 +2,14 @@ import React from 'react';
 import TimeAgo from 'react-timeago';
 
 export default ({username, time, message}) => (
-  <section className="panel">
+  <section className="post">
 
-    <h3 className="panel-title">
+    <h3 className="post-title">
       {username}
-      <small className="panel-datetime"><TimeAgo date={time}/></small>
+      <small className="post-datetime"><TimeAgo date={time}/></small>
     </h3>
 
-    <p className="panel-content">{message}</p>
+    <p className="post-content">{message}</p>
 
   </section>
 );

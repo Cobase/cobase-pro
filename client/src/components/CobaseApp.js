@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 
+import 'normalize.css/normalize.css';
+import '../styles/main.less';
+
 export default class CobaseApp extends Component {
   render() {
     return (
-      <div>
+      <div className="app">
         <Sidebar />
 
         {

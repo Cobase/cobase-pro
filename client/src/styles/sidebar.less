@@ -1,0 +1,52 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  background: @brand-blue-darkest;
+
+  &-header {
+    background: @brand-blue-dark;
+    max-height: @spacer*4;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    &-title {
+      color: #fefefe;
+      margin: 0;
+      font-size: 1.6rem;
+
+      &__light { font-weight: 300; }
+    }
+  }
+
+  &-navigation {
+    @height: @spacer*3;
+    @border-bottom: 1px solid @brand-grayblue;
+
+    &-title {
+      margin: 0;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: hsla(0, 100, 100, .5);
+      font-size: 1rem;
+      padding-left: @spacer;
+      height: @height;
+      line-height: @height;
+      border-bottom: @border-bottom;
+    }
+    &-item {
+      padding-left: @spacer;
+      color: #fefefe;
+      display: block;
+      height: @height;
+      line-height: @height;
+      border-bottom: @border-bottom;
+
+      &:hover {
+        background: @brand-grayblue;
+      }
+    }
+  }
+}

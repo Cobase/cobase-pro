@@ -1,6 +1,8 @@
 @import 'variables';
 @import 'reset';
 
+@import 'sidebar';
+
 // move to variables or somewhere else
 @font-face {
   font-family: 'FontAwesome';
@@ -108,21 +110,25 @@ nav ul li.profile a:before {
 }
 
 .app {
+  display: flex;
   flex: 1;
-  padding: @spacer;
+  flex-direction: row;
 }
 
 // Move to own partial (topbar.less)
 .topbar {
+  height: @spacer*4;
+  flex: 1;
+  align-items: center;
+  display: flex;
+  padding: 0 @spacer;
+  background: #3c8dbc;
+
   &-title {
-    height: 70px;
-    margin: -@spacer -@spacer @spacer -@spacer;
-    padding: 0 25px;
-    line-height: 66px;
-    font-size: 25px;
+    line-height: @spacer*4;
+    margin: 0;
+    font-size: 1.6rem;
     font-weight: 300;
-    border-bottom: 1px solid #ddd;
-    background: #3c8dbc;
     color: #ffffff;
   }
 }
@@ -133,6 +139,10 @@ nav ul li.profile a:before {
   margin: 0 0 20px 0;
   border: 1px solid #ddd;
   background: #fff;
+
+  &-container {
+    padding: @spacer;
+  }
 
   &-title {
     display: flex;

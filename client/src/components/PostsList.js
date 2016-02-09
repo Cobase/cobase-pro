@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Post from './Post';
 
 export default ({ posts }) => (
-  <div>
+  <div className="panel-container">
     {posts.map((post, i) =>
       <Post
         key={i}

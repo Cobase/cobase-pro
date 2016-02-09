@@ -27,7 +27,7 @@ export default class Dashboard extends Component {
     const { posts } = this.state;
 
     return (
-      <div>
+      <div className="main">
         <Topbar title="Dashboard" />
         <PostsList posts={posts} />
       </div>

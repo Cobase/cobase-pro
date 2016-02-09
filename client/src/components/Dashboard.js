@@ -15,6 +15,9 @@ const generatePosts = (n, names, message) => (
 );
 
 export default class Dashboard extends Component {
+    contextTypes: {
+    router: React.PropTypes.object.isRequired
+  };
   constructor(props) {
     super(props);
 

@@ -1,19 +1,14 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CobaseApp from '../CobaseApp';
 
-function mapStateToProps(state) {
-  return {
-
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-
-  };
-}
+import * as userActions from '../../actions/UserActions';
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  state => ({
+    user: state.user
+  }),
+  dispatch => ({
+    userActions: bindActionCreators(userActions, dispatch)
+  })
 )(CobaseApp);

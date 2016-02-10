@@ -4,7 +4,7 @@ import PostsList from './PostsList';
 import Topbar from './Topbar';
 
 const names = ['John Doe', 'Patrick Von Lussenhoff'];
-const message = `Lorem Ipsum dolor sit amet. `.repeat(20);
+const message = `Lorem Ipsum dolor sit amet www.cobasepro.com `.repeat(20);
 
 const generatePosts = (n, names, message) => (
   Array(n).fill({}).map((_, i) => ({

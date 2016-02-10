@@ -6,7 +6,7 @@ import com.github.tototoshi.slick.PostgresJodaSupport._
 import cobase.authentication.AuthenticationToken
 import cobase.group.Group
 import cobase.post.Post
-import cobase.user.{User, Subscription}
+import cobase.user.{UserRole, Role, User, Subscription}
 import org.joda.time.DateTime
 import slick.driver.JdbcProfile
 
@@ -19,7 +19,7 @@ trait DBTables {
     def id = column[UUID]("id", O.PrimaryKey, O.SqlType("UUID"))
     def email = column[String]("email")
     def password = column[String]("password")
-    def role = column[String]("role")
+    def role = column[Role]("role")
 
     def created = column[DateTime]("created")
 
@@ -40,6 +40,11 @@ trait DBTables {
 
     def * = (id, email, password, role, created, verificationToken, verified, firstName, lastName, avatarURL, passwordResetToken, passwordResetRequested, passwordResetUsed) <> (User.tupled, User.unapply)
   }
+
+  implicit val roleMapper = MappedColumnType.base[Role, String](
+    role => role.name,
+    name => Role.fromName(name).getOrElse(UserRole)
+  )
 
   class AuthenticationTokens(tag: Tag) extends Table[AuthenticationToken](tag, "authentication_tokens") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)

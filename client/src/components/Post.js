@@ -6,7 +6,7 @@ export default ({username, time, message}) => (
 
     <h3 className="post-title">
       {username}
-      <small className="post-datetime"><TimeAgo date={time}/></small>
+      <small className="post-datetime"><i className="fa fa-clock-o"></i> <TimeAgo date={time}/></small>
     </h3>
 
     <p className="post-content">{message}</p>

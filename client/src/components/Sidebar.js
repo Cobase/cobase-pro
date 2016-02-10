@@ -10,14 +10,14 @@ export default () => (
 
     <nav className="sidebar-navigation">
       <h3 className="sidebar-navigation-title">Groups</h3>
-      <a className="sidebar-navigation-item">Dashboard</a>
-      <a className="sidebar-navigation-item">Duuniasiat</a>
-      <a className="sidebar-navigation-item">Kissavideot</a>
+      <a className="sidebar-navigation-item"><i className="fa fa-list fa-fw"></i> Dashboard</a>
+      <a className="sidebar-navigation-item"><i className="fa fa-file-text-o fa-fw"></i> Duuniasiat</a>
+      <a className="sidebar-navigation-item"><i className="fa fa-file-text-o fa-fw"></i> Kissavideot</a>
 
       <h3 className="sidebar-navigation-title">User Control</h3>
-      <a className="sidebar-navigation-item">Settings</a>
-      <a className="sidebar-navigation-item">Profile</a>
-      <a className="sidebar-navigation-item">Logout</a>
+      <a className="sidebar-navigation-item"><i className="fa fa-cogs fa-fw"></i> Settings</a>
+      <a className="sidebar-navigation-item"><i className="fa fa-user fa-fw"></i> Profile</a>
+      <a className="sidebar-navigation-item"><i className="fa fa-sign-out fa-fw"></i> Logout</a>
     </nav>
   </div>
 );

@@ -30,7 +30,7 @@ const user = handleActions({
   }
 }, null);
 
-const isFetchingCurrentUser = handleActions({
+const isFetching = handleActions({
   LOGIN_REQUEST_SUCCESS: (state, action) => {
     return false;
   },
@@ -58,7 +58,7 @@ const isFetchingCurrentUser = handleActions({
 
 export default combineReducers({
   currentUser: combineReducers({
-    isFetching: isFetchingCurrentUser,
-    user: user
+    isFetching,
+    user
   })
 });

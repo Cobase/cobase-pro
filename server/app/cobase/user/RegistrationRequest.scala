@@ -14,10 +14,6 @@ object RegistrationRequest {
   implicit val reads: Reads[RegistrationRequest] = (
     (__ \ "username").read[String](email) and
     (__ \ "password").read[String](minLength[String](8)) and
-    (__ \ "role").read[String](minLength[String](1))
-      .map(_ match {
-        case "admin" => "admin"
-        case _ => "user"
-      })
+    (__ \ "role").read[String](verifying[String](role => Role.fromName(role).isSuccess))
   )(RegistrationRequest.apply _)
 }

@@ -10,6 +10,7 @@ import slick.driver.JdbcProfile
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.Try
 
 class UserRepository @Inject() (
   protected val dbConfigProvider: DatabaseConfigProvider
@@ -30,9 +31,22 @@ class UserRepository @Inject() (
   }
 
   def addUser(data: RegisterUserData): Future[User] = {
-    val insertQuery = users returning users.map(_.id) into ((user, id) => user.copy(id = id))
+    val created = data.created.withZone(DateTimeZone.UTC)
+    val format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
 
-    db.run(insertQuery += User(
+    val q = sqlu"""
+      INSERT INTO users (id, email, password, role, created, verification_token)
+      VALUES (
+        ${data.id.toString}::uuid,
+        ${data.username},
+        ${data.hashedPassword},
+        ${data.role.name}::role,
+        ${format.print(created)}::timestamp,
+        ${data.verificationToken}
+      )
+    """
+
+    db.run(q).map(_ => User(
       data.id,
       data.username,
       data.hashedPassword,

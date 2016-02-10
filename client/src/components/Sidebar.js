@@ -9,8 +9,11 @@ export default () => (
     </header>
 
     <nav className="sidebar-navigation">
-      <h3 className="sidebar-navigation-title">Groups</h3>
+      <h3 className="sidebar-navigation-title">Pages</h3>
       <a className="sidebar-navigation-item"><i className="fa fa-list fa-fw"></i> Dashboard</a>
+
+      <h3 className="sidebar-navigation-title">Groups</h3>
+      <a className="sidebar-navigation-item"><i className="fa fa-plus fa-fw"></i> Create new group</a>
       <a className="sidebar-navigation-item"><i className="fa fa-file-text-o fa-fw"></i> Duuniasiat</a>
       <a className="sidebar-navigation-item"><i className="fa fa-file-text-o fa-fw"></i> Kissavideot</a>
 

@@ -12,7 +12,8 @@ class LoggedOutContainer extends Component {
     return (
       <LoggedOut
         children={children}
-        onLogin={this.onLogin.bind(this)} />
+        onLogin={this.onLogin.bind(this)}
+      />
     );
   }
 

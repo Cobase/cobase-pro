@@ -1,2 +1,2 @@
 export { default as groups } from './groups';
-export { default as user } from './user';
+export { default as authentication } from './authentication';

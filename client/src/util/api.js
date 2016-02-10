@@ -1,10 +1,30 @@
 import axios from 'axios';
+import config from '../../conf/config';
 
-const BASE_URL = 'http://cobase.tunk.io';
+function authConfig(token) {
+  return {
+    headers: {
+      'X-Token': token
+    }
+  };
+}
 
 export default {
-  login(credentials) {
-    console.log('sending login credentials...');
-    return axios.post(`${BASE_URL}/api/login`, credentials);
+  login(username, password) {
+    return axios.post(
+      `${config.apiUrl}/login`,
+      {
+        username,
+        password
+      }
+    );
+  },
+
+  logout(user) {
+    return axios.post(
+      `${config.apiUrl}/logout`,
+      {},
+      authConfig(user.token)
+    );
   }
 }

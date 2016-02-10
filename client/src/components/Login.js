@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import Topbar from './Topbar';
+import LoginForm from './LoginForm';
 
 export default class Login extends Component {
   render() {
+    const { onLogin } = this.props;
+
     return (
       <div className="main">
         <Topbar title="Login" />
-        <form>
-          <input type="text" value="user" placeholder="User" />
-          <input type="password" value="user" placeholder="Password" />
-          <button type="submit">Login</button>
-        </form>
+
+        <LoginForm onLogin={onLogin} />
       </div>
     );
   }

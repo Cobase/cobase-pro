@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.9.1",
     "classnames": "^2.2.3",
+    "font-awesome": "^4.5.0",
     "history": "^2.0.0",
     "immutable": "^3.7.6",
     "normalize.css": "^3.0.3",

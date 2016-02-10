@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>

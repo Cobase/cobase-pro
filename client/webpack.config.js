@@ -22,7 +22,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['react', 'react-hmre', 'stage-0', 'es2015']
+          presets: ['react', 'react-hmre', 'es2015', 'stage-0']
         }
       },
       {

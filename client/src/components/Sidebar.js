@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class Sidebar extends Component {
+export default class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
@@ -38,5 +38,3 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   onLogout: PropTypes.func.isRequired
 };
-
-export default Sidebar;

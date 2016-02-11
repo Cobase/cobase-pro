@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class LoginForm extends Component {
+export default class LoginForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
@@ -24,5 +24,3 @@ class LoginForm extends Component {
 LoginForm.propTypes = {
   onLogin: PropTypes.func.isRequired
 };
-
-export default LoginForm;

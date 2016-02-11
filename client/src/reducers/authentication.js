@@ -1,4 +1,3 @@
-import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 import { List, Map, Record } from 'immutable';
 
@@ -9,26 +8,28 @@ const User = Record({
   token: null
 });
 
-const user = handleActions({
-  LOGIN_REQUEST_SUCCESS: (state, action) => {
-    const { id, username, role, token } = action.response.data;
+function user(state = null, action) {
+  switch (action.type) {
+    case 'LOGIN_REQUEST_SUCCESS':
+      const { id, username, role, token } = action.response.data;
 
-    return new User({
-      id,
-      username,
-      role,
-      token
-    });
-  },
+      return new User({
+        id,
+        username,
+        role,
+        token
+      });
 
-  GET_USER_FROM_CACHE: (state, action) => {
-    return new User(action.user);
-  },
+    case 'GET_USER_FROM_CACHE':
+      return new User(action.user);
 
-  LOGOUT_REQUEST_SUCCESS: (state, action) => {
-    return null;
+    case 'LOGOUT_REQUEST_SUCCESS':
+      return null;
+
+    default:
+      return state;
   }
-}, null);
+}
 
 function isFetching(state = false, action) {
   switch (action.type) {

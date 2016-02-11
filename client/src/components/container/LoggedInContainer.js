@@ -12,7 +12,7 @@ class LoggedInContainer extends Component {
     return (
       <LoggedIn
         children={children}
-        user={currentUser.user}
+        currentUser={currentUser.user}
         onLogout={this.onLogout.bind(this)}
       />
     );

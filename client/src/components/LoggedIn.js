@@ -3,14 +3,14 @@ import Sidebar from './Sidebar';
 
 export default class LoggedIn extends Component {
   render() {
-    const { children, user, onLogout } = this.props;
+    const { children, currentUser, onLogout } = this.props;
 
     return (
       <div className="logged-in">
         <Sidebar onLogout={onLogout} />
 
         {children && React.cloneElement(children, {
-          user
+          currentUser
         })}
       </div>
     );

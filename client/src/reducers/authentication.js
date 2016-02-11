@@ -30,31 +30,22 @@ const user = handleActions({
   }
 }, null);
 
-const isFetching = handleActions({
-  LOGIN_REQUEST_SUCCESS: (state, action) => {
-    return false;
-  },
+function isFetching(state = false, action) {
+  switch (action.type) {
+    case 'LOGIN_REQUEST':
+    case 'LOGOUT_REQUEST':
+      return true;
 
-  LOGIN_REQUEST_FAILURE: (state, action) => {
-    return false;
-  },
+    case 'LOGIN_REQUEST_SUCCESS':
+    case 'LOGIN_REQUEST_FAILURE':
+    case 'LOGOUT_REQUEST_SUCCESS':
+    case 'LOGOUT_REQUEST_FAILURE':
+      return false;
 
-  LOGIN_REQUEST: (state, action) => {
-    return true;
-  },
-
-  LOGOUT_REQUEST_SUCCESS: (state, action) => {
-    return false;
-  },
-
-  LOGOUT_REQUEST_FAILURE: (state, action) => {
-    return false;
-  },
-
-  LOGOUT_REQUEST: (state, action) => {
-    return true;
+    default:
+      return state;
   }
-}, false);
+}
 
 export default combineReducers({
   currentUser: combineReducers({

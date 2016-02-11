@@ -26,5 +26,23 @@ export default {
       {},
       authConfig(user.token)
     );
+  },
+
+  addGroup(user, title, tags) {
+    return axios.post(
+      `${config.apiUrl}/groups`,
+      {
+        title,
+        tags
+      },
+      authConfig(user.token)
+    );
+  },
+
+  getGroups(user) {
+    return axios.get(
+      `${config.apiUrl}/groups`,
+      authConfig(user.token)
+    );
   }
 }

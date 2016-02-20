@@ -2,19 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Cors Preflight
-
-OPTIONS     /                                  cobase.play.user.ApplicationController.options(path="")
-OPTIONS     /*path                             cobase.play.user.ApplicationController.options(path)
-
-# Default app entry
-
 GET         /                                  cobase.play.user.ApplicationController.index
 
 # Authentication & User
 
 POST        /login                              cobase.play.user.AuthenticationController.login
 POST        /logout                             cobase.play.user.AuthenticationController.logout
+
 POST        /users                              cobase.play.user.UserController.registerUser
 
 # Group

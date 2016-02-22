@@ -78,7 +78,7 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 
 1. `cd client`
 2. Install npm components: `npm install`
-3. Copy frontend config and configure it: `cp conf/config.example.js config.js`
+3. Copy frontend config and configure it: `cp conf/config.example.js conf/config.js`
 4. Start the client development server: `npm start`
 5. Open browser (http://cobasepro.tunk.io)
 

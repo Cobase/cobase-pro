@@ -1,11 +1,9 @@
 import api from '../util/api';
 import { push } from 'react-router-redux';
 
-function loginRequest(username, password) {
+function loginRequest() {
   return {
-    type: 'LOGIN_REQUEST',
-    username,
-    password
+    type: 'LOGIN_REQUEST'
   };
 }
 
@@ -25,7 +23,7 @@ function loginRequestFailure(error) {
 
 export function login(username, password) {
   return (dispatch) => {
-    dispatch(loginRequest(username, password));
+    dispatch(loginRequest());
 
     api.login(username, password)
       .then(response => {

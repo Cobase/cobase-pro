@@ -11,3 +11,4 @@ node_modules/
 public/dist/*
 webpack-assets/
 public/webpack-assets
+conf/config.js

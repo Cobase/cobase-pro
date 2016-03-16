@@ -1,10 +1,8 @@
 import api from '../util/api';
 
-function addGroupRequest(name, tags) {
+function addGroupRequest() {
   return {
-    type: 'ADD_GROUP_REQUEST',
-    name,
-    tags
+    type: 'ADD_GROUP_REQUEST'
   };
 }
 
@@ -24,7 +22,7 @@ function addGroupRequestFailure(error) {
 
 export function addGroup(user, name, tags) {
   return (dispatch) => {
-    dispatch(addGroupRequest(name, tags));
+    dispatch(addGroupRequest());
 
     api.addGroup(user, name, tags)
       .then(response => dispatch(addGroupRequestSuccess(response)))

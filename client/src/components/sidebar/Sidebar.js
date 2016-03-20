@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import SidebarHeader from './SidebarHeader';
 import ListItem from './SidebarListItem';
 import Title from './SidebarSectionTitle';
+import Button from './SidebarButton';
 
 export default class Sidebar extends Component {
   render() {
@@ -18,8 +19,10 @@ export default class Sidebar extends Component {
           <Title>Pages</Title>
           <ListItem title="Dashboard" to="/dashboard" icon="fa-list" />
 
-          <Title>Groups</Title>
-          <ListItem title="Create new group" to="/groups/add" icon="fa-plus" />
+          <Title>
+            Groups
+            <Button to="/groups/add" icon="fa-plus" />
+          </Title>
 
           {groups.map(group =>
             <ListItem

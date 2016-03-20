@@ -1,18 +1,20 @@
 import axios from 'axios';
 import config from '../../conf/config';
 
-function authConfig(token) {
-  return {
-    headers: {
-      'X-Token': token
-    }
-  };
-}
+const api = axios.create({
+  baseURL: config.apiUrl
+});
+
+const authConfig = token => ({
+  headers: {
+    'X-Token': token
+  }
+});
 
 export default {
   login(username, password) {
-    return axios.post(
-      `${config.apiUrl}/login`,
+    return api.post(
+      '/login',
       {
         username,
         password
@@ -20,11 +22,29 @@ export default {
     );
   },
 
-  logout(user) {
-    return axios.post(
-      `${config.apiUrl}/logout`,
+  logout({token}) {
+    return api.post(
+      '/logout',
       {},
-      authConfig(user.token)
+      authConfig(token)
+    );
+  },
+
+  addGroup({token}, title, tags) {
+    return api.post(
+      '/groups',
+      {
+        title,
+        tags
+      },
+      authConfig(token)
+    );
+  },
+
+  getGroups({token}) {
+    return api.get(
+      '/groups',
+      authConfig(token)
     );
   }
 }

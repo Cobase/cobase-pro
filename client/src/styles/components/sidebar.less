@@ -24,10 +24,12 @@
 
   &-navigation {
     @height: @spacer*3;
-    @border-bottom: 1px solid @color-sidebar-nav-light;
+    @border-thin: 1px solid @color-sidebar-nav-light;
     padding-top: @spacer/2;
 
     &-title {
+      display: flex;
+      justify-content: space-between;
       margin: 0;
       text-transform: uppercase;
       font-weight: 400;
@@ -36,8 +38,9 @@
       padding-left: @spacer;
       height: @height;
       line-height: @height;
-      border-bottom: @border-bottom;
+      border-bottom: @border-thin;
     }
+
     &-item {
       padding-left: @spacer;
       font-size: 0.9rem;
@@ -45,7 +48,17 @@
       display: block;
       height: @height;
       line-height: @height;
-      border-bottom: @border-bottom;
+      border-bottom: @border-thin;
+
+      &:hover {
+        background: @color-sidebar-nav-light;
+      }
+    }
+
+    &-button {
+      padding: 0 @spacer;
+      border-left: @border-thin;
+      color: @color-sidebar-text;
 
       &:hover {
         background: @color-sidebar-nav-light;

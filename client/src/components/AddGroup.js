@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
+import Topbar from './Topbar';
 import AddGroupForm from './AddGroupForm';
 
 export default class AddGroup extends Component {
   render() {
     return (
-      <div>
-        <p>Add group</p>
+      <div className="main">
+        <Topbar title="Add Group" />
 
-        <AddGroupForm onAddGroup={this.props.onAddGroup} />
+        <div className="add-group-container">
+          <section className="add-group">
+            <AddGroupForm onAddGroup={this.props.onAddGroup} />
+          </section>
+        </div>
       </div>
     );
   }

@@ -10,7 +10,11 @@ export default class Login extends Component {
       <div className="main">
         <Topbar title="Login" />
 
-        <LoginForm onLogin={onLogin} />
+        <div className="login-container">
+          <section className="login">
+            <LoginForm onLogin={onLogin} />
+          </section>
+        </div>
       </div>
     );
   }

@@ -3,7 +3,9 @@
 
 @import 'components/sidebar';
 @import 'components/topbar';
+@import 'components/login';
 @import 'components/post';
+@import 'components/add-group';
 
 // move to variables or somewhere else
 @font-face {
@@ -18,4 +20,27 @@
   flex-direction: row;
 }
 
-.main { flex: 1; }
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+button {
+  box-shadow: none;
+  border-radius: 3px;
+  background-color: #00a65a;
+  border: 1px solid #008d4c;
+  color: white;
+  min-width: 150px;
+
+  &:hover {
+    background-color: #008d4c;
+    border: 1px solid #00a65a;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -3,11 +3,16 @@ import React, { Component, PropTypes } from 'react';
 class AddGroupForm extends Component {
   render() {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <input type="text" ref="title" placeholder="Title" />
-        <input type="text" ref="tags" placeholder="Tags" />
-        <button type="submit">Add</button>
-      </form>
+      <div>
+        <h3>Enter required content for new group</h3>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <label>Title:</label>
+          <input type="text" ref="title" />
+          <label>Twitter hashtags:</label>
+          <input type="text" ref="tags" />
+          <button type="submit">Create Group</button>
+        </form>
+      </div>
     );
   }
 

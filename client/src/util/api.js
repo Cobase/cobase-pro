@@ -46,5 +46,12 @@ export default {
       '/groups',
       authConfig(token)
     );
+  },
+
+  getGroupPosts({token}, groupId) {
+    return api.get(
+      '/groups/' + groupId + '/posts',
+      authConfig(token)
+    );
   }
 }

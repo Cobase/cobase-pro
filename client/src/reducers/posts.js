@@ -4,8 +4,9 @@ import { combineReducers } from 'redux';
 const Post = Record({
   id: null,
   groupId: null,
-  author: null,
-  content: null
+  username: null,
+  message: null,
+  time: null
 });
 
 function posts(state = List(), action) {
@@ -13,15 +14,13 @@ function posts(state = List(), action) {
     case 'GET_GROUP_POSTS_REQUEST_SUCCESS':
       const { data } = action.response;
 
-      console.log("ACTION RESPONSE:");
-      console.log(action.response);
-
       return data.reduce((posts, post) => {
         return posts.push(new Post({
           id: post.id,
           groupId: post.groupId,
-          author: post.author,
-          content: post.content
+          username: post.author,
+          message: post.content,
+          time: post.created
         }));
       }, state);
 

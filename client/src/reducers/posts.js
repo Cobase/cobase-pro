@@ -22,7 +22,7 @@ function posts(state = List(), action) {
           message: post.content,
           time: post.created
         }));
-      }, state);
+      }, List());
 
     default:
       return state;

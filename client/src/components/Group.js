@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TimeAgo from 'react-timeago';
 import PostsList from './PostsList';
 import Topbar from './Topbar';
 
@@ -8,6 +7,14 @@ export default class Group extends Component {
     super(props);
 
     props.groupActions.getGroupPosts(props.currentUser, props.groupId);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { groupActions, currentUser, groupId } = this.props;
+
+    if (newProps.groupId != groupId) {
+      groupActions.getGroupPosts(currentUser, newProps.groupId);
+    }
   }
 
   render() {

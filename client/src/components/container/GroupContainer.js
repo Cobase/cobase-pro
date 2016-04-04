@@ -10,14 +10,20 @@ class GroupContainer extends Component {
   render() {
     return (
       <div>
-        <Group posts={this.props.posts} groupActions={this.props.groupActions} groupId={this.props.routeParams.groupId} currentUser={this.props.currentUser}/>
+        <Group
+          posts={this.props.posts}
+          groupActions={this.props.groupActions}
+          groupId={this.props.groupId}
+          currentUser={this.props.currentUser}
+        />
       </div>
     );
   }
 }
 
 export default connect(
-  state => ({
+  (state, ownProps) => ({
+    groupId: ownProps.params.groupId,
     posts: state.posts.posts
   }),
   dispatch => ({

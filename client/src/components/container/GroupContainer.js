@@ -9,12 +9,12 @@ import * as groupActions from '../../actions/GroupActions';
 class GroupContainer extends Component {
   render() {
     return (
-        <Group
-          posts={this.props.posts}
-          groupActions={this.props.groupActions}
-          groupId={this.props.groupId}
-          currentUser={this.props.currentUser}
-        />
+      <Group
+        posts={this.props.posts}
+        groupActions={this.props.groupActions}
+        groupId={this.props.groupId}
+        currentUser={this.props.currentUser}
+      />
     );
   }
 }

@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 const Post = Record({
   id: null,
   groupId: null,
-  username: null,
+  createdBy: null,
   message: null,
   time: null
 });
@@ -18,7 +18,7 @@ function posts(state = List(), action) {
         return posts.push(new Post({
           id: post.id,
           groupId: post.groupId,
-          username: post.author,
+          createdBy: post.createdBy,
           message: post.content,
           time: post.created
         }));

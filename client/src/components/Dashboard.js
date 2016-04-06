@@ -8,7 +8,7 @@ const message = `Lorem Ipsum dolor sit amet www.cobasepro.com `.repeat(20);
 
 const generatePosts = (n, names, message) => (
   Array(n).fill({}).map((_, i) => ({
-    username: names[Math.floor(Math.random() * names.length)],
+    createdBy: names[Math.floor(Math.random() * names.length)],
     time: new Date(Date.now() - 8600000*i*100),
     message
   }))

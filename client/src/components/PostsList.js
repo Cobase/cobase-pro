@@ -6,7 +6,7 @@ export default ({ posts }) => (
     {posts.map((post, i) =>
       <Post
         key={i}
-        username={post.username}
+        createdBy={post.createdBy}
         time={post.time}
         message={post.message}
       />

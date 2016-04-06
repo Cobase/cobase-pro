@@ -3,9 +3,9 @@ import Post from './Post';
 
 export default ({ posts }) => (
   <div className="post-container">
-    {posts.map((post, i) =>
+    {posts.map(post =>
       <Post
-        key={i}
+        key={post.id}
         createdBy={post.createdBy}
         time={post.time}
         message={post.message}

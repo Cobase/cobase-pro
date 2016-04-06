@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PostsList from './PostsList';
 import Topbar from './Topbar';
+import EmptyContent from './EmptyContent';
 
 export default class Group extends Component {
   constructor(props) {
@@ -23,7 +24,13 @@ export default class Group extends Component {
     return (
       <div className="main">
         <Topbar title="Group" />
-        <PostsList posts={posts} />
+        {posts.size ?
+          <PostsList posts={posts} />
+          :
+          <EmptyContent
+            message="No posts in the current group. Would you like to create one?"
+          />
+        }
       </div>
     );
   }

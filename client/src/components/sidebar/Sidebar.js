@@ -28,7 +28,7 @@ export default class Sidebar extends Component {
             <ListItem
               key={group.id}
               title={group.title}
-              to={group.title}
+              to={`/group/${group.id}`}
               icon="fa-file-text-o"
             />
           )}

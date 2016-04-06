@@ -49,6 +49,35 @@ function getGroupsRequestFailure(error) {
     error
   };
 }
+function getGroupPostsRequest() {
+  return {
+    type: 'GET_GROUP_POSTS_REQUEST'
+  };
+}
+
+function getGroupPostsRequestSuccess(response) {
+  return {
+    type: 'GET_GROUP_POSTS_REQUEST_SUCCESS',
+    response
+  };
+}
+
+function getGroupPostsRequestFailure(error) {
+  return {
+    type: 'GET_GROUP_POSTS_REQUEST_FAILURE',
+    error
+  };
+}
+
+export function getGroupPosts(user, groupId) {
+  return (dispatch) => {
+    dispatch(getGroupPostsRequest());
+
+    api.getGroupPosts(user, groupId)
+      .then(response => dispatch(getGroupPostsRequestSuccess(response)))
+      .catch(e => dispatch(getGroupPostsRequestFailure(e)))
+  };
+}
 
 export function getGroups(user) {
   return (dispatch) => {

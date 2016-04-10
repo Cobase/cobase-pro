@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class LoggedOut extends Component {
-  render() {
-    const { children, onLogin } = this.props;
+const LoggedOut = ({ children, onLogin }) => (
+  <div className="logged-out">
+    {children && React.cloneElement(children, {
+      onLogin,
+    })}
+  </div>
+);
 
-    return (
-      <div className="logged-out">
-        {children && React.cloneElement(children, {
-          onLogin
-        })}
-      </div>
-    );
-  }
-}
+LoggedOut.propTypes = {
+  children: PropTypes.element.isRequired,
+  onLogin: PropTypes.func.isRequired,
+};
+
+export default LoggedOut;

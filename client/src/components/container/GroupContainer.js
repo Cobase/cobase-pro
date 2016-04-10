@@ -1,30 +1,47 @@
-import React, { Component } from 'react';
-import PostsList from '../PostsList';
-import Group from '../Group';
-
+import React, { PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import Group from '../Group';
 import * as groupActions from '../../actions/GroupActions';
 
-class GroupContainer extends Component {
-  render() {
-    return (
-      <Group
-        posts={this.props.posts}
-        groupActions={this.props.groupActions}
-        groupId={this.props.groupId}
-        currentUser={this.props.currentUser}
-      />
-    );
-  }
-}
+// eslint-disable-next-line no-shadow
+const GroupContainer = ({ posts, groupActions, groupId, currentUser }) => (
+  <Group
+    posts={posts}
+    groupActions={groupActions}
+    groupId={groupId}
+    currentUser={currentUser}
+  />
+);
 
 export default connect(
   (state, ownProps) => ({
     groupId: ownProps.params.groupId,
-    posts: state.posts.posts
+    posts: state.posts.posts,
   }),
   dispatch => ({
-    groupActions: bindActionCreators(groupActions, dispatch)
+    groupActions: bindActionCreators(groupActions, dispatch),
   })
 )(GroupContainer);
+
+GroupContainer.propTypes = {
+  posts: ImmutablePropTypes.listOf(
+    ImmutablePropTypes.contains({
+      id: PropTypes.string.isRequired,
+      createdBy: PropTypes.string.isRequired,
+      groupId: PropTypes.string.isRequired,
+      time: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired,
+    })
+  ),
+  groupActions: PropTypes.object.isRequired,
+  groupId: PropTypes.string.isRequired,
+  currentUser: ImmutablePropTypes.contains({
+    id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+};

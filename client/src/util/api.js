@@ -2,13 +2,13 @@ import axios from 'axios';
 import config from '../../conf/config';
 
 const api = axios.create({
-  baseURL: config.apiUrl
+  baseURL: config.apiUrl,
 });
 
 const authConfig = token => ({
   headers: {
-    'X-Token': token
-  }
+    'X-Token': token,
+  },
 });
 
 export default {
@@ -17,12 +17,12 @@ export default {
       '/login',
       {
         username,
-        password
+        password,
       }
     );
   },
 
-  logout({token}) {
+  logout({ token }) {
     return api.post(
       '/logout',
       {},
@@ -30,28 +30,28 @@ export default {
     );
   },
 
-  addGroup({token}, title, tags) {
+  addGroup({ token }, title, tags) {
     return api.post(
       '/groups',
       {
         title,
-        tags
+        tags,
       },
       authConfig(token)
     );
   },
 
-  getGroups({token}) {
+  getGroups({ token }) {
     return api.get(
       '/groups',
       authConfig(token)
     );
   },
 
-  getGroupPosts({token}, groupId) {
+  getGroupPosts({ token }, groupId) {
     return api.get(
-      '/groups/' + groupId + '/posts',
+      `/groups/${groupId}/posts`,
       authConfig(token)
     );
-  }
-}
+  },
+};

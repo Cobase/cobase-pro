@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import AddGroup from '../AddGroup';
-import * as groupActions from '../../actions/GroupActions';
+import * as groupActionCreators from '../../actions/GroupActions';
 
 class AddGroupContainer extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class AddGroupContainer extends Component {
   }
 
   onAddGroup(title, tags) {
-    const { groupActions, currentUser } = this.props; // eslint-disable-line no-shadow
+    const { groupActions, currentUser } = this.props;
 
     groupActions.addGroup(currentUser, title, tags);
   }
@@ -31,7 +31,7 @@ export default connect(
     currentUser: state.authentication.currentUser.user,
   }),
   dispatch => ({
-    groupActions: bindActionCreators(groupActions, dispatch),
+    groupActions: bindActionCreators(groupActionCreators, dispatch),
   })
 )(AddGroupContainer);
 

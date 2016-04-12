@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import LoggedOut from '../LoggedOut';
-import * as userActions from '../../actions/UserActions';
+import * as userActionCreators from '../../actions/UserActions';
 
 class LoggedOutContainer extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class LoggedOutContainer extends Component {
 export default connect(
   () => ({}), // state
   dispatch => ({
-    userActions: bindActionCreators(userActions, dispatch),
+    userActions: bindActionCreators(userActionCreators, dispatch),
   })
 )(LoggedOutContainer);
 

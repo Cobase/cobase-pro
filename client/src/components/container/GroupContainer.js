@@ -4,9 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Group from '../Group';
-import * as groupActions from '../../actions/GroupActions';
+import * as groupActionCreators from '../../actions/GroupActions';
 
-// eslint-disable-next-line no-shadow
 const GroupContainer = ({ posts, groupActions, groupId, currentUser }) => (
   <Group
     posts={posts}
@@ -22,7 +21,7 @@ export default connect(
     posts: state.posts.posts,
   }),
   dispatch => ({
-    groupActions: bindActionCreators(groupActions, dispatch),
+    groupActions: bindActionCreators(groupActionCreators, dispatch),
   })
 )(GroupContainer);
 

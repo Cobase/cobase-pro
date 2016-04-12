@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import LoggedIn from '../LoggedIn';
-import * as userActions from '../../actions/UserActions';
-import * as groupActions from '../../actions/GroupActions';
+import * as userActionCreators from '../../actions/UserActions';
+import * as groupActionCreators from '../../actions/GroupActions';
 
 class LoggedInContainer extends Component {
   constructor(props) {
@@ -15,13 +15,13 @@ class LoggedInContainer extends Component {
   }
 
   componentDidMount() {
-    const { groupActions, currentUser } = this.props; // eslint-disable-line no-shadow
+    const { groupActions, currentUser } = this.props;
 
     groupActions.getGroups(currentUser.user);
   }
 
   onLogout() {
-    const { userActions, currentUser } = this.props; // eslint-disable-line no-shadow
+    const { userActions, currentUser } = this.props;
 
     userActions.logout(currentUser.user);
   }
@@ -46,8 +46,8 @@ export default connect(
     groups: state.groups.groups,
   }),
   dispatch => ({
-    userActions: bindActionCreators(userActions, dispatch),
-    groupActions: bindActionCreators(groupActions, dispatch),
+    userActions: bindActionCreators(userActionCreators, dispatch),
+    groupActions: bindActionCreators(groupActionCreators, dispatch),
   })
 )(LoggedInContainer);
 

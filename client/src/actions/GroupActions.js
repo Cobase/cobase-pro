@@ -1,4 +1,5 @@
 import api from '../util/api';
+import { push } from 'react-router-redux';
 
 function addGroupRequest() {
   return {
@@ -25,7 +26,11 @@ export function addGroup(user, name, tags) {
     dispatch(addGroupRequest());
 
     api.addGroup(user, name, tags)
-      .then(response => dispatch(addGroupRequestSuccess(response)))
+      .then(response => {
+        dispatch(addGroupRequestSuccess(response));
+
+        dispatch(push('/group/' + response.data.id, {}));
+      })
       .catch(e => dispatch(addGroupRequestFailure(e)))
   };
 }

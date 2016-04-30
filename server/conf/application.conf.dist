@@ -98,4 +98,20 @@ cobase.clientIndex="../client/dist/index.html"
 # clef.io
 play.filters.headers.contentSecurityPolicy="default-src 'self'; img-src 'self' fbcdn-profile-a.akamaihd.net *.twimg.com *.googleusercontent.com *.xingassets.com vk.com *.yimg.com secure.gravatar.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com maxcdn.bootstrapcdn.com cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.gstatic.com fonts.googleapis.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' clef.io; connect-src 'self' twitter.com *.xing.com; frame-src clef.io"
 
+play.filters.csrf {
+  header {
+    bypassHeaders {
+      X-Requested-With = "*"
+      Csrf-Token = "nocheck"
+    }
+    protectHeaders = null
+  }
+  bypassCorsTrustedOrigins = false
+  method {
+    whiteList = []
+    blackList = ["POST"]
+  }
+  contentType.blackList = ["application/x-www-form-urlencoded", "multipart/form-data", "text/plain"]
+}
+
 include "twitter.conf"

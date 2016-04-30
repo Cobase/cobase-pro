@@ -1,4 +1,4 @@
-import { List, Map, Record } from 'immutable';
+import { List, Record } from 'immutable';
 import { combineReducers } from 'redux';
 
 const Post = Record({
@@ -6,7 +6,7 @@ const Post = Record({
   groupId: null,
   createdBy: null,
   message: null,
-  time: null
+  time: null,
 });
 
 function posts(state = List(), action) {
@@ -14,15 +14,17 @@ function posts(state = List(), action) {
     case 'GET_GROUP_POSTS_REQUEST_SUCCESS':
       const { data } = action.response;
 
-      return data.reduce((posts, post) => {
-        return posts.push(new Post({
+      // eslint-disable-next-line no-shadow
+      return data.reduce((posts, post) => (
+        posts.push(new Post({
           id: post.id,
           groupId: post.groupId,
-          createdBy: post.createdBy,
+          // TODO: Remove when backend returns real user
+          createdBy: post.createdBy || 'Lohiposki',
           message: post.content,
-          time: post.created
-        }));
-      }, List());
+          time: post.created,
+        }))
+      ), List());
 
     default:
       return state;
@@ -30,5 +32,5 @@ function posts(state = List(), action) {
 }
 
 export default combineReducers({
-  posts
+  posts,
 });

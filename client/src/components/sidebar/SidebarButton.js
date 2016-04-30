@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const SidebarSectionButton = ({to, icon}) => {
+function SidebarSectionButton({ to, icon }) {
   const iconClasses = `fa ${icon} fa-fw`;
 
   return (
@@ -12,6 +12,11 @@ const SidebarSectionButton = ({to, icon}) => {
       <i className={iconClasses} />
     </Link>
   );
+}
+
+SidebarSectionButton.propTypes = {
+  to: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 export default SidebarSectionButton;

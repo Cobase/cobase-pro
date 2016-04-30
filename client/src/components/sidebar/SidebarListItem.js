@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-export default function SidebarListItem({title, to, icon}) {
+export default function SidebarListItem({ title, to, icon }) {
   const classes = `fa ${icon} fa-fw`;
+
   return (
     <Link
       to={to}
@@ -12,3 +13,9 @@ export default function SidebarListItem({title, to, icon}) {
     </Link>
   );
 }
+
+SidebarListItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+};

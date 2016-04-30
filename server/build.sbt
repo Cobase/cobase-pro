@@ -14,8 +14,8 @@ resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 libraryDependencies ++= Seq(
   "net.codingwell" %% "scala-guice" % "4.0.0",
-  "com.typesafe.play" %% "play-slick" % "1.1.1",
-  "com.typesafe.play" %% "play-slick-evolutions" % "1.1.1",
+  "com.typesafe.play" %% "play-slick" % "2.0.0",
+  "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0",
   "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
   "mysql" % "mysql-connector-java" % "5.1.21",
   "com.github.nscala-time" %% "nscala-time" % "2.6.0",

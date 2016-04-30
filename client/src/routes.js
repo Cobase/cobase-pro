@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
@@ -10,7 +12,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import { initUser } from './actions/UserActions';
 
-export function createRoutes({ store, history }) {
+export function createRoutes({ store }) {
   function initApp(nextState, replace, callback) {
     initUser()(store.dispatch);
 
@@ -23,7 +25,7 @@ export function createRoutes({ store, history }) {
     if (!user) {
       replace(
         {
-          next: nextState.location.pathname
+          next: nextState.location.pathname,
         },
         '/'
       );

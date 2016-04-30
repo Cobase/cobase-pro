@@ -1,23 +1,28 @@
 import { combineReducers } from 'redux';
-import { List, Map, Record } from 'immutable';
+import { Record } from 'immutable';
 
 const User = Record({
   id: null,
   username: null,
   role: null,
-  token: null
+  token: null,
 });
 
 function user(state = null, action) {
   switch (action.type) {
     case 'LOGIN_REQUEST_SUCCESS':
-      const { id, username, role, token } = action.response.data;
+      const {
+        id,
+        username,
+        role,
+        token,
+      } = action.response.data;
 
       return new User({
         id,
         username,
         role,
-        token
+        token,
       });
 
     case 'GET_USER_FROM_CACHE':
@@ -51,6 +56,6 @@ function isFetching(state = false, action) {
 export default combineReducers({
   currentUser: combineReducers({
     isFetching,
-    user
-  })
+    user,
+  }),
 });

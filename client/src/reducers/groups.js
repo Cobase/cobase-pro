@@ -1,10 +1,10 @@
-import { List, Map, Record } from 'immutable';
+import { List, Record } from 'immutable';
 import { combineReducers } from 'redux';
 
 const Group = Record({
   id: null,
   title: null,
-  tags: null
+  tags: null,
 });
 
 function groups(state = List(), action) {
@@ -15,19 +15,20 @@ function groups(state = List(), action) {
       return state.push(new Group({
         id,
         title,
-        tags
+        tags,
       }));
 
     case 'GET_GROUPS_REQUEST_SUCCESS':
       const { data } = action.response;
 
-      return data.reduce((groups, group) => {
-        return groups.push(new Group({
+      // eslint-disable-next-line no-shadow
+      return data.reduce((groups, group) => (
+        groups.push(new Group({
           id: group.id,
           title: group.title,
-          tags: group.tags
-        }));
-      }, state);
+          tags: group.tags,
+        }))
+      ), state);
 
     default:
       return state;
@@ -35,5 +36,5 @@ function groups(state = List(), action) {
 }
 
 export default combineReducers({
-  groups
+  groups,
 });

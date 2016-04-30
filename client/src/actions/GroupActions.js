@@ -3,21 +3,21 @@ import { push } from 'react-router-redux';
 
 function addGroupRequest() {
   return {
-    type: 'ADD_GROUP_REQUEST'
+    type: 'ADD_GROUP_REQUEST',
   };
 }
 
 function addGroupRequestSuccess(response) {
   return {
     type: 'ADD_GROUP_REQUEST_SUCCESS',
-    response
+    response,
   };
 }
 
 function addGroupRequestFailure(error) {
   return {
     type: 'ADD_GROUP_REQUEST_FAILURE',
-    error
+    error,
   };
 }
 
@@ -28,49 +28,48 @@ export function addGroup(user, name, tags) {
     api.addGroup(user, name, tags)
       .then(response => {
         dispatch(addGroupRequestSuccess(response));
-
-        dispatch(push('/group/' + response.data.id, {}));
+        dispatch(push(`/group/${response.data.id}`, {}));
       })
-      .catch(e => dispatch(addGroupRequestFailure(e)))
+      .catch(e => dispatch(addGroupRequestFailure(e)));
   };
 }
 
 function getGroupsRequest() {
   return {
-    type: 'GET_GROUPS_REQUEST'
+    type: 'GET_GROUPS_REQUEST',
   };
 }
 
 function getGroupsRequestSuccess(response) {
   return {
     type: 'GET_GROUPS_REQUEST_SUCCESS',
-    response
+    response,
   };
 }
 
 function getGroupsRequestFailure(error) {
   return {
     type: 'GET_GROUPS_REQUEST_FAILURE',
-    error
+    error,
   };
 }
 function getGroupPostsRequest() {
   return {
-    type: 'GET_GROUP_POSTS_REQUEST'
+    type: 'GET_GROUP_POSTS_REQUEST',
   };
 }
 
 function getGroupPostsRequestSuccess(response) {
   return {
     type: 'GET_GROUP_POSTS_REQUEST_SUCCESS',
-    response
+    response,
   };
 }
 
 function getGroupPostsRequestFailure(error) {
   return {
     type: 'GET_GROUP_POSTS_REQUEST_FAILURE',
-    error
+    error,
   };
 }
 
@@ -80,7 +79,7 @@ export function getGroupPosts(user, groupId) {
 
     api.getGroupPosts(user, groupId)
       .then(response => dispatch(getGroupPostsRequestSuccess(response)))
-      .catch(e => dispatch(getGroupPostsRequestFailure(e)))
+      .catch(e => dispatch(getGroupPostsRequestFailure(e)));
   };
 }
 
@@ -90,7 +89,6 @@ export function getGroups(user) {
 
     api.getGroups(user)
       .then(response => dispatch(getGroupsRequestSuccess(response)))
-      .catch(e => dispatch(getGroupsRequestFailure(e)))
+      .catch(e => dispatch(getGroupsRequestFailure(e)));
   };
 }
-

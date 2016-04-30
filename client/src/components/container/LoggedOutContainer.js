@@ -1,30 +1,41 @@
-import React, { Component } from 'react';
-import LoggedOut from '../LoggedOut';
-
+import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as userActions from '../../actions/UserActions';
+
+import LoggedOut from '../LoggedOut';
+import * as userActionCreators from '../../actions/UserActions';
 
 class LoggedOutContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onLogin = this.onLogin.bind(this);
+  }
+
+  onLogin(username, password) {
+    this.props.userActions.login(username, password);
+  }
+
   render() {
     const { children } = this.props;
 
     return (
       <LoggedOut
         children={children}
-        onLogin={this.onLogin.bind(this)}
+        onLogin={this.onLogin}
       />
     );
-  }
-
-  onLogin(username, password) {
-    this.props.userActions.login(username, password);
   }
 }
 
 export default connect(
-  state => ({}),
+  () => ({}), // state
   dispatch => ({
-    userActions: bindActionCreators(userActions, dispatch)
+    userActions: bindActionCreators(userActionCreators, dispatch),
   })
 )(LoggedOutContainer);
+
+LoggedOutContainer.propTypes = {
+  userActions: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
+};

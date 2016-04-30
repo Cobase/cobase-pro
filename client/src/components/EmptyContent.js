@@ -7,7 +7,7 @@ const EmptyContent = ({ message }) => (
 );
 
 EmptyContent.propTypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
 };
 
 export default EmptyContent;

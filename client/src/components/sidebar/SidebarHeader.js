@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function SidebarHeader(props) {
+export default function SidebarHeader() {
   return (
     <header className="sidebar-header">
       <h1 className="sidebar-header-title">

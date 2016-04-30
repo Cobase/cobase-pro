@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import AddGroup from '../AddGroup';
-
+import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as groupActions from '../../actions/GroupActions';
+
+import AddGroup from '../AddGroup';
+import * as groupActionCreators from '../../actions/GroupActions';
 
 class AddGroupContainer extends Component {
-  render() {
-    return (
-      <AddGroup onAddGroup={this.onAddGroup.bind(this)} />
-    );
+  constructor(props) {
+    super(props);
+
+    this.onAddGroup = this.onAddGroup.bind(this);
   }
 
   onAddGroup(title, tags) {
@@ -17,11 +18,29 @@ class AddGroupContainer extends Component {
 
     groupActions.addGroup(currentUser, title, tags);
   }
+
+  render() {
+    return (
+      <AddGroup onAddGroup={this.onAddGroup} />
+    );
+  }
 }
 
 export default connect(
-  state => ({}),
+  state => ({
+    currentUser: state.authentication.currentUser.user,
+  }),
   dispatch => ({
-    groupActions: bindActionCreators(groupActions, dispatch)
+    groupActions: bindActionCreators(groupActionCreators, dispatch),
   })
 )(AddGroupContainer);
+
+AddGroupContainer.propTypes = {
+  groupActions: PropTypes.object.isRequired,
+  currentUser: ImmutablePropTypes.recordOf({
+    id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+};

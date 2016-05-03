@@ -14,7 +14,7 @@ function posts(state = List(), action) {
 
     case 'ADD_GROUP_POST_REQUEST_SUCCESS':
       const { id, groupId, content, createdBy = 'Lohiposki', created } = action.response.data;
-      return state.push(new Post({
+      return state.unshift(new Post({
         id,
         groupId,
         // TODO: Remove when backend returns real user

@@ -11,12 +11,22 @@ const Post = Record({
 
 function posts(state = List(), action) {
   switch (action.type) {
-    case 'GET_GROUP_POSTS_REQUEST_SUCCESS':
-      const { data } = action.response;
 
-      // eslint-disable-next-line no-shadow
-      return data.reduce((posts, post) => (
-        posts.push(new Post({
+    case 'ADD_GROUP_POST_REQUEST_SUCCESS':
+      const { id, groupId, content, createdBy = 'Lohiposki', created } = action.response.data;
+      return state.push(new Post({
+        id,
+        groupId,
+        // TODO: Remove when backend returns real user
+        createdBy,
+        content,
+        created,
+      }));
+
+    case 'GET_GROUP_POSTS_REQUEST_SUCCESS':
+      const receivedPosts = action.response;
+      return receivedPosts.data.reduce((groupPosts, post) => (
+        groupPosts.push(new Post({
           id: post.id,
           groupId: post.groupId,
           // TODO: Remove when backend returns real user

@@ -54,4 +54,14 @@ export default {
       authConfig(token)
     );
   },
+
+  addGroupPost({ token }, groupId, content) {
+    return api.post(
+      `/groups/${groupId}/posts`,
+      {
+        content,
+      },
+      authConfig(token)
+    );
+  },
 };

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PostsList from './PostsList';
 import Topbar from './Topbar';
@@ -10,7 +10,7 @@ function generatePosts(n) {
 
   return List(Array(n).fill({}).map((_, i) => ({
     createdBy: names[Math.floor(Math.random() * names.length)],
-    time: new Date(Date.now() - 8600000 * i * 100),
+    time: new Date(Date.now() - 8600000 * i * 100).toString(),
     id: i,
     message: 'Lorem Ipsum dolor sit amet www.cobasepro.com '.repeat(20),
   })));
@@ -44,13 +44,5 @@ export default class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  posts: ImmutablePropTypes.listOf(
-    ImmutablePropTypes.contains({
-      createdBy: PropTypes.string.isRequired,
-      // TODO: Enable when not using dummy data
-      // groupId: PropTypes.string.isRequired,
-      time: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    })
-  ),
+  posts: ImmutablePropTypes.list,
 };

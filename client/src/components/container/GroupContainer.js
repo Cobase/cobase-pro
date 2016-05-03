@@ -26,15 +26,7 @@ export default connect(
 )(GroupContainer);
 
 GroupContainer.propTypes = {
-  posts: ImmutablePropTypes.listOf(
-    ImmutablePropTypes.contains({
-      id: PropTypes.string.isRequired,
-      createdBy: PropTypes.string.isRequired,
-      groupId: PropTypes.string.isRequired,
-      time: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    })
-  ),
+  posts: ImmutablePropTypes.list,
   groupActions: PropTypes.object.isRequired,
   groupId: PropTypes.string.isRequired,
   currentUser: ImmutablePropTypes.contains({

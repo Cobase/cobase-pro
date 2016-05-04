@@ -27,11 +27,15 @@ export default class Group extends Component {
       <div className="main">
         <Topbar title="Group" />
 
-        <AddGroupPostForm
-          currentUser={this.props.currentUser}
-          groupId={this.props.groupId}
-          groupActions={groupActions}
-        />
+        <div className="add-post-container">
+          <section className="add-post">
+            <AddGroupPostForm
+              currentUser={this.props.currentUser}
+              groupId={this.props.groupId}
+              groupActions={groupActions}
+            />
+          </section>
+        </div>
 
         {posts.size ?
           <PostsList posts={posts} />

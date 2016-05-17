@@ -13,14 +13,14 @@ function posts(state = List(), action) {
   switch (action.type) {
 
     case 'ADD_GROUP_POST_REQUEST_SUCCESS':
-      const { id, groupId, content, createdBy = 'Lohiposki', created } = action.response.data;
+      const { id, groupId, content, createdBy, created } = action.response.data;
       return state.unshift(new Post({
         id,
         groupId,
         // TODO: Remove when backend returns real user
-        createdBy,
-        content,
-        created,
+        createdBy || 'Lohiposki',
+        message: content,
+        time: created,
       }));
 
     case 'GET_GROUP_POSTS_REQUEST_SUCCESS':

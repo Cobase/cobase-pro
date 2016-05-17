@@ -119,7 +119,7 @@ export function addGroupPost(user, groupId, content) {
 
     api.addGroupPost(user, groupId, content)
       .then(response => {
-        dispatch(addGroupPostRequestSuccess(response));
+        dispatch(addGroupPostRequestSuccess(response, user));
       })
       .catch(e => dispatch(addGroupPostRequestFailure(e)));
   };

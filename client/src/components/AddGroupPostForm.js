@@ -15,6 +15,7 @@ export default class AddGroupPostForm extends Component {
       this.props.groupId,
       this.refs.content.value
     );
+    this.refs.content.value = '';
   }
 
   render() {

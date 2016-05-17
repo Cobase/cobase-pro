@@ -92,3 +92,35 @@ export function getGroups(user) {
       .catch(e => dispatch(getGroupsRequestFailure(e)));
   };
 }
+
+function addGroupPostRequest() {
+  return {
+    type: 'ADD_GROUP_POST_REQUEST',
+  };
+}
+
+function addGroupPostRequestSuccess(response) {
+  return {
+    type: 'ADD_GROUP_POST_REQUEST_SUCCESS',
+    response,
+  };
+}
+
+function addGroupPostRequestFailure(error) {
+  return {
+    type: 'ADD_GROUP_POST_REQUEST_FAILURE',
+    error,
+  };
+}
+
+export function addGroupPost(user, groupId, content) {
+  return (dispatch) => {
+    dispatch(addGroupPostRequest());
+
+    api.addGroupPost(user, groupId, content)
+      .then(response => {
+        dispatch(addGroupPostRequestSuccess(response, user));
+      })
+      .catch(e => dispatch(addGroupPostRequestFailure(e)));
+  };
+}

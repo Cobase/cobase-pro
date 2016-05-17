@@ -19,10 +19,7 @@ const Post = ({ createdBy, time, message }) => (
 
 Post.propTypes = {
   createdBy: PropTypes.string.isRequired,
-  time: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.instanceOf(Date), // TODO: Remove when not generating posts
-  ]).isRequired,
+  time: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
 };
 

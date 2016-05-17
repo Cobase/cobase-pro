@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PostsList from './PostsList';
 import Topbar from './Topbar';
 import EmptyContent from './EmptyContent';
+import AddGroupPostForm from './AddGroupPostForm';
 
 export default class Group extends Component {
   constructor(props) {
@@ -20,11 +21,22 @@ export default class Group extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, groupActions } = this.props;
 
     return (
       <div className="main">
         <Topbar title="Group" />
+
+        <div className="add-post-container">
+          <section className="add-post">
+            <AddGroupPostForm
+              currentUser={this.props.currentUser}
+              groupId={this.props.groupId}
+              groupActions={groupActions}
+            />
+          </section>
+        </div>
+
         {posts.size ?
           <PostsList posts={posts} />
           :
@@ -38,15 +50,7 @@ export default class Group extends Component {
 }
 
 Group.propTypes = {
-  posts: ImmutablePropTypes.listOf(
-    ImmutablePropTypes.contains({
-      id: PropTypes.string.isRequired,
-      createdBy: PropTypes.string.isRequired,
-      groupId: PropTypes.string.isRequired,
-      time: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    })
-  ),
+  posts: ImmutablePropTypes.list,
   groupActions: PropTypes.object.isRequired,
   groupId: PropTypes.string.isRequired,
   currentUser: ImmutablePropTypes.contains({

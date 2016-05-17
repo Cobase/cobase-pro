@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Post from './Post';
 
@@ -16,18 +16,7 @@ const PostList = ({ posts }) => (
 );
 
 PostList.propTypes = {
-  posts: ImmutablePropTypes.listOf(
-    ImmutablePropTypes.contains({
-      id: PropTypes.string.isRequired,
-      // groupId: PropTypes.string.isRequired,
-      createdBy: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-      time: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.instanceOf(Date), // TODO: Remove when not generating posts
-      ]).isRequired,
-    })
-  ),
+  posts: ImmutablePropTypes.list,
 };
 
 export default PostList;

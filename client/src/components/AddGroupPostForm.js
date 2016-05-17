@@ -24,7 +24,7 @@ export default class AddGroupPostForm extends Component {
         <h3>Enter required content for new post</h3>
         <form onSubmit={this.handleSubmit}>
           <label>Post content:</label>
-          <input type="text" ref="content" />
+          <textarea ref="content"></textarea>
           <button type="submit">Create Post</button>
         </form>
       </div>

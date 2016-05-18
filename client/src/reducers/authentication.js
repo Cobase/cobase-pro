@@ -4,6 +4,7 @@ import { Record } from 'immutable';
 const User = Record({
   id: null,
   username: null,
+  displayname: null,
   role: null,
   token: null,
 });
@@ -14,6 +15,7 @@ function user(state = null, action) {
       const {
         id,
         username,
+        displayname,
         role,
         token,
       } = action.response.data;
@@ -21,6 +23,7 @@ function user(state = null, action) {
       return new User({
         id,
         username,
+        displayname,
         role,
         token,
       });

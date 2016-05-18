@@ -10,5 +10,7 @@ case class RegisterUserData(
   hashedPassword: String,
   role: Role,
   created: DateTime,
-  verificationToken: String
+  verificationToken: String,
+  firstName: Option[String],
+  lastName: Option[String]
 )

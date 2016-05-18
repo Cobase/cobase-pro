@@ -25,7 +25,9 @@ class UserService @Inject() (
         password,
         Role.fromName(data.role).getOrElse(UserRole),
         DateTime.now(),
-        verificationToken
+        verificationToken,
+        data.firstName,
+        data.lastName
       ))
       .map { user =>
         // TODO: Send verification email to users.

@@ -8,13 +8,14 @@ case class RegistrationResponse(
   id: UUID,
   username: String,
   role: String,
-  fullName: Option[String]
+  firstName: Option[String],
+  lastName: Option[String]
 )
 
 object RegistrationResponse {
   implicit val writes = Json.format[RegistrationResponse]
 
   def fromUser(user: User): RegistrationResponse = {
-    this(user.id, user.username, user.role.name, user.fullName)
+    this(user.id, user.username, user.role.name, user.firstName, user.lastName)
   }
 }

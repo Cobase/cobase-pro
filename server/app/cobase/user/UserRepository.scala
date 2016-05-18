@@ -35,14 +35,16 @@ class UserRepository @Inject() (
     val format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
 
     val q = sqlu"""
-      INSERT INTO users (id, email, password, role, created, verification_token)
+      INSERT INTO users (id, email, password, role, created, verification_token, first_name, last_name)
       VALUES (
         ${data.id.toString}::uuid,
         ${data.username},
         ${data.hashedPassword},
         ${data.role.name}::role,
         ${format.print(created)}::timestamp,
-        ${data.verificationToken}
+        ${data.verificationToken},
+        ${data.firstName},
+        ${data.lastName}
       )
     """
 
@@ -52,7 +54,10 @@ class UserRepository @Inject() (
       data.hashedPassword,
       data.role,
       data.created,
-      data.verificationToken
+      data.verificationToken,
+      None,
+      data.firstName,
+      data.lastName
     ))
   }
 

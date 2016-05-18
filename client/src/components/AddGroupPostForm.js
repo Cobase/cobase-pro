@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
 
 export default class AddGroupPostForm extends Component {
   constructor(props) {
@@ -19,6 +20,8 @@ export default class AddGroupPostForm extends Component {
   }
 
   render() {
+    const subscribeToGroupUrl = `/subscribe-group/${this.props.groupId}`;
+    const deleteGroupUrl = `/delete-group/${this.props.groupId}`;
     return (
       <div>
         <h3>Enter required content for new post</h3>
@@ -26,6 +29,24 @@ export default class AddGroupPostForm extends Component {
           <label>Post content:</label>
           <textarea ref="content"></textarea>
           <button type="submit">Create Post</button>
+
+          <div id="group-options">
+            <Link
+              to={subscribeToGroupUrl}
+              className="subscribe-group-link"
+            >
+              Subscribe to group
+            </Link>
+
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+
+            <Link
+              to={deleteGroupUrl}
+              className="delete-group-link"
+            >
+              Delete group
+            </Link>
+          </div>
         </form>
       </div>
     );

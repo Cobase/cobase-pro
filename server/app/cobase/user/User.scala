@@ -22,7 +22,7 @@ case class User(
   lazy val fullName: Option[String] = for {
     first <- firstName
     last <- lastName
-  } yield (first + last).trim
+  } yield (first + " " + last).trim
 
   lazy val isVerified: Boolean = verified.isDefined
 }

@@ -24,9 +24,8 @@ export default class AddGroupPostForm extends Component {
     const deleteGroupUrl = `/delete-group/${this.props.groupId}`;
     return (
       <div>
-        <h3>Enter required content for new post</h3>
+        <h3>Enter content for new post</h3>
         <form onSubmit={this.handleSubmit}>
-          <label>Post content:</label>
           <textarea ref="content"></textarea>
           <button type="submit">Create Post</button>
 

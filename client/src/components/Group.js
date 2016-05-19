@@ -23,6 +23,7 @@ export default class Group extends Component {
 
   render() {
     const { posts, groups, groupId, groupActions } = this.props;
+    if (!groups.size) return null;
     const groupTitle = groups.filter(group => group.id === groupId).first().title;
 
     return (

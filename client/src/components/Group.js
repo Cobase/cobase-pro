@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import List from 'immutable';
 import PostsList from './PostsList';
 import Topbar from './Topbar';
 import EmptyContent from './EmptyContent';
@@ -21,11 +22,13 @@ export default class Group extends Component {
   }
 
   render() {
-    const { posts, groupActions } = this.props;
+    const { posts, groups, groupId, groupActions } = this.props;
+    if (!groups.count()) return null;
+    const groupTitle = groups.find(group => group.id === groupId).title;
 
     return (
       <div className="main">
-        <Topbar title="Group" />
+        <Topbar title={groupTitle} />
 
         <div className="add-post-container">
           <section className="add-post">
@@ -49,8 +52,11 @@ export default class Group extends Component {
   }
 }
 
+Group.defaultProps = { posts: List, groups: List };
+
 Group.propTypes = {
   posts: ImmutablePropTypes.list,
+  groups: ImmutablePropTypes.list,
   groupActions: PropTypes.object.isRequired,
   groupId: PropTypes.string.isRequired,
   currentUser: ImmutablePropTypes.contains({

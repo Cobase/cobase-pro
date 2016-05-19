@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import Group from '../Group';
 import * as groupActionCreators from '../../actions/GroupActions';
 
-const GroupContainer = ({ posts, groupActions, groupId, currentUser }) => (
+const GroupContainer = ({ posts, groups, groupActions, groupId, currentUser }) => (
   <Group
     posts={posts}
+    groups={groups}
     groupActions={groupActions}
     groupId={groupId}
     currentUser={currentUser}
@@ -19,6 +20,7 @@ export default connect(
   (state, ownProps) => ({
     groupId: ownProps.params.groupId,
     posts: state.posts.posts,
+    groups: state.groups.groups,
   }),
   dispatch => ({
     groupActions: bindActionCreators(groupActionCreators, dispatch),
@@ -27,6 +29,7 @@ export default connect(
 
 GroupContainer.propTypes = {
   posts: ImmutablePropTypes.list,
+  groups: ImmutablePropTypes.list,
   groupActions: PropTypes.object.isRequired,
   groupId: PropTypes.string.isRequired,
   currentUser: ImmutablePropTypes.contains({

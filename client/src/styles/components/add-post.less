@@ -10,25 +10,32 @@
     margin-bottom: 20px;
   }
 
+  #post-form-inputs {
+    align-items: stretch; 
+    display: flex; 
+    justify-content: space-between; 
+  }
+
   textarea {
-    float: left;
-    width: 70%;
+    width: 80%;
     margin-bottom: @spacer/2;
     padding-left: @spacer/4;
     padding-right: @spacer/4;
 
+    justify-content: left; 
+    
     &:focus {
       outline: none;
     }
   }
 
   .dropzone {
-    float: right;
-    width: 25%;
+    width: 15%;
     height: 50px;
     border: 3px dashed @gray-light;
     padding: @spacer/2;
     text-align: center;
+    justify-content: right;
   }
 
   #group-actions {

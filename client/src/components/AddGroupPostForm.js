@@ -6,11 +6,9 @@ import Dropzone from 'react-dropzone';
 export default class AddGroupPostForm extends Component {
   constructor(props) {
     super(props);
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
-  setInitialState() {
+  getInitialState() {
     return {
       files: [],
     };
@@ -42,10 +40,10 @@ export default class AddGroupPostForm extends Component {
       <div>
         <h3>Enter content for new post</h3>
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <textarea ref="content"></textarea>
+          <div id="post-form-inputs">
+            <textarea className="form-input content" ref="content"></textarea>
 
-            <Dropzone className="dropzone" onDrop={this.onDrop}>
+            <Dropzone className="form-input dropzone" onDrop={this.onDrop}>
               <div>Files</div>
             </Dropzone>
           </div>

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
+import Dropzone from 'react-dropzone';
 
 export default class AddGroupPostForm extends Component {
   constructor(props) {
@@ -8,13 +9,28 @@ export default class AddGroupPostForm extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  
+  setInitialState() {
+    return {
+      files: [],
+    };
+  }
+
+  onDrop(files) {
+    console.log('Adding files...');
+    this.setState({
+      files,
+    });
+    console.log(this.state);
+  }
 
   handleSubmit(e) {
     e.preventDefault();
     this.props.groupActions.addGroupPost(
       this.props.currentUser,
       this.props.groupId,
-      this.refs.content.value
+      this.refs.content.value,
+      this.state.files
     );
     this.refs.content.value = '';
   }
@@ -26,25 +42,34 @@ export default class AddGroupPostForm extends Component {
       <div>
         <h3>Enter content for new post</h3>
         <form onSubmit={this.handleSubmit}>
-          <textarea ref="content"></textarea>
-          <button type="submit">Create Post</button>
+          <div>
+            <textarea ref="content"></textarea>
 
-          <div id="group-options">
-            <Link
-              to={subscribeToGroupUrl}
-              className="subscribe-group-link"
-            >
-              Subscribe to group
-            </Link>
+            <Dropzone className="dropzone" onDrop={this.onDrop}>
+              <div>Files</div>
+            </Dropzone>
+          </div>
 
-            &nbsp;&nbsp;|&nbsp;&nbsp;
+          <div id="group-actions">
+            <button className="submit-post-btn" type="submit">Create Post</button>
 
-            <Link
-              to={deleteGroupUrl}
-              className="delete-group-link"
-            >
-              Delete group
-            </Link>
+            <div id="group-options">
+              <Link
+                to={subscribeToGroupUrl}
+                className="subscribe-group-link"
+              >
+                Subscribe to group
+              </Link>
+
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+
+              <Link
+                to={deleteGroupUrl}
+                className="delete-group-link"
+              >
+                Delete group
+              </Link>
+            </div>
           </div>
         </form>
       </div>

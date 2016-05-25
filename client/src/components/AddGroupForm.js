@@ -9,7 +9,6 @@ export default class AddGroupForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     this.props.onAddGroup(
       this.refs.title.value,
       this.refs.tags.value

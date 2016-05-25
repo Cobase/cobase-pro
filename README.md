@@ -82,13 +82,20 @@ Feel free to join the conversation on channel #cobase-pro @ freenode.net
 4. Start the client development server: `npm run dev`
 5. Open browser (http://cobasepro.tunk.io)
 
+### Create user
 
-## Database migrations
+In order to create admin level user, you need to create one with curl from the console:
+
+    $ curl -X POST -H "Content-type: application/json" --data '{"username": "your@email.com", "password": "password123", "role": "admin"}'  http://cobasepro.tunk.io/api/users
+
+Modify email address and password to your likings.
+
+### Database migrations
 
 Migrations are handled with Evolutions plugin that comes with Cobase. When you start the application it will check the state of the current database and ask you to run migrations by clicking on a button if any changes need to be done.
 
 
-## Testing
+### Testing
 
 Run tests by entering:
 
